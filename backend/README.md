@@ -9,4 +9,6 @@ Backend includes:
 -Alert detector
 -Notification sender
 
+This is a test for git functionality
+
 Config files will be necessary.
