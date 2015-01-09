@@ -1,0 +1,89 @@
+/* Custom css goes here */
+
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+/* Footer */
+
+.footer {
+  font-size: 12px;
+  min-height: 30px;
+  line-height: 30px;
+  background-color: #f5f5f5;
+}
+.navbar-footer {
+  background-color: #f5f5f5;
+}
+.footer .navbar-text{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+
+/* Adds a sweet arrow to drop-down panels */
+
+.panel-heading a:after{
+  font-family: 'Glyphicons Halflings';
+  content: "\e114";
+  color: grey;
+}
+
+.panel-heading a.collapsed:after{
+  content: "\e080";
+}
+
+/* Makes file upload elements not look like garbage */
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 999px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+/* Sidebar */
+
+/* Mobile Settings */
+.sidebar {
+}
+
+/* Desktop Settings */
+@media (min-width: 992px) {
+  .sidebar {
+    position: fixed;
+    top: 75px;
+    bottom: 35px;
+    z-index: 1000;
+    display: block;
+    padding: 5px;
+    width: 160px;
+    overflow-x: hidden;
+    overflow-y: auto; 
+  }
+}
+
+/* Main content */
+
+.main {
+  padding: 5px;
+  padding-top: 15px;
+}
+
+.main .page-header {
+  margin-top: 0;
+}
