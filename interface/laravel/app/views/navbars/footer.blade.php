@@ -1,5 +1,5 @@
 <div class='navbar footer text-muted navbar-fixed-bottom'>
-  <div class='container navbar-footer'>
+  <div class='container'>
     <span class='navbar-text'>
       McMaster University
     </span>
