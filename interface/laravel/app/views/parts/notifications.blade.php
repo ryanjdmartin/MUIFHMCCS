@@ -1,7 +1,3 @@
-@extends('layout')
-
-@section('content')
-<div class="row">
   <div class="sidebar" id="sidebar">
     <div class="panel panel-default sidebar-panel">
       <div class="panel-heading">
@@ -36,16 +32,3 @@
       </div>
     </div>
   </div>
-
-  <div class="main">
-    <div class="navbar navbar-inverse main-nav">
-      <span class='navbar-text'>
-        Breadcrumb
-      </span>
-    </div>
-    <div class="main-view">
-      <div class="alert alert-info">Content</div>
-    </div>
-  </div>
-</div>
-@endsection

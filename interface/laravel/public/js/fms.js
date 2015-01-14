@@ -15,4 +15,5 @@ $(document).ready(function() {
     //Enable popovers and tooltips
     $("[rel='tooltip']").tooltip();
     $("[rel='popover']").popover({trigger:'hover', html:true});
+    });
 });

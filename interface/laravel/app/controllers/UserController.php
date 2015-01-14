@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends BaseController {
+class UserController extends BaseController {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -15,14 +15,9 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showHomeTile()
+	public function showProfile()
 	{
-		return View::make('home-tile');
-	}
-
-	public function showHomeList()
-	{
-		return View::make('home-list');
+		return View::make('profile');
 	}
 
 }

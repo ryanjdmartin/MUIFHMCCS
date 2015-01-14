@@ -115,7 +115,7 @@ body {
   .sidebar {
     position: fixed;
     top: 70px;
-    bottom: 35px;
+    bottom: 40px;
     z-index: 1000;
     display: block;
     width: 300px;
@@ -125,7 +125,7 @@ body {
   }
 
   .notifications {
-    height: calc(100% - 35px);
+    height: calc(100% - 40px);
     overflow-y: auto;
   }
 }
@@ -142,16 +142,37 @@ body {
 }
 
 .main-view {
-  padding-top: 10px;
+}
+@media (min-width: 992px) {
+  .main-view {
+    position: fixed;
+    width: calc(970px - 310px);
+    top: 125px;
+    bottom: 40px;
+    z-index: 1000;
+    display: block;
+    overflow-y: auto;
+  }
+}
+@media (min-width: 992px) {
+  .main-view {
+    width: calc(1170px - 310px);
+  }
 }
 
 .main-nav {
+  font-size: 16px;
   min-height: 40px;
   line-height: 40px;
   background-color: #f5f5f5;
   margin-bottom: 0px;
+  padding-right: 30px;
 }
 .main-nav .navbar-text{
   margin-top: 0px;
   margin-bottom: 0px;
+}
+.main-nav li>a{
+  padding: 5px;
+  padding-top: 10px;
 }

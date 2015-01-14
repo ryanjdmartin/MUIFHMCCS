@@ -11,4 +11,10 @@
 |
 */
 
-Route::get('/', 'HomeController@showHome');
+Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHomeTile'));
+
+Route::get('/tile', array('as' => 'tile', 'uses' => 'HomeController@showHomeTile'));
+
+Route::get('/list', array('as' => 'list', 'uses' => 'HomeController@showHomeList'));
+
+Route::get('/profile', array('as' => 'profile', 'uses' => 'UserController@showProfile'));
