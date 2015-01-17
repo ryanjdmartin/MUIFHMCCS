@@ -11,7 +11,33 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+		$this->call('UserTypesTableSeeder');
+		$this->call('UserTableSeeder');
 	}
+
+}
+
+class UserTypesTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('user_types')->delete();
+
+        UserType::create(array('name' => 'admin'));
+        UserType::create(array('name' => 'user'));
+    }
+
+}
+
+class UserTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('users')->delete();
+
+        User::create(array('email' => 'administrator@fms.mcmaster.ca', 
+            'password' => Hash::make('admin'), 
+            'user_type_id' => 1));
+    }
 
 }
