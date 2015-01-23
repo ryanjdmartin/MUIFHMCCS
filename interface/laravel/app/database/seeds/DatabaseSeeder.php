@@ -23,8 +23,8 @@ class UserTypesTableSeeder extends Seeder {
     {
         DB::table('user_types')->delete();
 
-        UserType::create(array('name' => 'admin'));
         UserType::create(array('name' => 'user'));
+        UserType::create(array('name' => 'admin'));
     }
 
 }
@@ -37,7 +37,7 @@ class UserTableSeeder extends Seeder {
 
         User::create(array('email' => 'administrator@fms.mcmaster.ca', 
             'password' => Hash::make('admin'), 
-            'user_type_id' => 1));
+            'user_type_id' => 2));
     }
 
 }
