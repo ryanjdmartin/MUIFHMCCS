@@ -154,7 +154,7 @@ body {
     overflow-y: auto;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .main-view {
     width: calc(1170px - 310px);
   }
