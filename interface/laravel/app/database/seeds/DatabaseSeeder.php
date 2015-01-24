@@ -11,10 +11,23 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
+		$this->call('SettingsTableSeeder');
 		$this->call('UserTypesTableSeeder');
 		$this->call('UserTableSeeder');
-		$this->call('FumeHoodsSeeder');
+		$this->call('FumeHoodsTableSeeder');
 	}
+
+}
+
+class SettingsTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('system_settings')->delete();
+
+        Settings::create(array('critical_velocity' => 1.0, 
+            'refresh_minutes' => 1.0));
+    }
 
 }
 
@@ -43,7 +56,7 @@ class UserTableSeeder extends Seeder {
 
 }
 
-class FumeHoodSeeder extends Seeder {
+class FumeHoodTableSeeder extends Seeder {
 
     public function run()
     {
