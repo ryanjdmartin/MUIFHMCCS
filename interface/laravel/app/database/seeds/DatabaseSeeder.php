@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder {
 		Eloquent::unguard();
 
 		$this->call('SettingsTableSeeder');
-		$this->call('UserTypesTableSeeder');
 		$this->call('UserTableSeeder');
 		$this->call('FumeHoodsTableSeeder');
 	}
@@ -25,20 +24,7 @@ class SettingsTableSeeder extends Seeder {
     {
         DB::table('system_settings')->delete();
 
-        Settings::create(array('critical_velocity' => 1.0, 
-            'refresh_minutes' => 1.0));
-    }
-
-}
-
-class UserTypesTableSeeder extends Seeder {
-
-    public function run()
-    {
-        DB::table('user_types')->delete();
-
-        UserType::create(array('name' => 'user'));
-        UserType::create(array('name' => 'admin'));
+        SystemSettings::create(array());
     }
 
 }
@@ -48,6 +34,10 @@ class UserTableSeeder extends Seeder {
     public function run()
     {
         DB::table('users')->delete();
+        DB::table('user_types')->delete();
+
+        UserType::create(array('id' => 1, 'name' => 'user'));
+        UserType::create(array('id' => 2, 'name' => 'admin'));
 
         User::create(array('email' => 'administrator@fms.mcmaster.ca', 
             'password' => Hash::make('admin'), 
@@ -56,13 +46,13 @@ class UserTableSeeder extends Seeder {
 
 }
 
-class FumeHoodTableSeeder extends Seeder {
+class FumeHoodsTableSeeder extends Seeder {
 
     public function run()
     {
         DB::table('fume_hoods')->delete();
         DB::table('rooms')->delete();
-        DB::table('buildingss')->delete();
+        DB::table('buildings')->delete();
 
         Building::create(array('name' => 'AN Bourns Science Building',
             'abbv' => 'ABB'));

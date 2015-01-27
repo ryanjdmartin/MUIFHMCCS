@@ -15,8 +15,8 @@ class CreateSettingsTable extends Migration {
 		Schema::create('system_settings', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->float('critical_velocity');
-            $table->float('refresh_minutes');
+			$table->float('critical_velocity')->default(1.0);
+            $table->float('refresh_minutes')->default(1.0);
 			$table->timestamps();
 		});
 	}

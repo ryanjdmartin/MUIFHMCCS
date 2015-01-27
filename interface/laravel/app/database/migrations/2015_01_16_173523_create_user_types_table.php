@@ -34,7 +34,7 @@ class CreateUserTypesTable extends Migration {
 	public function down()
 	{
         Schema::table('users', function($table){
-            $table->dropForeign('user_type_id');
+            $table->dropForeign('users_user_type_id_foreign');
             $table->dropColumn('user_type_id');
         });
 		Schema::drop('user_types');
