@@ -110,6 +110,19 @@ body {
     border-right: 0px !important;
 }
 
+/* Flash message */
+@media (min-width: 992px) {
+    .flash {
+      position: fixed;
+      top: 1px;
+      left: 300px;
+      z-index: 9000;
+      display: block;
+      width: auto;
+      height: 49px;
+    }
+}
+
 /* Desktop Settings */
 @media (min-width: 992px) {
   .sidebar {
