@@ -32,11 +32,26 @@
 
   <body>
     @include('navbars.header')
-
     <div class="container">
+
+      @if (isset($msg))
+        <div id="flash-message" class="flash alert alert-info" style="display:none">
+          {{ $msg }}
+          
+          <button type="button" class="close" data-dismiss="alert" class="pull-right" style="padding-left: 10px">&times;</button>
+        </div>
+
+        <script type="text/javascript">
+          $(document).ready(function(){  
+            $("#flash-message").delay(500).slideDown();
+          });
+        </script>
+      @endif
+
       @yield('content')
     </div>
 
     @include('navbars.footer')
+    
   </body>
 </html>

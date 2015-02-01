@@ -16,75 +16,37 @@ $(document).ready(function() {
     $("[rel='tooltip']").tooltip();
     $("[rel='popover']").popover({trigger:'hover', html:true});
     });
+
 });
 
-function jsTest(){
-	alert("sdfdsF");
+function tileView(){
+    if ($("#tile-view").is(":visible")){
+        return;
+    }
+
+    $("#list-view").fadeOut(200);
+    $("#tile-view").delay(200).fadeIn();
+
+    var m = 1+Math.random()*20;
+    for (i=1; i < m; i++){
+      $("#tile-view").delay(200).append('<button class="btn btn-lg" style="width: 200px; margin-bottom: 20px;">Item '+i+'</button>');
+    }
+
+    $("#list-view tbody > tr").remove();
 }
-//ajax call for main view buttons
-function ajax_test(){
-	var ajaxRequest;  // The variable that makes Ajax possible!
-	try{
-		// Opera 8.0+, Firefox, Safari
-		ajaxRequest = new XMLHttpRequest();
-	}catch (e){
-		// Internet Explorer Browsers
-		try{
-			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
-			try{
-				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				// Something went wrong
-				alert("Your browser broke!");
-				return false;
-			}
-		}
-	}
-	// Create a function that will receive data
-	// sent from the server and will update
-	// div section in the same page.
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
-			var ajaxDisplay = document.getElementById('ajaxTest');
-			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-				
-		}
-	}
-	ajaxRequest.open("GET", "ajax_item_click.php", true);
-	ajaxRequest.send(null); 
-}
-//ajax call for main view buttons
-function itemClick(id, itemType){
-	var ajaxRequest;  // The variable that makes Ajax possible!
-	try{
-		// Opera 8.0+, Firefox, Safari
-		ajaxRequest = new XMLHttpRequest();
-	}catch (e){
-		// Internet Explorer Browsers
-		try{
-			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
-			try{
-				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				// Something went wrong
-				alert("Your browser broke!");
-				return false;
-			}
-		}
-	}
-	var time = document.getElementById(name).value;
-	// Create a function that will receive data
-	// sent from the server and will update
-	// div section in the same page.
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
-			var ajaxDisplay = document.getElementById('ajaxTest');
-			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-				
-		}
-	}
-	ajaxRequest.open("GET", "ajax_time_select.php?sundayDate=" + sundayDate + "&date=" + date + "&staffID=" + staffID + "&field=" + field + "&time=" + time + "&lastDate=" + lastDate, true);
-	ajaxRequest.send(null); 
+
+function listView(){
+    if ($("#list-view").is(":visible")){
+        return;
+    }
+
+    $("#tile-view").fadeOut(200);
+    $("#list-view").delay(200).fadeIn();
+
+    var m = 1+Math.random()*20;
+    for (i=1; i < m; i++){
+      $("#list-view").delay(200).append('<tr><td>Item '+i+'</td></tr>');
+    }
+
+    $("#tile-view").empty();
 }

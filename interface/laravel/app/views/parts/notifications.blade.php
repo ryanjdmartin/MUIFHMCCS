@@ -2,14 +2,13 @@
     <div class="panel panel-default sidebar-panel">
       <div class="panel-heading">
 	    <h4 class="panel-title">
-	      <a href="#" data-toggle="collapse" data-target="#notifications-list">
-	        Notifications 
-            <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> 2</span>
-            <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> 5</span>
-	      </a>
+	      Notifications 
+          <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> 2</span>
+          <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> 5</span>
+          <span class="glyphicon glyphicon-refresh pull-right"></span>
 	    </h4>
       </div>
-      <div class="panel-collapse notifications collapse in" id="notifications-list">
+      <div class="notifications" id="notifications-list">
         <table class="table table-bordered table-striped table-hover">
           @for ($i=0; $i < rand(10,20); $i++)
             @if (rand(0,2) == 1)
