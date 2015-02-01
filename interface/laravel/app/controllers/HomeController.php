@@ -24,5 +24,9 @@ class HomeController extends BaseController {
 	{
 		return View::make('home-list');
 	}
-
+	
+	public function test()
+	{
+		return "we reached here";
+	}
 }

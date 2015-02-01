@@ -18,3 +18,5 @@ Route::get('/tile', array('as' => 'tile', 'uses' => 'HomeController@showHomeTile
 Route::get('/list', array('as' => 'list', 'uses' => 'HomeController@showHomeList'));
 
 Route::get('/profile', array('as' => 'profile', 'uses' => 'UserController@showProfile'));
+
+Route::post('/test', array('as' => 'test', 'uses' => 'HomeController@test'));
