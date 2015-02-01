@@ -5,6 +5,7 @@
 	      Notifications 
           <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> 2</span>
           <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> 5</span>
+          <span class="glyphicon glyphicon-refresh pull-right"></span>
 	    </h4>
       </div>
       <div class="notifications" id="notifications-list">

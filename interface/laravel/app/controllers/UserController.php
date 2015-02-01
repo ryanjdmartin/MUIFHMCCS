@@ -17,7 +17,27 @@ class UserController extends BaseController {
 
 	public function showProfile()
 	{
-		return View::make('profile');
+		return View::make('user.profile');
 	}
+
+	public function showLogin()
+	{
+		return View::make('user.login');
+	}
+
+	public function doLogin()
+	{
+        if (Auth::attempt(array('email' => $email, 'password' => $password)))
+        {
+            return Redirect::to('/');
+        }
+        return Redirect::to('login')->with('msg', 'Invalid email or password');   
+	}
+
+    public function logout()
+    {
+        Auth::logout();
+        return Redirect::to('login');
+    }
 
 }
