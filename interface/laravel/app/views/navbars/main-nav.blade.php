@@ -6,12 +6,12 @@
   <div class="navbar-right">
     <ul class="nav navbar-nav">
       <li>
-        <a href="{{ route("tile") }}">
+        <a href="javascript:tileView()">
           <span class="glyphicon glyphicon-th"></span>
         </a>
       </li>
       <li>
-        <a href="{{ route("list") }}">
+        <a href="javascript:listView()">
           <span class="glyphicon glyphicon-th-list"></span>
         </a>
       </li>

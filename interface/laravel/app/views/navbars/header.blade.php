@@ -10,7 +10,7 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse navbar-right">
       <ul class="nav navbar-nav">
-        <li><a href="{{ route('profile') }}">Profile</a></li>
+        <li><a href="{{ route('user.profile') }}">Profile</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -18,7 +18,7 @@
             <li><a href="#">System Settings</a></li>
           </ul>
         </li>
-        <li><a href="#logout">Logout</a></li>
+        <li><a href="{{ route('user.logout') }}">Logout</a></li>
       </ul>
     </div>
   </div>

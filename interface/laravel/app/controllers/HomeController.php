@@ -15,14 +15,9 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showHomeTile()
+	public function showHome()
 	{
-		return View::make('home-tile');
-	}
-
-	public function showHomeList()
-	{
-		return View::make('home-list');
+		return View::make('home')->with('msg', 'It works bruh');
 	}
 
 }

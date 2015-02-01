@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHomeTile'));
+Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
 
-Route::get('/tile', array('as' => 'tile', 'uses' => 'HomeController@showHomeTile'));
+Route::get('/login', array('as' => 'user.login', 'uses' => 'UserController@showLogin'));
+Route::post('/login/dologin', array('as' => 'user.dologin', 'uses' => 'UserController@doLogin'));
+Route::get('/logout', array('as' => 'user.logout', 'uses' => 'UserController@logout'));
 
-Route::get('/list', array('as' => 'list', 'uses' => 'HomeController@showHomeList'));
+Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
 
-Route::get('/profile', array('as' => 'profile', 'uses' => 'UserController@showProfile'));
+Route::controller('password', 'RemindersController');
