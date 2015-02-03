@@ -21,12 +21,15 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-4">
+        <div class="col-sm-offset-2 col-sm-2">
           <div class="checkbox">
             <label>
-              <input type="checkbox" name="remember_me"> Remember me
+              <input type="checkbox" name="remember_me" value="true"> Remember me
             </label>
           </div>
+        </div>
+        <div class="col-sm-2" style="padding-top: 7px; text-align: right">
+          <a href="{{ url('password/remind') }}">Forgot Password?</a>
         </div>
       </div>
       <div class="form-group">

@@ -17,7 +17,7 @@ class HomeController extends BaseController {
 
 	public function showHome()
 	{
-		return View::make('home')->with('msg', 'It works bruh');
+		return View::make('home');
 	}
 
 }

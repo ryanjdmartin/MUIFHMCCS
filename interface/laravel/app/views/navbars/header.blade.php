@@ -10,15 +10,27 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse navbar-right">
       <ul class="nav navbar-nav">
-        <li><a href="{{ route('user.profile') }}">Profile</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Manage Users</a></li>
-            <li><a href="#">System Settings</a></li>
-          </ul>
-        </li>
-        <li><a href="{{ route('user.logout') }}">Logout</a></li>
+        @if (Auth::check())
+        <li><a href="{{ route('home') }}">Home</a></li>
+          @if (Auth::user()->isAdmin())
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Manage Users</a></li>
+                <li><a href="#">System Settings</a></li>
+              </ul>
+            </li>
+          @endif
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{Auth::user()->email}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ route('user.profile') }}">Profile Settings</a></li>
+              <li><a href="{{ route('user.logout') }}">Logout</a></li>
+            </ul>
+          </li>
+        @else
+          <li><a href="{{ route('user.login') }}">Login</a></li>
+        @endif
       </ul>
     </div>
   </div>
