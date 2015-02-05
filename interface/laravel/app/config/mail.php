@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'sendmail',
+	'driver' => 'smtp',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'admin@fms.mcmaster.ca', 'name' => 'fms.mcmaster.ca'),
+	'from' => array('address' => null, 'name' => null),
 
 	/*
 	|--------------------------------------------------------------------------

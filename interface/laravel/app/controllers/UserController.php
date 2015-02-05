@@ -27,13 +27,9 @@ class UserController extends BaseController {
 
 	public function doLogin()
 	{
-        $email = Input::get('email');   
-        $password = Input::get('password');   
-        $remember = Input::get('remember_me') == 'true';
-
-        if (Auth::attempt(array('email' => $email, 'password' => $password), $remember))
+        if (Auth::attempt(array('email' => $email, 'password' => $password)))
         {
-            return Redirect::to('/')->with('msg', 'Logged in.');
+            return Redirect::to('/');
         }
         return Redirect::to('login')->with('msg', 'Invalid email or password');   
 	}
@@ -41,7 +37,7 @@ class UserController extends BaseController {
     public function logout()
     {
         Auth::logout();
-        return Redirect::to('login')->with('msg', 'Logged out.');
+        return Redirect::to('login');
     }
 
 }
