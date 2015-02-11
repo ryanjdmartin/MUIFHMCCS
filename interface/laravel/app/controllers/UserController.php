@@ -27,6 +27,9 @@ class UserController extends BaseController {
 
 	public function doLogin()
 	{
+        $email = Input::get('email');
+        $password = Input::get('password');
+        
         if (Auth::attempt(array('email' => $email, 'password' => $password)))
         {
             return Redirect::to('/');
