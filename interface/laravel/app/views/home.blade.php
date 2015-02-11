@@ -4,11 +4,21 @@
   <div id="tile-view" style="display:none">
 
   </div>
+<<<<<<< HEAD
   	<form id = "login_form" method="POST" action="{{ URL::to('/test') }}">
 	<button class = "btn" type="button" id="sign_in" >Sign in</button>
 	</form>
 	<div id = "ajaxTest">test</div>
 	<div id = "ajaxTest2">Response</div>
+=======
+	<div id = "ajaxTest">test</div>
+	<div id = "ajaxTest2"></div>
+  <!--
+  	<form id = "login_form" method="POST" action="{{ URL::to('/test') }}">
+	<button class = "btn" type="button" id="sign_in" >Sign in</button>
+	</form>
+
+>>>>>>> peter
 	<script type = 'text/javascript'>
 		$(document).ready(function(){
 			$('#sign_in').on('click', function(){
@@ -22,6 +32,10 @@
 				});
 			});
 		});
+<<<<<<< HEAD
+=======
+	-->
+>>>>>>> peter
 	</script>
 
 	<script type = 'text/javascript'>
