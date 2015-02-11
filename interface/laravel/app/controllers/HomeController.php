@@ -17,7 +17,7 @@ class HomeController extends BaseController {
 
 	public function showHome()
 	{
-		return View::make('home')->with('msg', 'It works bruh');
+		return View::make('home');
 	}
 
 	public function test()
@@ -26,7 +26,7 @@ class HomeController extends BaseController {
 	}
 	public function showBuildings()
 	{
-		return View::make('buildings');
+	    return View::make('buildings');
 	}
 	public function showRooms($building_id)
 	{

@@ -19,6 +19,7 @@ $(document).ready(function() {
 
 });
 
+/*
 function tileView(){
     if ($("#tile-view").is(":visible")){
         return;
@@ -54,3 +55,4 @@ function listView(){
 
     $("#tile-view").empty();
 }
+*/
