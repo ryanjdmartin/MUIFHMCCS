@@ -26,3 +26,4 @@ Route::post('/test', array('as' => 'test', 'uses' => 'HomeController@test'));
 Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
 Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
 Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
+Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'HomeController@showHood'));

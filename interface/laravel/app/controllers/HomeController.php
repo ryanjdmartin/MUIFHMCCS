@@ -36,5 +36,9 @@ class HomeController extends BaseController {
 	{
 		return View::make('fumehoods', array('room_id' => $room_id));
 	}
+	public function showHood($hood_id)
+	{
+		return View::make('hood', array('hood_id' => $hood_id));
+	}
 
 }
