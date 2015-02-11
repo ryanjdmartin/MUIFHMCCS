@@ -61,14 +61,7 @@ Route::filter('admin', function()
 			return Redirect::guest('login');
 		}
 	} else if (!Auth::user()->isAdmin()){
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-            return Redirect::to('/');
-		}
+        return Redirect::to('/');
     }
 });
 

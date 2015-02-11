@@ -29,7 +29,11 @@ function tileView(){
 
     var m = 1+Math.random()*20;
     for (i=1; i < m; i++){
-      $("#tile-view").delay(200).append('<button class="btn btn-lg" style="width: 200px; margin-bottom: 20px;">Item '+i+'</button>');
+      var btn = '<div class="btn-group btn-group-vertical" style="margin-right:10px"> \
+        <button class="btn btn-primary btn-lg" style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px;" \
+          onclick="ajax_test();">Building '+i+'</button> <button class="btn btn-info btn-lg" style="width: 200px; \
+          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">FumeHood Alerts</button> </div>';
+      $("#tile-view").delay(200).append(btn);
     }
 
     $("#list-view tbody > tr").remove();

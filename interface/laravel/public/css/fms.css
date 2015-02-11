@@ -115,7 +115,7 @@ body {
     .flash {
       position: fixed;
       top: 1px;
-      left: 250px;
+      left: 300px;
       z-index: 9000;
       display: block;
       width: auto;
