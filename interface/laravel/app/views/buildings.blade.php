@@ -1,3 +1,8 @@
+ <div class="main">
+@include('navbars.main-nav')
+
+<div class="main-view">
+
 <h1>Buildings</h1>
 
 <?php
@@ -32,4 +37,5 @@ foreach($buildings as $building)
 	</script>
 <?php } ?>
 
-
+</div>
+</div>
