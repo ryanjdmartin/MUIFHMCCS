@@ -34,6 +34,13 @@
     @include('navbars.header')
     <div class="container">
 
+      
+      <? 
+      if (Session::has('msg')){
+        $msg = Session::get('msg');
+      }
+      ?>
+
       @if (isset($msg))
         <div id="flash-message" class="flash alert alert-info" style="display:none">
           {{ $msg }}
