@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/login', array('as' => 'user.login', 'uses' => 'UserController@showLogin'));
-Route::post('/login/dologin', array('as' => 'user.dologin', 'uses' => 'UserController@doLogin'));
+Route::group(array('before' => 'guest'), function() {
+    Route::get('/login', array('as' => 'user.login', 'uses' => 'UserController@showLogin'));
+    Route::post('/login/dologin', array('as' => 'user.dologin', 'uses' => 'UserController@doLogin'));
+});
+
 Route::get('/logout', array('as' => 'user.logout', 'uses' => 'UserController@logout'));
 Route::controller('password', 'RemindersController');
 

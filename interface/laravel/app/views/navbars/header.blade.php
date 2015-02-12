@@ -10,8 +10,8 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse navbar-right">
       <ul class="nav navbar-nav">
-        <li><a href="{{ route('home') }}">Home</a><li>
         @if (Auth::check())
+        <li><a href="{{ route('home') }}">Home</a><li>
           @if (Auth::user()->isAdmin())
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
