@@ -24,18 +24,27 @@ class HomeController extends BaseController {
 	{
 		return "we reached here";
 	}
+
+	public function showNotifications()
+	{
+	    return View::make('notifications');
+	}
+
 	public function showBuildings()
 	{
 	    return View::make('buildings');
 	}
+
 	public function showRooms($building_id)
 	{
 		return View::make('rooms', array('building_id' => $building_id));
 	}
+
 	public function showFumeHoods($room_id)
 	{
 		return View::make('fumehoods', array('room_id' => $room_id));
 	}
+
 	public function showHood($hood_id)
 	{
 		return View::make('hood', array('hood_id' => $hood_id));

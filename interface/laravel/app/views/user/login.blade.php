@@ -30,8 +30,11 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-4">
+        <div class="col-sm-offset-2 col-sm-2">
           <button type="submit" class="btn btn-default">Log In</button>
+        </div>
+        <div class="col-sm-2" style='text-align:right'>
+          <a href="{{ URL::to('/password/remind') }}">Forgot Password?</a>
         </div>
       </div>
     {{ Form::close() }}
