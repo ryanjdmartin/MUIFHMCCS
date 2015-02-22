@@ -24,7 +24,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
 
-    Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'HomeController@showNotifications'));
+    Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
 
     Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
     Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));

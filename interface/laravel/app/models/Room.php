@@ -9,4 +9,11 @@ class Room extends Eloquent {
 	 */
 	protected $table = 'rooms';
 
+    function getBuilding(){
+        return Building::find($this->building_id);
+    }
+
+    function getFumeHoods(){
+        return FumeHood::where('room_id', $this->id)->get();
+    }
 }

@@ -17,17 +17,13 @@ class HomeController extends BaseController {
 
 	public function showHome()
 	{
+        SystemSettings::getSettings();
 		return View::make('home');
 	}
 
 	public function test()
 	{
 		return "we reached here";
-	}
-
-	public function showNotifications()
-	{
-	    return View::make('notifications');
 	}
 
 	public function showBuildings()
