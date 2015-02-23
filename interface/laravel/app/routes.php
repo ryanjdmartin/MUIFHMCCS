@@ -23,7 +23,9 @@ Route::controller('password', 'RemindersController');
 Route::group(array('before' => 'auth'), function() {
     Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
-    Route::post('/test', array('as' => 'test', 'uses' => 'HomeController@test'));
+
+    Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
+
     Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
     Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
     Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
@@ -32,4 +34,8 @@ Route::group(array('before' => 'auth'), function() {
 
 //Admin-only routes here
 Route::group(array('before' => 'admin'), function(){
+    Route::get('/users', array('as' => 'users.view', 'uses' => 'UserController@showUsers'));
+    Route::post('/users/add', array('as' => 'users.add', 'uses' => 'UserController@addUser'));
+    Route::post('/users/edit', array('as' => 'users.edit', 'uses' => 'UserController@editUser'));
+    Route::post('/users/delete', array('as' => 'users.delete', 'uses' => 'UserController@deleteUser'));
 });

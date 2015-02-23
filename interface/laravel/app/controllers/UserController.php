@@ -2,22 +2,96 @@
 
 class UserController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
 	public function showProfile()
 	{
 		return View::make('user.profile');
+	}
+
+	public function showUsers()
+	{
+        $user_types = array();
+
+        foreach (UserType::all() as $type){
+            $user_types[$type->id] = $type->name;
+        }
+
+		return View::make('user.view', array('users' => User::all(), 'user_types' => $user_types));
+	}
+
+	public function addUser()
+    {
+        $email = Input::get('email');
+        $user_type = Input::get('user_type');
+        Session::flash('email', $email);
+        Session::flash('user_type', $user_type);
+        
+        if (!$email){
+            Session::flash('msg', 'Enter a valid email address.');
+            Session::flash('err', 'add');
+            return Redirect::route('users.view');
+        }
+        if (User::where('email', $email)->count()){
+            Session::flash('msg', 'Email in use. Enter another email.');
+            Session::flash('err', 'add');
+            return Redirect::route('users.view');
+        }
+
+
+        $user = new User;
+        $user->email = $email;
+        $user->user_type_id = $user_type;
+        $password = str_random(10);
+        $user->password = Hash::make($password);
+        $user->save();
+
+        Mail::send('emails.auth.newuser', array('email' => $email, 'password' => $password), function($message) use ($email){
+            $message->to($email)
+                    ->subject('McMaster FMS Account Created');
+        });
+
+        Session::flash('msg', "User $email added.");
+        return Redirect::route('users.view');
+	}
+
+	public function editUser()
+    {
+        $id = Input::get('id');
+        $email = Input::get('email');
+        $user_type = Input::get('user_type');
+        Session::flash('id', $id);
+        Session::flash('email', $email);
+        Session::flash('user_type', $user_type);
+        
+        if (!$email){
+            Session::flash('msg', 'Enter a valid email address.');
+            Session::flash('err', 'edit');
+            return Redirect::route('users.view');
+        }
+
+        $user = User::find($id);
+        if ($email != $user->email && User::where('email', $email)->count()){
+            Session::flash('msg', 'Email in use. Enter another email.');
+            Session::flash('err', 'edit');
+            return Redirect::route('users.view');
+        }
+
+        $user->email = $email;
+        $user->user_type_id = $user_type;
+        $user->save();
+
+        Session::flash('msg', "User $email updated.");
+        return Redirect::route('users.view');
+	}
+
+	public function deleteUser()
+    {
+        $id = Input::get('id');
+        $user = User::find($id);
+        $email = $user->email;
+        $user->delete();
+
+        Session::flash('msg', "User $email deleted.");
+        return Redirect::route('users.view');
 	}
 
 	public function showLogin()

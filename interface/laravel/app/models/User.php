@@ -24,9 +24,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
     
     function isAdmin(){
-        $user_type = UserType::find($this->user_type_id);
+        $user_type = $this->userType();
 
         return ($user_type->name == 'admin');
+    }
+
+    function userType(){
+        return UserType::find($this->user_type_id);
     }
 
 }
