@@ -11,19 +11,25 @@
 |
 */
 
-Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
+Route::group(array('before' => 'guest'), function() {
+    Route::get('/login', array('as' => 'user.login', 'uses' => 'UserController@showLogin'));
+    Route::post('/login/dologin', array('as' => 'user.dologin', 'uses' => 'UserController@doLogin'));
+});
 
-Route::get('/login', array('as' => 'user.login', 'uses' => 'UserController@showLogin'));
-Route::post('/login/dologin', array('as' => 'user.dologin', 'uses' => 'UserController@doLogin'));
 Route::get('/logout', array('as' => 'user.logout', 'uses' => 'UserController@logout'));
-
-Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
-
 Route::controller('password', 'RemindersController');
 
+//Logged-in routes here
+Route::group(array('before' => 'auth'), function() {
+    Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
+    Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
+    Route::post('/test', array('as' => 'test', 'uses' => 'HomeController@test'));
+    Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
+    Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
+    Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
+    Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'HomeController@showHood'));
+});
 
-Route::post('/test', array('as' => 'test', 'uses' => 'HomeController@test'));
-Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
-Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
-Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
-Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'HomeController@showHood'));
+//Admin-only routes here
+Route::group(array('before' => 'admin'), function(){
+});
