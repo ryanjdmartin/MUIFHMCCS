@@ -17,6 +17,7 @@ class HomeController extends BaseController {
 
 	public function showHome()
 	{
+        SystemSettings::getSettings();
 		return View::make('home');
 	}
 	public function showBuildings()
@@ -29,6 +30,7 @@ class HomeController extends BaseController {
 		$buildings = DB::table('buildings')->get();
 	    return View::make('buildings', array('buildings' => $buildings));
 	}
+
 	public function showRooms($building_id)
 	{
 		$rooms = DB::table('rooms')->where('building_id', '=', $building_id)->get();
@@ -36,6 +38,7 @@ class HomeController extends BaseController {
 		//Session::push('breadcrumbs', [$building_name, '/rooms/'.$building_id]); 
 		return View::make('rooms', array('building_id' => $building_id, 'rooms' => $rooms));
 	}
+
 	public function showFumeHoods($room_id)
 	{
 		$fumehoods = DB::table('fume_hoods')->where('room_id', '=', $room_id)->get();
@@ -43,6 +46,7 @@ class HomeController extends BaseController {
 		Session::push('breadcrumbs', [$room_name, '/rooms/'.$room_id]);
 		return View::make('fumehoods', array('room_id' => $room_id, 'fumehoods' => $fumehoods));
 	}
+
 	public function showHood($hood_id)
 	{
 		return View::make('hood', array('hood_id' => $hood_id));

@@ -24,7 +24,7 @@ class CreateNotificationsTable extends Migration {
             $table->dateTime('measurement_time');
             $table->string('type', 100);
             $table->string('status', 10)->default('new');
-            $table->text('description');
+            $table->text('note');
 			$table->timestamps();
 		});
 	}
