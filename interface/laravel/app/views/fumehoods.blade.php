@@ -6,8 +6,6 @@
 	<h1>Fumehoods in Room {{$room_id}}</h1>
 
 	<?php
-	$fumehoods = DB::table('fume_hoods')->where('room_id', '=', $room_id)->get();
-
 
 	foreach($fumehoods as $fumehood)
 	{
@@ -32,7 +30,7 @@
 					//var login_form = $('#login_form').serializeArray();
 					var url = "{{ URL::to('/hood/').'/'.$id  }}";
 					$.get(url, '', function(data){
-						$('#ajaxTest').html(data);
+						$('#mainInfo').html(data);
 					});
 				});
 			});
