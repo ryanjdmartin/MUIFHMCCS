@@ -1,40 +1,14 @@
 @extends('layout')
 
 @section('content')
-<style>
-#add-user{
-  white-space: nowrap;
-  position: absolute;
-  display: none;
-  width: 35%;
-  left: 0px;
-  padding-bottom: 15px;
-}
-#add-user div.alert{
-  white-space: normal;
-}
-#user-list{
-  position: absolute;
-  right: 0px;
-  width: 100%;
-  padding-bottom: 15px;
-}
 
-#chev{
-  float: left;
-  padding-top: 2px;
-  padding-right: 5px;
-}
-</style>
-
-      <div class="row">
-        <div class="col-md-12 main">
-          <h1 class="page-header">Manage Users</h1>
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="page-header">Manage Users</h1>
 
 	<div class='row'>
 	  <div class='col-md-12' style='padding-bottom: 5px'>
-	    <button class='btn btn-primary' id='toggle-add-user'><span id='chev' class='glyphicon glyphicon-chevron-right'></span>Add New User </button>
-	     <span id='msg' style='display:none' class='alert alert-small pull-right'></span>
+	    <button class='btn btn-primary' id='toggle-add-user' style='width: 135px'><span id='chev' class='glyphicon glyphicon-chevron-right'></span>Add New User </button>
 	  </div>
 	</div>
 	 <div class="row">
@@ -42,9 +16,7 @@
 	    <div class='col-md-4' id='add-user'>
 	      <div class='panel panel-primary'>
 		<div class='panel-body'>
-		  <div id='user-msg' style='display:none' class='alert'></div>
-		  {{ Form:: open() }}
-		    <input type='hidden' name='do_add_user' value='True'>
+		  {{ Form::open(array('url' => route('users.add'))) }}
 		    <div class='form-group'>
 		      <label for='email'>Email:</label>
 		      <input class='form-control' name='email' id='email' type='email'>
@@ -52,12 +24,12 @@
 			  password will be emailed to the new user.</p>
 		    </div>
 		    <div class='form-group'>
-              {{}}
+              {{ Form::select('user_type', $user_types, '', array('class' => 'form-control', 'id' => 'user_type')) }}
 		    </div>
 		    <div style='text-align: right'>
-		      <button onClick='$(this).button("loading");' class='btn btn-success' data-loading-text='Please Wait...'>Create User</button>
+		      <button class='btn btn-success'>Create User</button>
 		    </div>
-		  {{ Form:: close() }}
+		  {{ Form::close() }}
 		</div>
 	      </div>
 	    </div>
@@ -65,102 +37,62 @@
 	      <table class='table table-bordered table-striped table-hover'>
 		<thead>
 		 <tr>
-		  <th>Username</th>
 		  <th>Email</th>
-		  <th>Permissions</th>
+		  <th>User Type</th>
 		  <th>Actions</th>
 		 </tr>
 		</thead>
 		<tbody>
-<? 
-	$query = 'SELECT id, username, email FROM users ORDER BY username';
-	$result = $mysqli->query($query);
-	while ($row = $result->fetch_assoc()){
-		$query = 'SELECT id,fullname FROM user_perms
-			INNER JOIN permissions ON permissions.id = perm_id
-			WHERE user_id = '.$row['id'].'
-			ORDER BY permissions.id';
-		echo "<tr>
-			<td>".htmlspecialchars($row['username'])."</td>
-			<td>".htmlspecialchars($row['email'])."</td>
-			<td><ul style='padding-left: 20px'>";
-
-		$perms = $mysqli->query($query);
-		while ($permrow = $perms->fetch_row()){
-			echo "<li name='$permrow[0]'>$permrow[1]</li>";
-		}
-
-		echo "</ul>
-			</td>
-			<td>";
-		if ($row['username'] == $_SESSION['username'] || $row['username'] == 'admin'){
-			echo "No Actions Available.";
-		} else{
-			echo "<div class='btn-group btn-group-xs'>
-			    <button class='btn btn-primary' onClick='openEdit(this,".$row['id'].");'>Edit</button>
-			    <button class='btn btn-primary' onClick='openDelete(this,".$row['id'].");'>Delete</button>
-			    </div>";
-		}
-		echo "</td>
-		      </tr>";
-	}
-?>	
+        @foreach ($users as $user)
+		  <tr>
+			<td>{{ $user->email }}</td>
+			<td>{{ $user->userType()->name }}</td>
+		    <td>
+            @if ($user->id == Auth::user()->id)
+              <a href="{{ route('user.profile') }}" class='btn btn-primary btn-xs'>Edit Your Profile</a>
+		    @else
+			  <div class='btn-group btn-group-xs'>
+			    <button class='btn btn-primary' onClick='openEdit(this,{{ $user->id }});'>Edit</button>
+			    <button class='btn btn-primary' onClick='openDelete(this,{{ $user->id }});'>Delete</button>
+			  </div>
+		    @endif
+		   </td>
+		 </tr>
+        @endforeach
 		</tbody>
-	      </table>
-	    </div>
+	  </table>
+	</div>
 
-         </div>
-         </div>
-        </div>
-      </div>
+  </div>
+</div>
+</div>
+</div>
 
 <script type='text/javascript'>
 var open = false;
-oldButton = $('#toggle-add-user').css('width');
 
 $('#toggle-add-user').click(toggleAdd);
+
 function toggleAdd(){
   open = !open;
   $('#user-list').animate({'width': open ? '65%' : '100%'});
-  $(this).animate({'width': open ? $('#add-user').width() : oldButton});
+  $(this).animate({'width': open ? $('#add-user').width() : '135px'});
   $('#chev').removeClass('glyphicon-chevron-left glyphicon-chevron-right').addClass(
 	  open ? 'glyphicon-chevron-left' : 'glyphicon-chevron-right');
   $('#add-user').animate({'width': 'toggle'});
 }
 
-<? if (isset($_POST['do_add_user'])){
-	echo "$(document).ready(function(){
-	  open = !open;
-	  $('#user-list').css({'width': '65%'});
-	  $('#add-user').show();
-	  $('#toggle-add-user').css({'width': $('#add-user').width()});
-	  $('#chev').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');";
-	if ($user_msg){
-		echo "$('#user-msg').addClass('alert-success').html('".addslashes($user_msg)."').delay(300).slideDown();";
-	} else if ($user_err) {
-		echo "$('#user-msg').addClass('alert-danger').html('".addslashes($user_err)."').delay(300).slideDown();";
-	}
-	echo "});";
-}
-
-if ($success_msg){
-	echo "$('#msg').addClass('alert-success').html('".addslashes($success_msg)."').delay(300).fadeIn();";
-} else if ($error_msg) {
-	echo "$('#msg').addClass('alert-danger').html('".addslashes($error_msg)."').delay(300).fadeIn();";
-}?>
-
 function openEdit(btn, id){
 	var row = $(btn).parents('tr');
-	var username = row.children('td:nth-child(1)').html();
-	var email = row.children('td:nth-child(2)').text();
-	$('#edit_user_id').val(id);
-	$('#edit_user_name').html(username);
-	$('#edit_user_email').val(email);
+	var email = row.children('td:nth-child(1)').html();
+	var user_type = row.children('td:nth-child(2)').text();
+	$('#edit_id').val(id);
+	$('#edit_email').val(email);
 
-	row.children('td:nth-child(3)').find('li').each(function(){
-		$('#edit-form').find("input[type='checkbox'][value='"+
-			$(this).attr('name')+"']").prop('checked',true);
-	});
+	$('#edit_user_type:selected').removeAttr('selected');
+	$('#edit_user_type option').filter(function(){
+        return ($(this).text() == user_type);
+    }).prop('selected', true);
 
 	$('#edit-modal').modal('show')
 }
@@ -168,10 +100,34 @@ function openEdit(btn, id){
 function openDelete(btn, id){
 	var row = $(btn).parents('tr');
 	var username = row.children('td:nth-child(1)').html();
-	$('#delete_user_id').val(id);
+	$('#delete_id').val(id);
 	$('#delete_user_name').html(username);
 	$('#delete-modal').modal('show')
 }
+
+@if (Session::has('err'))
+  $(document).ready(function(){
+  @if (Session::get('err') == 'add')
+    open = !open;
+    $('#user-list').css({'width': '65%'});
+    $('#add-user').show();
+    $('#toggle-add-user').css({'width': $('#add-user').width()});
+    $('#chev').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');;
+    
+    $('#email').val('{{ Session::get('email') }}');
+    $('#email').parent('div').addClass('has-error');
+	$('#user_type').val({{ Session::get('user_type') }});
+  @else
+    $('#edit-modal').modal('show');
+
+    $('#edit_id').val('{{ Session::get('id') }}');
+    $('#edit_email').val('{{ Session::get('email') }}');
+    $('#email').parent('div').addClass('has-error');
+	$('#edit_user_type').val({{ Session::get('user_type') }});
+  @endif
+  });
+@endif
+
 </script>
 
     <div class="modal fade" id='edit-modal'>
@@ -182,28 +138,16 @@ function openDelete(btn, id){
 	    <h4 class="modal-title">Editing User: <span id='edit_user_name'></span></h4>
           </div>
 	  <div class="modal-body">
-	    <form id='edit-form' method='POST'>
-	      <input type='hidden' name='do_edit_user' value='True'>
-	      <input type='hidden' name='user_id' id='edit_user_id' value=''>
+		{{ Form::open(array('url' => route('users.edit'), 'id' => 'edit-form')) }}
+	      <input type='hidden' name='id' id='edit_id' value=''>
 	      <div class='form-group'>
-		<label for='edit_user_email'>Email:</label>
-		<input class='form-control' name='email' id='edit_user_email' type='text'>
+		<label for='edit_email'>Email:</label>
+		<input class='form-control' name='email' id='edit_email' type='email'>
 	      </div>
 	      <div class='form-group'>
-		<label for='permissions[]'>Permissions:</label>	
-		<? $query = 'SELECT * FROM permissions
-			ORDER BY id';
-		$result = $mysqli->query($query);
-		while ($row = $result->fetch_assoc()){
-			echo "<div class='checkbox'>
-			  <label>
-			  <input type='checkbox' name='permissions[]' value=".$row['id']."> ".$row['fullname']."
-    			  </label>
-			</div>";
-		}
-		?>
-	      </div>
-	    </form>
+            {{ Form::select('user_type', $user_types, '', array('class' => 'form-control', 'id' => 'edit_user_type')) }}
+		  </div>
+        {{ Form::close() }}
           </div>
 	  <div class="modal-footer">
 	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -221,11 +165,10 @@ function openDelete(btn, id){
 	    <h4 class="modal-title">Delete User</h4>
           </div>
 	  <div class="modal-body">
-	    <form id='delete-form' method='POST'>
-	      <input type='hidden' name='do_delete_user' value='True'>
-	      <input type='hidden' name='user_id' id='delete_user_id' value=''>
+		{{ Form::open(array('url' => route('users.delete'), 'id' => 'delete-form')) }}
+	      <input type='hidden' name='id' id='delete_id' value=''>
 	      <p>Are you sure you want to delete <span id='delete_user_name'></span>?</p>
-	    </form>
+        {{ Form::close() }}
           </div>
 	  <div class="modal-footer">
 	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

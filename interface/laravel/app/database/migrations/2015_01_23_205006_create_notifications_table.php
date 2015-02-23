@@ -20,10 +20,11 @@ class CreateNotificationsTable extends Migration {
                 ->references('name')->on('fume_hoods')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->enum('type', array('alert', 'critical'));
+            $table->enum('class', array('alert', 'critical'));
             $table->dateTime('measurement_time');
-            $table->string('title', 100);
-            $table->text('description');
+            $table->string('type', 100);
+            $table->string('status', 10)->default('new');
+            $table->text('note');
 			$table->timestamps();
 		});
 	}

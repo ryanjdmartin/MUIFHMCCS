@@ -189,3 +189,27 @@ body {
   padding: 5px;
   padding-top: 10px;
 }
+
+#add-user{
+  white-space: nowrap;
+  position: absolute;
+  display: none;
+  width: 35%;
+  left: 0px;
+  padding-bottom: 15px;
+}
+#add-user div.alert{
+  white-space: normal;
+}
+#user-list{
+  position: absolute;
+  right: 0px;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+#chev{
+  float: left;
+  padding-top: 2px;
+  padding-right: 5px;
+}
