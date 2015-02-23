@@ -1,12 +1,18 @@
 @extends('home-layout')
 
 @section('main-view')
-    <div id="ajaxTest">
+	<?php 
+		Session::forget('breadcrumbs');
+		Session::push('breadcrumbs', ['Buildings', '/buildings/']); 
+		Session::push('breadcrumbs', ['index2', 'test2']);
+
+	?>
+    <div id="mainInfo">
     </div>
 
-	  <script type="text/javascript">
-	    $(document).ready(function(){
-	      $('#ajaxTest').load("{{ URL::to('/buildings') }}");
-	    });
-	  </script>  	
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $('#mainInfo').load("{{ URL::to('/buildings') }}");
+		});
+	</script>  	
 @endsection

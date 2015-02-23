@@ -5,9 +5,7 @@
 	<h1>Rooms in Building {{$building_id}}</h1>
 
 	<?php
-	$rooms = DB::table('rooms')->where('building_id', '=', $building_id)->get();
-
-
+	var_dump(Session::get('breadcrumbs'));
 	foreach($rooms as $room)
 	{
 		$name = $room->name;
@@ -29,7 +27,7 @@
 					var url = "{{ URL::to('/fumehoods/').'/'.$id }}";
 					//alert(url);
 					$.get(url, '', function(data){
-						$('#ajaxTest').html(data);
+						$('#mainInfo').html(data);
 					});
 				});
 			});

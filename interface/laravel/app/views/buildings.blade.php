@@ -6,9 +6,7 @@
 	<h1>Buildings</h1>
 
 	<?php
-	$buildings = DB::table('buildings')->get();
-
-
+	var_dump(Session::get('breadcrumbs'));
 	foreach($buildings as $building)
 	{
 		$name = $building->name;
@@ -30,7 +28,7 @@
 					var url = "{{ URL::to('/rooms/').'/'.$id }}";
 					//alert(url);
 					$.get(url, '', function(data){
-						$('#ajaxTest').html(data);
+						$('#mainInfo').html(data);
 					});
 				});
 			});
