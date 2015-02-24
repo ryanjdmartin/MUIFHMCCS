@@ -29,7 +29,7 @@ CREATE TABLE `buildings` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (1,'AN Bourns Science Building','ABB','2015-01-27 17:28:33','2015-01-27 17:28:33');
+INSERT INTO `buildings` VALUES (1,'AN Bourns Science Building','ABB','2015-02-24 18:39:01','2015-02-24 18:39:01');
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `fume_hoods` (
   UNIQUE KEY `fume_hoods_name_unique` (`name`),
   KEY `fume_hoods_room_id_foreign` (`room_id`),
   CONSTRAINT `fume_hoods_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `fume_hoods` (
 
 LOCK TABLES `fume_hoods` WRITE;
 /*!40000 ALTER TABLE `fume_hoods` DISABLE KEYS */;
-INSERT INTO `fume_hoods` VALUES (1,'0001',1,'Test Model','2015-01-27','2015-01-27','Test Hood 1','2015-01-27 17:28:33','2015-01-27 17:28:33'),(2,'0002',1,'Test Model','2015-01-27','2015-01-27','Test Hood 2','2015-01-27 17:28:33','2015-01-27 17:28:33'),(3,'0003',2,'Test Model','2015-01-27','2015-01-27','Test Hood 3','2015-01-27 17:28:33','2015-01-27 17:28:33');
+INSERT INTO `fume_hoods` VALUES (4,'0001',1,'Test Model','2015-02-24','2015-02-24','Test Hood 1','2015-02-24 18:39:01','2015-02-24 18:39:01'),(5,'0002',1,'Test Model','2015-02-24','2015-02-24','Test Hood 2','2015-02-24 18:39:01','2015-02-24 18:39:01'),(6,'0003',2,'Test Model','2015-02-24','2015-02-24','Test Hood 3','2015-02-24 18:39:01','2015-02-24 18:39:01');
 /*!40000 ALTER TABLE `fume_hoods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,6 +121,7 @@ CREATE TABLE `measurements` (
   `measurement_time` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `alarm` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `measurements_fume_hood_name_foreign` (`fume_hood_name`),
   CONSTRAINT `measurements_fume_hood_name_foreign` FOREIGN KEY (`fume_hood_name`) REFERENCES `fume_hoods` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -155,7 +156,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES ('2015_01_16_171134_create_users_table',1),('2015_01_16_173523_create_user_types_table',1),('2015_01_23_113509_create_buildings_table',1),('2015_01_23_113532_create_rooms_table',1),('2015_01_23_113617_create_fumehoods_table',1),('2015_01_23_113642_create_notification_settings_table',1),('2015_01_23_205006_create_notifications_table',1),('2015_01_23_210713_create_measurements_table',1),('2015_01_23_210853_create_resolved_table',1),('2015_01_23_210938_create_dismissed_table',1),('2015_01_23_212845_create_settings_table',1);
+INSERT INTO `migrations` VALUES ('2015_01_16_171134_create_users_table',1),('2015_01_16_173523_create_user_types_table',1),('2015_01_23_113509_create_buildings_table',1),('2015_01_23_113532_create_rooms_table',1),('2015_01_23_113617_create_fumehoods_table',1),('2015_01_23_113642_create_notification_settings_table',1),('2015_01_23_205006_create_notifications_table',1),('2015_01_23_210713_create_measurements_table',1),('2015_01_23_210938_create_dismissed_table',1),('2015_01_23_212845_create_settings_table',1),('2015_01_30_104328_create_password_reminders_table',1),('2015_02_24_124436_add_alarm_column',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,16 +202,17 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `fume_hood_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `type` enum('alert','critical') COLLATE utf8_unicode_ci NOT NULL,
+  `class` enum('alert','critical') COLLATE utf8_unicode_ci NOT NULL,
   `measurement_time` datetime NOT NULL,
-  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
+  `note` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `notifications_fume_hood_name_foreign` (`fume_hood_name`),
   CONSTRAINT `notifications_fume_hood_name_foreign` FOREIGN KEY (`fume_hood_name`) REFERENCES `fume_hoods` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,38 +221,33 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+INSERT INTO `notifications` VALUES (5,'0001','alert','2015-02-24 13:39:01','Velocity Low','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(6,'0001','critical','2015-02-24 13:39:01','Velocity Low','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(7,'0002','alert','2015-02-24 13:39:01','Velocity High','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(8,'0002','alert','2015-02-24 13:39:01','Sash Up Overnight','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(9,'0001','alert','2015-02-24 13:39:01','Sash Up Overnight','new','','2015-02-24 18:39:01','2015-02-24 18:39:01');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `resolved_notifications`
+-- Table structure for table `password_reminders`
 --
 
-DROP TABLE IF EXISTS `resolved_notifications`;
+DROP TABLE IF EXISTS `password_reminders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `resolved_notifications` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `notification_id` int(10) unsigned NOT NULL,
-  `resolved_time` datetime NOT NULL,
+CREATE TABLE `password_reminders` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `resolved_notifications_user_id_foreign` (`user_id`),
-  KEY `resolved_notifications_notification_id_foreign` (`notification_id`),
-  CONSTRAINT `resolved_notifications_notification_id_foreign` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `resolved_notifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `password_reminders_email_index` (`email`),
+  KEY `password_reminders_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `resolved_notifications`
+-- Dumping data for table `password_reminders`
 --
 
-LOCK TABLES `resolved_notifications` WRITE;
-/*!40000 ALTER TABLE `resolved_notifications` DISABLE KEYS */;
-/*!40000 ALTER TABLE `resolved_notifications` ENABLE KEYS */;
+LOCK TABLES `password_reminders` WRITE;
+/*!40000 ALTER TABLE `password_reminders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reminders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -270,7 +267,7 @@ CREATE TABLE `rooms` (
   PRIMARY KEY (`id`),
   KEY `rooms_building_id_foreign` (`building_id`),
   CONSTRAINT `rooms_building_id_foreign` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +276,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (1,'101','lab_abb101@mcmaster.ca',1,'2015-01-27 17:28:33','2015-01-27 17:28:33'),(2,'102','ex55555',1,'2015-01-27 17:28:33','2015-01-27 17:28:33');
+INSERT INTO `rooms` VALUES (1,'101','lab_abb101@mcmaster.ca',1,'2015-02-24 18:39:01','2015-02-24 18:39:01'),(2,'102','ex55555',1,'2015-02-24 18:39:01','2015-02-24 18:39:01');
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,12 +289,16 @@ DROP TABLE IF EXISTS `system_settings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `system_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `critical_velocity` float(8,2) NOT NULL DEFAULT '1.00',
-  `refresh_minutes` float(8,2) NOT NULL DEFAULT '1.00',
+  `critical_max_velocity` float(8,2) NOT NULL DEFAULT '110.00',
+  `critical_min_velocity` float(8,2) NOT NULL DEFAULT '10.00',
+  `alert_max_velocity` float(8,2) NOT NULL DEFAULT '100.00',
+  `alert_min_velocity` float(8,2) NOT NULL DEFAULT '20.00',
+  `critical_resend_hours` float(8,2) NOT NULL DEFAULT '24.00',
+  `alert_resend_hours` float(8,2) NOT NULL DEFAULT '6.00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +307,7 @@ CREATE TABLE `system_settings` (
 
 LOCK TABLES `system_settings` WRITE;
 /*!40000 ALTER TABLE `system_settings` DISABLE KEYS */;
-INSERT INTO `system_settings` VALUES (2,1.00,1.00,'2015-01-27 17:28:32','2015-01-27 17:28:32');
+INSERT INTO `system_settings` VALUES (3,110.00,10.00,100.00,20.00,24.00,6.00,'2015-02-24 18:39:00','2015-02-24 18:39:00');
 /*!40000 ALTER TABLE `system_settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +334,7 @@ CREATE TABLE `user_types` (
 
 LOCK TABLES `user_types` WRITE;
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` VALUES (1,'user','2015-01-27 17:28:32','2015-01-27 17:28:32'),(2,'admin','2015-01-27 17:28:32','2015-01-27 17:28:32');
+INSERT INTO `user_types` VALUES (1,'user','2015-02-24 18:39:01','2015-02-24 18:39:01'),(2,'admin','2015-02-24 18:39:01','2015-02-24 18:39:01');
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -356,7 +357,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_user_type_id_foreign` (`user_type_id`),
   CONSTRAINT `users_user_type_id_foreign` FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -365,7 +366,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'administrator@fms.mcmaster.ca','$2y$10$gPdrnbEDRlJKZD8l8Q4cou9RE922rhlpzh3pTYM9edBCh7hdBq1f.',NULL,'2015-01-27 17:28:33','2015-01-27 17:28:33',2);
+INSERT INTO `users` VALUES (3,'administrator@fms.mcmaster.ca','$2y$10$Er4YXsHmI9y7vzpqkwaJFelVVVCOj8rZcsi/5jJfdHNtuhuhB3Ynm',NULL,'2015-02-24 18:39:01','2015-02-24 18:39:01',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -378,4 +379,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-30 10:37:08
+-- Dump completed on 2015-02-24 13:41:06
