@@ -31,4 +31,16 @@ class Notification extends Eloquent {
 
         return DB::select($query);
     }
+
+    /* Gets all notifications for a fumehood, unfiltered by user. */
+    public static function getHoodNotifications($hood_id){
+        $hood = FumeHood::find($hood_id);
+        $query = "SELECT * FROM notifications 
+                    WHERE fume_hood_name = ".$hood->name."
+                    GROUP BY class, type, fume_hood_name
+                    HAVING max(measurement_time)
+                    ORDER BY class DESC, measurement_time"; 
+
+        return DB::select($query);
+    }
 }

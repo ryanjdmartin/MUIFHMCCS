@@ -40,6 +40,9 @@
               </td>
             </tr>
           @endforeach
+          @if (!$notifications)
+            <tr><td>No current notifications.</td></tr>
+          @endif
         </table>
       </div>
     </div>
