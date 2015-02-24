@@ -14,6 +14,6 @@ class FumeHood extends Eloquent {
     }
 
     function getBuilding(){
-        return Building::find($this->getRoom()->id);
+        return Building::find($this->getRoom()->building_id);
     }
 }
