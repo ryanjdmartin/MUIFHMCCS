@@ -1,6 +1,8 @@
  <div class="main">
+@include('navbars.main-nav', array('level' => 'hood', 'object' => $hood))
+<?php $hood_id = $hood->id;?>
+	<div class="main-view">
  {{ HTML::script("js/Chart.min.js"); }}
-@include('navbars.main-nav')
 
     <script type = 'text/javascript'>
     $(document).ready(function(){

@@ -1,5 +1,5 @@
  <div class="main">
-@include('navbars.main-nav')
+@include('navbars.main-nav', array('level' => 'buildings'))
 
 	<div class="main-view">
 
