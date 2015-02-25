@@ -4,17 +4,6 @@
 	<div class="main-view">
  {{ HTML::script("js/Chart.min.js"); }}
 
-    <script type = 'text/javascript'>
-    $(document).ready(function(){
-        $('#refresh').on('click', function(){
-            var url = "{{ URL::to('/hood/').'/'.$hood->id  }}";
-            $.get(url, '', function(data){
-                $('#mainInfo').html(data);
-            });
-        });
-    });
-    </script>
-
 	<div class="fumehood-view">
       <table height="100%"><tr>
 
@@ -155,3 +144,15 @@
       </tr></table>
 	</div>
 </div>
+
+<script type = 'text/javascript'>
+$(document).ready(function(){
+  $("#update_time").text("{{date("Y-m-d H:i:s")}}");
+  setTimeout(function(){
+    var url = "{{ URL::to('/hood/').'/'.$hood->id  }}";
+    $.get(url, '', function(data){
+        $('#mainInfo').html(data);
+    });
+  }, 9000000);
+});
+</script>

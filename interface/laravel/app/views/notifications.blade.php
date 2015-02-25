@@ -47,3 +47,13 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#update_time").text("{{date("Y-m-d H:i:s")}}");
+      setTimeout(function(){
+        //Dont do it if modal is open
+          $('#notifications').load("{{ URL::to('/notifications') }}");
+      }, 900000);
+    });
+  </script>  	
