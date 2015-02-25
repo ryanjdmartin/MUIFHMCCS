@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('UserTableSeeder');
 		$this->call('FumeHoodsTableSeeder');
 		$this->call('NotificationsTableSeeder');
+		$this->call('MeasurementsTableSeeder');
 	}
 
 }
@@ -118,6 +119,64 @@ class NotificationsTableSeeder extends Seeder {
             'fume_hood_name' => '0001', 
             'class' => 'alert', 
             'type' => 'Sash Up Overnight', 
+            'measurement_time' => new DateTime('now')));
+    }
+
+}
+
+class MeasurementsTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('measurements')->delete();
+
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 20,
+            'alarm' => 0,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 21,
+            'alarm' => 0,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 22,
+            'alarm' => 0,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 1,
+            'velocity' => 21,
+            'alarm' => 0,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 1,
+            'velocity' => 21,
+            'alarm' => 1,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 22,
+            'alarm' => 0,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 23,
+            'alarm' => 1,
+            'measurement_time' => new DateTime('now')));
+        Measurement::create(array(
+            'fume_hood_name' => '0001', 
+            'sash_up' => 0,
+            'velocity' => 22,
+            'alarm' => 0,
             'measurement_time' => new DateTime('now')));
     }
 
