@@ -2,24 +2,24 @@
     <div class="panel panel-default sidebar-panel">
       <div class="panel-heading">
 	    <h4 class="panel-title">
-	      Notifications 
+	      <b>Notifications</b>
           <div class='pull-right'>
-            <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span>
-            <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span>
+            <a href='#' onClick="filterNotifications(this, 'danger');"><span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span></a>
+            <a href='#' onClick="filterNotifications(this, 'warning');"><span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span></a>
           </div>
 	    </h4>
       </div>
       <div class="notifications" id="notifications-list">
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-striped table-hover" id="notifications-table">
           @foreach ($notifications as $n)
             @if ($n->class == 'critical')
             <tr>
-              <td class='alert-danger'>
+              <td class='alert-danger' name='danger'>
                 <span class='text-danger'>
                   <span class="glyphicon glyphicon-exclamation-sign"></span>
             @elseif ($n->class == 'alert')
             <tr>
-              <td class='alert-warning'>
+              <td class='alert-warning' name='warning'>
                 <span class='text-warning'>
                   <span class="glyphicon glyphicon-info-sign"></span>
             @endif
@@ -66,4 +66,9 @@
           $('#notifications').load("{{ URL::to('/notifications') }}");
       }, 900000);
     });
+    
+    function filterNotifications(btn, name){
+        $("#notifications-table td[name='"+name+"']").fadeToggle();
+        $(btn).children("span").toggleClass(name);
+    }
   </script>  	
