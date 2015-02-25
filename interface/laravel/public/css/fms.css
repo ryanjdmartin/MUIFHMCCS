@@ -83,6 +83,19 @@ body {
     color: green !important;
 }
 
+/* Flash message */
+@media (min-width: 992px) {
+    .flash {
+      position: fixed;
+      top: 1px;
+      left: 300px;
+      z-index: 9000;
+      display: block;
+      width: auto;
+      height: 49px;
+    }
+}
+
 /* Sidebar */
 
 /* Mobile Settings */
@@ -110,19 +123,6 @@ body {
     border-right: 0px !important;
 }
 
-/* Flash message */
-@media (min-width: 992px) {
-    .flash {
-      position: fixed;
-      top: 1px;
-      left: 300px;
-      z-index: 9000;
-      display: block;
-      width: auto;
-      height: 49px;
-    }
-}
-
 /* Desktop Settings */
 @media (min-width: 992px) {
   .sidebar {
@@ -138,7 +138,7 @@ body {
   }
 
   .notifications {
-    height: calc(100% - 40px);
+    max-height: calc(100% - 39px);
     overflow-y: auto;
   }
 }
@@ -156,6 +156,27 @@ body {
 
 .main-view {
 }
+.fumehood-view {
+}
+.panel-fumehood {
+}
+
+.panel-fumehood-body table {
+    margin-bottom: 0px;
+}
+.panel-fumehood-body table td {
+    border-left: 0px !important;
+    border-right: 0px !important;
+}
+.panel-fumehood {
+    width: 300px;
+    margin-bottom: 0px;    
+    border: 0px;
+}
+
+.panel-fumehood .panel-heading {
+    border: 1px solid #ddd;
+}
 @media (min-width: 992px) {
   .main-view {
     position: fixed;
@@ -166,9 +187,26 @@ body {
     display: block;
     overflow-y: auto;
   }
+  .fumehood-view {
+    position: fixed;
+    width: calc(970px - 310px);
+    top: 125px;
+    bottom: 45px;
+    z-index: 1000;
+    display: block;
+    overflow-x: auto;
+  }
+  .panel-fumehood {
+    max-height: calc(100% - 5px);
+    overflow-y: auto;
+    padding-bottom: 1px;
+  }
 }
 @media (min-width: 1200px) {
   .main-view {
+    width: calc(1170px - 310px);
+  }
+  .fumehood-view {
     width: calc(1170px - 310px);
   }
 }

@@ -6,7 +6,6 @@
 	<h1>Rooms in Building {{$building_id}}</h1>
 
 	<?php
-
 	foreach($rooms as $room)
 	{
 		$name = $room->name;

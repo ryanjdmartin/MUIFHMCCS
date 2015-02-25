@@ -22,28 +22,23 @@ class HomeController extends BaseController {
 	}
 	public function showBuildings()
 	{	
-		$buildings = DB::table('buildings')->get();
+		$buildings = Building::all();
 	    return View::make('buildings', array('buildings' => $buildings));
 	}
 
 	public function showRooms($building_id)
 	{
-		$rooms = DB::table('rooms')->where('building_id', '=', $building_id)->get();
-		$building = Building::findorFail($building_id);
+        $building = Building::findOrFail($building_id);
+		$rooms = $building->getRooms();
 		return View::make('rooms', array('building' => $building, 'rooms' => $rooms));
 	}
 
 	public function showFumeHoods($room_id)
 	{
-		$fumehoods = DB::table('fume_hoods')->where('room_id', '=', $room_id)->get();
-		$room = Room::findorFail($room_id);
+		$room = Room::findOrFail($room_id);
+		$fumehoods = $room->getFumeHoods();
 		return View::make('fumehoods', array('room' => $room, 'fumehoods' => $fumehoods));
 	}
 
-	public function showHood($hood_id)
-	{
-		$hood = FumeHood::findorFail($hood_id);
-		return View::make('hood', array('hood' => $hood));
-	}
-
+	
 }

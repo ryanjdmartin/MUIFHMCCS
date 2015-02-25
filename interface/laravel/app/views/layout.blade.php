@@ -25,6 +25,8 @@
 
     {{ HTML::script("js/jquery-1.9.1.min.js"); }}
     {{ HTML::script("js/bootstrap.min.js"); }}
+    {{ HTML::script("js/spin.min.js"); }}
+    {{ HTML::script("js/jquery.spin.js"); }}
 
     <!-- Custom JS -->
     {{ HTML::script("js/fms.js"); }}
