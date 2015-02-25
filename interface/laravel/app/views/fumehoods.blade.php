@@ -5,8 +5,6 @@
 
 	<div class="main-view">
 
-	<h1>Fumehoods in Room {{$room_id}}</h1>
-
 	<?php
 
 	foreach($fumehoods as $fumehood)
