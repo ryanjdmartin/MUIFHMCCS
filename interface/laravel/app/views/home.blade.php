@@ -1,11 +1,11 @@
 @extends('home-layout')
 
 @section('main-view')
-    <div id="mainInfo">
-    </div>
-
   <div id="notifications">
   </div>    	
+
+  <div id="mainInfo">
+  </div>
 
 	  <script type="text/javascript">
 	    $(document).ready(function(){
