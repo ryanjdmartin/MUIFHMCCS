@@ -1,6 +1,22 @@
 <div class="navbar navbar-inverse main-nav">
   <span class='navbar-text'>
-    Breadcrumb
+      @if($level == 'buildings')
+        Buildings
+      @elseif($level == 'rooms')
+        <a id = 'buildings' href ="#";> Buildings</a>
+      @elseif($level == 'fumehoods')
+        utu
+      @elseif($level == 'hood')
+        ijkl
+      @endif
+      <script type = 'text/javascript'>
+      $(document).ready(function(){
+        $('#buildings').on('click', function(){
+          //alert('We click');
+          $('#mainInfo').load("{{ URL::to('/buildings') }}");
+        });
+      });
+      </script>
   </span>
 
   <div class="navbar-right">

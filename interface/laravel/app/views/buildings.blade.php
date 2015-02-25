@@ -1,12 +1,11 @@
  <div class="main">
-@include('navbars.main-nav')
+@include('navbars.main-nav', array('level' => 'buildings'))
 
 	<div class="main-view">
 
 	<h1>Buildings</h1>
 
 	<?php
-	var_dump(Session::get('breadcrumbs'));
 	foreach($buildings as $building)
 	{
 		$name = $building->name;
