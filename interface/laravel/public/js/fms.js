@@ -19,40 +19,32 @@ $(document).ready(function() {
 
 });
 
-/*
-function tileView(){
-    if ($("#tile-view").is(":visible")){
-        return;
-    }
+//Loads and builds a chart.js line graph in the given canvas id
+function loadChart(id, url, callback){
+    $.post(url, '', function(ret){
+        var ctx = $("#"+id).get(0).getContext("2d");
+        var data = { labels: [], 
+                 datasets: [{
+                    label: "Velocity",
+                    fillColor: "rgba(0,0,0,0.2)",
+                    strokeColor: "rgba(0,0,0,1)",
+                    pointColor: "rgba(0,0,0,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(0,0,0,1)",
+                    data: []
+                }]};
 
-    $("#list-view").fadeOut(200);
-    $("#tile-view").delay(200).fadeIn();
+        for (t in ret){
+            data.labels.push(t);
+            data.datasets[0].data.push(ret[t]);
+        }
 
-    var m = 1+Math.random()*20;
-    for (i=1; i < m; i++){
-      var btn = '<div class="btn-group btn-group-vertical" style="margin-right:10px"> \
-        <button class="btn btn-primary btn-lg" style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px;" \
-          onclick="ajax_test();">Building '+i+'</button> <button class="btn btn-info btn-lg" style="width: 200px; \
-          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">FumeHood Alerts</button> </div>';
-      $("#tile-view").delay(200).append(btn);
-    }
+        new Chart(ctx).Line(data);
 
-    $("#list-view tbody > tr").remove();
+        if (callback){
+            callback();
+        }
+    });
+
 }
-
-function listView(){
-    if ($("#list-view").is(":visible")){
-        return;
-    }
-
-    $("#tile-view").fadeOut(200);
-    $("#list-view").delay(200).fadeIn();
-
-    var m = 1+Math.random()*20;
-    for (i=1; i < m; i++){
-      $("#list-view").delay(200).append('<tr><td>Item '+i+'</td></tr>');
-    }
-
-    $("#tile-view").empty();
-}
-*/
