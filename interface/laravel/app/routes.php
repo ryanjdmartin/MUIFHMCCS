@@ -31,9 +31,9 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
 
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
-    Route::post('/hood/velocity/{hood_id}', array('as' >= 'hood.velocity', 'uses' => 'FumeHoodController@getVelocityData'));
-    Route::post('/hood/sash/{hood_id}', array('as' >= 'hood.sash', 'uses' => 'FumeHoodController@getSashData'));
-    Route::post('/hood/alarm/{hood_id}', array('as' >= 'hood.alarm', 'uses' => 'FumeHoodController@getAlarmData'));
+    Route::post('/hood/velocity/{hood_id}/{limit}', array('as' >= 'hood.velocity', 'uses' => 'FumeHoodController@getVelocityData'));
+    Route::post('/hood/sash/{hood_id}/{limit}', array('as' >= 'hood.sash', 'uses' => 'FumeHoodController@getSashData'));
+    Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' => 'FumeHoodController@getAlarmData'));
     //Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
 });
 

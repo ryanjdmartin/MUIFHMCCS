@@ -14,7 +14,7 @@ class Measurement extends Eloquent {
         $hood = FumeHood::findOrFail($hood_id);
         $data = array();
         foreach (self::where('fume_hood_name', $hood->name)
-            ->orderBy('measurement_time', 'desc')->get() as $row){
+            ->orderBy('measurement_time', 'desc')->take(100)->get() as $row){
             $data[$row->measurement_time] = $row->velocity;
         }
 
@@ -26,7 +26,7 @@ class Measurement extends Eloquent {
         $hood = FumeHood::findOrFail($hood_id);
         $data = array();
         foreach (self::where('fume_hood_name', $hood->name)
-            ->orderBy('measurement_time', 'desc')->get() as $row){
+            ->orderBy('measurement_time', 'desc')->take(100)->get() as $row){
             $data[$row->measurement_time] = $row->sash_up;
         }
 
@@ -38,7 +38,7 @@ class Measurement extends Eloquent {
         $hood = FumeHood::findOrFail($hood_id);
         $data = array();
         foreach (self::where('fume_hood_name', $hood->name)
-            ->orderBy('measurement_time', 'desc')->get() as $row){
+            ->orderBy('measurement_time', 'desc')->take(100)->get() as $row){
             $data[$row->measurement_time] = $row->alarm;
         }
 

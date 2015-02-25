@@ -6,7 +6,6 @@
 	<h1>Buildings</h1>
 
 	<?php
-	var_dump(Session::get('breadcrumbs'));
 	foreach($buildings as $building)
 	{
 		$name = $building->name;

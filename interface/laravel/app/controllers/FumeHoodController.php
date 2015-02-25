@@ -11,18 +11,18 @@ class FumeHoodController extends BaseController {
 		return View::make('hood', array('hood' => $hood, 'data' => $data, 'notifications' => $notifications));
 	}
 
-    public function getVelocityData($hood_id)
+    public function getVelocityData($hood_id, $limit)
     {
-        return Measurement::getVelocityData($hood_id);
+        return Response::json(Measurement::getVelocityData($hood_id, $limit));
     }
 
-    public function getSashData($hood_id)
+    public function getSashData($hood_id, $limit)
     {
-        return Measurement::getSashData($hood_id);
+        return Response::json(Measurement::getSashData($hood_id, $limit));
     }
 
-    public function getAlarmData($hood_id)
+    public function getAlarmData($hood_id, $limit)
     {
-        return Measurement::getAlarmData($hood_id);
+        return Response::json(Measurement::getAlarmData($hood_id, $limit));
     }
 }
