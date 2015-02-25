@@ -136,48 +136,56 @@ class MeasurementsTableSeeder extends Seeder {
             'velocity' => 20,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 0,
             'velocity' => 21,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 0,
             'velocity' => 22,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 1,
             'velocity' => 21,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 1,
             'velocity' => 21,
             'alarm' => 1,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 0,
             'velocity' => 22,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 0,
             'velocity' => 23,
             'alarm' => 1,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
         Measurement::create(array(
             'fume_hood_name' => '0001', 
             'sash_up' => 0,
             'velocity' => 22,
             'alarm' => 0,
             'measurement_time' => new DateTime('now')));
+        sleep(1);
     }
 
 }
