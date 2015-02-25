@@ -27,6 +27,7 @@ body {
     text-decoration: none;
 }
 
+/*
 .panel-heading a:after{
   font-family: 'Glyphicons Halflings';
   content: "\e114";
@@ -37,6 +38,7 @@ body {
 .panel-heading a.collapsed:after{
   content: "\e080";
 }
+*/
 
 /* Makes file upload elements not look like garbage */
 
