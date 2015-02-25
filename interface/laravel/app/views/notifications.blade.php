@@ -32,9 +32,19 @@
                 </span>
                 <br>
                 <? $f = FumeHood::where('name', $n->fume_hood_name)->firstOrFail(); ?>
-                <a href="#{{ $f->getRoom()->building_id }}">{{ $f->getBuilding()->abbv }}</a> 
-                    / <a href="#{{ $f->room_id }}">{{ $f->getRoom()->name }}</a> 
-                    / <a href='#'>{{ $n->fume_hood_name }}</a>
+                <a href="#" id="notification_link{{$n->id}}">{{ $f->getBuilding()->abbv }}  
+                    {{ $f->getRoom()->name }} Fumehood {{ $n->fume_hood_name }}</a>
+                
+                <script type="text/javascript">
+                  $(document).ready(function(){
+				    $('{{"#notification_link".$n->id}}').on('click', function(){
+					  var url = "{{ URL::to('/hood/').'/'.$f->id }}";
+					  $.get(url, '', function(data){
+						$('#mainInfo').html(data);
+					  });
+				    });
+				  });
+                </script>
                 <br>
                 Updated At: {{ max($n->updated_at, $n->measurement_time) }}
               </td>

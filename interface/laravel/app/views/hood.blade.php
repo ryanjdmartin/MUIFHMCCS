@@ -1,6 +1,6 @@
  <div class="main">
 @include('navbars.main-nav', array('level' => 'hood', 'object' => $hood))
-<?php $hood_id = $hood->id;?>
+<? $room = $hood->getRoom() ?>
 	<div class="main-view">
  {{ HTML::script("js/Chart.min.js"); }}
 
@@ -10,13 +10,10 @@
       <td style="padding-right:15px; vertical-align:top;">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Fumehood {{$hood->name}} Data</h3>
+          <h3 class="panel-title"><b>{{$hood->getBuilding()->abbv}} {{$room->name}} Fumehood {{$hood->name}}</b></h3> 
         </div>
          <div class="panel-fumehood-body">
           <table class="table table-bordered table-striped">
-            <? $room = $hood->getRoom() ?>
-            <tr><td><b>Location: </b>{{$hood->getBuilding()->abbv}} 
-            {{$room->name}} 
             <tr><td><b>Model: </b>{{$hood->model}}</td></tr>
             <tr><td><b>Install Date: </b>{{$hood->install_date}}</td></tr>
             <tr><td><b>Last Maintenence Date: </b>{{max($hood->maintenence_date, $hood->install_date)}}</td></tr>
