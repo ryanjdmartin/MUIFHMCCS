@@ -1,13 +1,14 @@
 <div class="navbar navbar-inverse main-nav">
-  <span class='navbar-text'>
+  <div class="navbar-left">
+    <ul class ="nav navbar-nav">
       @if($level == 'buildings')
         Buildings
       @elseif($level == 'rooms')
-        <a id = 'buildings' href ="#";> Buildings</a>
+        <li><a id = 'buildings' href ="#";> Buildings</a></li>
       @elseif($level == 'fumehoods')
-        utu
+        <li><a id = 'buildings' href ="#";> Buildings</a></li>
       @elseif($level == 'hood')
-        ijkl
+        <li><a id = 'buildings' href ="#";> Buildings</a></li>
       @endif
       <script type = 'text/javascript'>
       $(document).ready(function(){
@@ -17,8 +18,8 @@
         });
       });
       </script>
-  </span>
-
+   </ul>
+ </div>
   <div class="navbar-right">
     <ul class="nav navbar-nav">
       <li>
