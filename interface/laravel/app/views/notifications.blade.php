@@ -4,8 +4,8 @@
 	    <h4 class="panel-title">
 	      Notifications 
           <div class='pull-right'>
-            <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> 2</span>
-            <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> 5</span>
+            <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span>
+            <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span>
           </div>
 	    </h4>
       </div>
@@ -36,7 +36,7 @@
                     / <a href="#{{ $f->room_id }}">{{ $f->getRoom()->name }}</a> 
                     / <a href='#'>{{ $n->fume_hood_name }}</a>
                 <br>
-                Updated At: {{ ($n->updated_at > $n->measurement_time ? $n->updated_at : $n->measurement_time) }}
+                Updated At: {{ max($n->updated_at, $n->measurement_time) }}
               </td>
             </tr>
           @endforeach

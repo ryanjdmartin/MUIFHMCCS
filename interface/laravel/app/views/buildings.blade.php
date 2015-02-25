@@ -1,36 +1,38 @@
- <div class="main">
+<div class="main">
 @include('navbars.main-nav', array('level' => 'buildings'))
-
-	<div class="main-view">
-	<?php
-	foreach($buildings as $building)
-	{
-		$name = $building->name;
-		$id = $building->id;
-		$abbv = $building->abbv;
-	?>
-
-		<div class="btn-group btn-group-vertical" style="margin-right:10px;">
-	        <button class="btn btn-primary btn-lg" type ='button' id = {{"building$id"}} 
-	        	style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px; font-size:14px;"\>
-	        	{{$name}}</button> 
-	        <button class="btn btn-info btn-lg" style="width: 200px;
-	          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">Alerts</button> 
+  <div class="main-view">
+    @foreach ($buildings as $building)
+		<div class="tile list-group">
+	      <button class="list-group-item btn btn-primary" href='#' id="{{"building".$building->id}}">
+            Building {{$building->id}}
+            <br>
+	        {{$building->name}} 
+            <br>
+            ({{$building->abbv}})
+          </button> 
+	      <div class="list-group-item">
+            <? $counts = Notification::buildingNotificationStatus($building->id); ?>
+            Fumehoods:
+            @if ($counts['critical'])
+              <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span>
+            @endif
+            @if ($counts['alert'])
+              <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span>
+            @endif
+            <span class="badge opt"><span class="glyphicon glyphicon-ok-circle"></span> 
+                {{max($building->countFumeHoods() - $counts['critical'] - $counts['alert'], 0)}}</span>
+          </div> 
 	     </div>
 	     	<script type = 'text/javascript'>
 			$(document).ready(function(){
-				$('{{"#building$id"}}').on('click', function(){
-					//alert('We click');
-					//var login_form = $('#login_form').serializeArray();
-					var url = "{{ URL::to('/rooms/').'/'.$id }}";
-					//alert(url);
+				$('{{"#building".$building->id}}').on('click', function(){
+					var url = "{{ URL::to('/rooms/').'/'.$building->id }}";
 					$.get(url, '', function(data){
 						$('#mainInfo').html(data);
 					});
 				});
 			});
 		</script>
-	<?php } ?>
-
-	</div>
+    @endforeach
+  </div>
 </div>

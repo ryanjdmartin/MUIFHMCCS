@@ -5,37 +5,35 @@
 
 	<div class="main-view">
 
-	<?php
-
-	foreach($fumehoods as $fumehood)
-	{
-		$name = $fumehood->name;
-		$id = $fumehood->id;
-		$model = $fumehood->model;
-		$install_date = $fumehood->install_date;
-		$maintenence_date = $fumehood->maintenence_date;
-		$notes = $fumehood->notes;
-	?>
-
-		<div class="btn-group btn-group-vertical" style="margin-right:10px">
-	        <button class="btn btn-primary btn-lg" type ='button' id = {{"fumehood$id"}} style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px;"\>
-	        	{{$name}}</button> 
-	        <button class="btn btn-info btn-lg" style="width: 200px;
-	          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">Alerts</button> 
+    @foreach ($fumehoods as $fumehood)
+		<div class="tile list-group">
+	      <button class="list-group-item btn btn-primary" href='#' id="{{"fumehood".$fumehood->id}}">
+	        {{$room->getBuilding()->abbv}} {{$room->name}} Fumehood {{$fumehood->name}}
+          </button> 
+	      <div class="list-group-item">
+            <? $counts = Notification::countHoodNotifications($fumehood->id); ?>
+            <? $data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first(); ?>
+            Status:
+            <span class="badge">V: {{$data ? $data->velocity." m/s" : "N/A"}}</span> 
+            @if ($counts['critical'])
+              <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span>
+            @endif
+            @if ($counts['alert'])
+              <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span>
+            @endif
+          </div> 
 	     </div>
 	     	<script type = 'text/javascript'>
 			$(document).ready(function(){
-				$('{{"#fumehood$id"}}').on('click', function(){
-					//alert('We click');
-					//var login_form = $('#login_form').serializeArray();
-					var url = "{{ URL::to('/hood/').'/'.$id  }}";
+				$('{{"#fumehood".$fumehood->id}}').on('click', function(){
+					var url = "{{ URL::to('/hood/').'/'.$fumehood->id }}";
 					$.get(url, '', function(data){
 						$('#mainInfo').html(data);
 					});
 				});
 			});
-			</script>
-	<?php } ?>
+		</script>
+    @endforeach
 
 	</div>
 </div>
