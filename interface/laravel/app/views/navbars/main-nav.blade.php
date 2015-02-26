@@ -80,9 +80,9 @@
         });
         $('#toggleListView').on('click', function(){
           var url = "{{ URL::to('/toggleview/0') }}";
-          alert("{{$currentURL;}}");
+          //alert("{{$currentURL;}}");
           $.post(url, '', function(data){
-            alert("Success!");
+            //alert("Success!");
             $('#mainInfo').load("{{$currentURL;}}");
           });
         });
