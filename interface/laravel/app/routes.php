@@ -27,8 +27,13 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
 
     Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
+    Route::get('/buildings/stream/{last_id}', array('as' >= 'buildings.stream', 'uses' => 'HomeController@streamBuildings'));
+
     Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
+    Route::get('/rooms/stream/{building_id}/{last_id}', array('as' >= 'rooms.stream', 'uses' => 'HomeController@streamRooms'));
+
     Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
+    Route::get('/fumehoods/stream/{room_id}/{last_id}', array('as' >= 'fumehoods.stream', 'uses' => 'HomeController@streamFumeHoods'));
 
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
     Route::post('/hood/velocity/{hood_id}/{limit}', array('as' >= 'hood.velocity', 'uses' => 'FumeHoodController@getVelocityData'));

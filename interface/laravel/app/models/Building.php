@@ -13,6 +13,10 @@ class Building extends Eloquent {
         return Room::where('building_id', $this->id)->get();
     }
 
+    function getNextRoom($last_id){
+        return Room::where('building_id', $this->id)->where('id', '>', $last_id)->take(1)->get()->first();
+    }
+
     function getFumeHoods(){
         $res = array();
     
