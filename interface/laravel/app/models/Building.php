@@ -21,4 +21,13 @@ class Building extends Eloquent {
         }
         return $res;
     }
+
+    function countFumeHoods(){
+        $res = 0;
+    
+        foreach ($this->getRooms() as $room){
+            $res += $room->countFumeHoods();
+        }
+        return $res;
+    }
 }

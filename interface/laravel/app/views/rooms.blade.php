@@ -1,35 +1,46 @@
- <div class="main">
-
+<div class="main">
 @include('navbars.main-nav', array('level' => 'rooms', 'object' => $building))
-<?php $building_id = $building->id; ?>
-	<div class="main-view">
-	<?php
-	foreach($rooms as $room)
-	{
-		$name = $room->name;
-		$id = $room->id;
-		$contact = $room->contact;
-	?>
-
-		<div class="btn-group btn-group-vertical" style="margin-right:10px">
-	        <button class="btn btn-primary btn-lg" type ='button' id = {{"room$id"}} style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px;"\>
-	        	{{$name}}</button> 
-	        <button class="btn btn-info btn-lg" style="width: 200px;
-	          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">Alerts</button> 
+  <div class="main-view">
+    @foreach ($rooms as $room)
+		<div class="tile list-group">
+	      <button class="list-group-item btn btn-primary" href='#' id="{{"room".$room->id}}">
+	        {{$building->abbv}} Room {{$room->name}}
+          </button> 
+	      <div class="list-group-item">
+            <? $counts = Notification::roomNotificationStatus($room->id); ?>
+            Fumehoods:
+            @if ($counts['critical'])
+              <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{$counts['critical']}}</span>
+            @endif
+            @if ($counts['alert'])
+              <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span> {{$counts['alert']}}</span>
+            @endif
+            <span class="badge opt"><span class="glyphicon glyphicon-ok-circle"></span> 
+                {{max($room->countFumeHoods() - $counts['critical'] - $counts['alert'], 0)}}</span>
+          </div> 
 	     </div>
 	     	<script type = 'text/javascript'>
 			$(document).ready(function(){
-				$('{{"#room$id"}}').on('click', function(){
-					//alert('We click');
-					//var login_form = $('#login_form').serializeArray();
-					var url = "{{ URL::to('/fumehoods/').'/'.$id }}";
-					//alert(url);
+				$('{{"#room".$room->id}}').on('click', function(){
+					var url = "{{ URL::to('/fumehoods/').'/'.$room->id }}";
 					$.get(url, '', function(data){
 						$('#mainInfo').html(data);
 					});
 				});
 			});
 		</script>
-	<?php } ?>
+    @endforeach
+  </div>
 </div>
-</div>
+
+<script type = 'text/javascript'>
+$(document).ready(function(){
+  $("#update_time").text("{{date("Y-m-d H:i:s")}}");
+  setTimeout(function(){
+    var url = "{{ URL::to('/rooms/').'/'.$building->id }}";
+    $.get(url, '', function(data){
+        $('#mainInfo').html(data);
+    });
+  }, 900000);
+});
+</script>

@@ -16,4 +16,8 @@ class Room extends Eloquent {
     function getFumeHoods(){
         return FumeHood::where('room_id', $this->id)->get();
     }
+
+    function countFumeHoods(){
+        return FumeHood::where('room_id', $this->id)->count();
+    }
 }
