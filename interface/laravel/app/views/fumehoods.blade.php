@@ -1,5 +1,5 @@
  <div class="main">
-@include('navbars.main-nav', array('level' => 'rooms', 'object' => $room))
+@include('navbars.main-nav', array('level' => 'fumehoods', 'object' => $room))
 
 <?php $room_id = $room->id;?>
 

@@ -1,28 +1,33 @@
 <div class="navbar navbar-inverse main-nav">
-  <div class="navbar-left">
-    <ul class ="nav navbar-nav">
       <?php //initialize id vars
         $building_id = "";
         $room_id = "";
         $hood_id = "";
+        $breadcrumbs = "";
+        $slash = "";
+        switch($level){
+          case 'hood':
+            $hood = $object;
+            $breadcrumbs = "<a id = 'hood' style = 'color:#9d9d9d;' href = '#'>".$hood->name."</a>";
+            $object = Room::findOrFail($hood->name);
+            $slash = "<font color = '#9d9d9d'> / </font>";
+          case 'fumehoods':
+            $room = $object;
+            $room_id = $room->id;
+            $breadcrumbs = "<a id = 'hoods_in' style = 'color:#9d9d9d;' href = '#'>".$room->name."</a>".$slash.$breadcrumbs;
+            $object = Building::findOrFail($room->id);
+            $slash = "<font color = '#9d9d9d'> / </font>";
+          case 'rooms':
+            $building = $object;
+            $building_id = $building->id;
+            $breadcrumbs = "<a id = 'rooms_in' style = 'color:#9d9d9d;' href = '#'>".$building->abbv."</a>".$slash.$breadcrumbs;
+            $slash = "<font color = '#9d9d9d'> / </font>";
+          case 'buildings':
+            $breadcrumbs = "<a id = 'buildings' style = 'margin-left:5px;color:#9d9d9d;' href ='#'> Buildings</a>".$slash.$breadcrumbs;
+        }
+        echo $breadcrumbs;
       ?>
-      @if($level == 'buildings')
-        <li><a href ="#";> Buildings</a></li>
-      @elseif($level == 'rooms')
-        <!--Recieves building parent object -->
-        <?php $building_id = $building->id;
-              $building_abbv = $building->abbv;
-        ?>
-        <li><a id = 'buildings' href ="#";> Buildings /</a></li> 
-        <li><a id = 'rooms_in' href ="#";> {{$building_abbv;}} </a></li>
-      @elseif($level == 'fumehoods')
-        <!--Recieves room parent object-->
-        <?php $building = Building::findOrFail($building_id);?>
-        <li><a id = 'buildings' href ="#";> Buildings</a></li>
-      @elseif($level == 'hood')
-        <!--Recieves hood parent object-->
-        <li><a id = 'buildings' href ="#";> Buildings</a></li>
-      @endif
+
       <script type = 'text/javascript'>
       $(document).ready(function(){
         $('#buildings').on('click', function(){
@@ -40,8 +45,7 @@
 
       });
       </script>
-   </ul>
- </div>
+   
   <div class="navbar-right">
     <ul class="nav navbar-nav">
       <li>
