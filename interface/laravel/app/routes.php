@@ -35,6 +35,8 @@ Route::group(array('before' => 'auth'), function() {
     Route::post('/hood/sash/{hood_id}/{limit}', array('as' >= 'hood.sash', 'uses' => 'FumeHoodController@getSashData'));
     Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' => 'FumeHoodController@getAlarmData'));
     //Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
+
+    Route::post('/toggleview/{tf}', array('as' >= 'toggleview', 'uses' => 'HomeController@toggleView'));
 });
 
 //Admin-only routes here

@@ -8,6 +8,7 @@
         switch($level){
           case 'hood':
             $hood = $object;
+            $hood_name = $hood->name;
             $breadcrumbs = "<a id = 'hood' style = 'color:#9d9d9d;' href = '#'>".$hood->name."</a>";
             $object = Room::findOrFail($hood->name);
             $slash = "<font color = '#9d9d9d'> / </font>";
@@ -27,37 +28,67 @@
         }
         echo $breadcrumbs;
       ?>
-
-      <script type = 'text/javascript'>
-      $(document).ready(function(){
-        $('#buildings').on('click', function(){
-          //alert('We click');
-          $('#mainInfo').load("{{ URL::to('/buildings') }}");
-        });
-        $('#rooms_in').on('click', function(){
-          //alert('We click');
-          $('#mainInfo').load("{{ URL::to('/rooms').'/'.$building_id }}");
-        });
-        $('#hoods_in').on('click', function(){
-          //alert('We click');
-          $('#mainInfo').load("{{ URL::to('/fumehoods').'/'.$room_id }}");
-        });
-
-      });
-      </script>
    
   <div class="navbar-right">
     <ul class="nav navbar-nav">
       <li>
-        <a href="javascript:tileView()">
+        <a id ='toggleTileView' href="#">
           <span class="glyphicon glyphicon-th"></span>
         </a>
       </li>
       <li>
-        <a href="javascript:listView()">
+        <a id = 'toggleListView' href="#">
           <span class="glyphicon glyphicon-th-list"></span>
         </a>
       </li>
     </ul>
   </div>
+  <?php
+    //Get current url for the view toggles
+    $currentURL = "";
+    if($level == 'hood'){
+      $currentURL = URL::to('/hoods/').'/'.$hood_name;
+    }
+    elseif($level == 'fumehoods'){
+      $currentURL = URL::to('/fumehoods').'/'.$room_id;
+    }
+    elseif($level == 'rooms'){
+      $currentURL = URL::to('/rooms').'/'.$building_id;
+    }
+    elseif($level == 'buildings'){
+      $currentURL = URL::to('/buildings');
+    }
+  ?>
+  <script type = 'text/javascript'>
+      $(document).ready(function(){
+        $('#buildings').on('click', function(){
+          $('#mainInfo').load("{{ URL::to('/buildings') }}");
+        });
+        $('#rooms_in').on('click', function(){
+          $('#mainInfo').load("{{ URL::to('/rooms').'/'.$building_id }}");
+        });
+        $('#hoods_in').on('click', function(){
+          $('#mainInfo').load("{{ URL::to('/fumehoods').'/'.$room_id }}");
+        });
+        $('#toggleTileView').on('click', function(){
+          var url = "{{ URL::to('/toggleview/1') }}";
+          //alert(url);
+          $.post(url, '', function(data){
+            //alert("Success!");
+            $('#mainInfo').load("{{$currentURL;}}");
+          });
+        });
+        $('#toggleListView').on('click', function(){
+          var url = "{{ URL::to('/toggleview/0') }}";
+          alert("{{$currentURL;}}");
+          $.post(url, '', function(data){
+            alert("Success!");
+            $('#mainInfo').load("{{$currentURL;}}");
+          });
+        });
+      });
+  </script>
+
 </div>
+
+

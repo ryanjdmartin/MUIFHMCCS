@@ -18,6 +18,7 @@ class HomeController extends BaseController {
 	public function showHome()
 	{
         SystemSettings::getSettings();
+        Session::put('isTileView', true);
 		return View::make('home');
 	}
 	public function showBuildings()
@@ -38,6 +39,11 @@ class HomeController extends BaseController {
 		$room = Room::findOrFail($room_id);
 		$fumehoods = $room->getFumeHoods();
 		return View::make('fumehoods', array('room' => $room, 'fumehoods' => $fumehoods));
+	}
+
+	public function toggleView($tf)
+	{
+		Session::put('isTileView', $tf);
 	}
 
 	
