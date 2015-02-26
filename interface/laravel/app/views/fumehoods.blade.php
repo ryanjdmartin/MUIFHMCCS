@@ -1,5 +1,5 @@
 <div class="main">
-@include('navbars.main-nav', array('level' => 'rooms', 'object' => $room))
+@include('navbars.main-nav', array('level' => 'fumehoods', 'object' => $room))
   <div class="main-view">
     @if(Session::get('isTileView') == 1)
       <div class="spinner-container" id="spinner" ></div>
