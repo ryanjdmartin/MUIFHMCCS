@@ -84,14 +84,16 @@ class Notification extends Eloquent {
     The highest notification class is returned for each fumehood.*/
     public static function roomNotificationStatus($room_id){
         $ret = array('alert' => 0, 'critical' => 0);
-        $query = "SELECT class, count(class) AS cnt FROM
-                    (SELECT class FROM notifications 
-                    INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name
-                    WHERE fume_hoods.room_id = $room_id
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time)
-                AS n GROUP BY class"; 
+        $query = "SELECT class, count(class) as cnt from 
+                    (SELECT class, fume_hood_name from 
+                        (SELECT class, fume_hood_name, measurement_time FROM notifications 
+                        INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name 
+                        WHERE fume_hoods.room_id = $room_id
+                        GROUP BY class,type,fume_hood_name 
+                        HAVING max(measurement_time) 
+                        ORDER BY class DESC, measurement_time) 
+                    as a GROUP BY fume_hood_name) 
+                as b GROUP BY class";
 
         foreach (DB::select($query) as $row){
             $ret[$row->class] = $row->cnt;       
@@ -103,15 +105,17 @@ class Notification extends Eloquent {
     The highest notification class is returned for each fumehood.*/
     public static function buildingNotificationStatus($building_id){
         $ret = array('alert' => 0, 'critical' => 0);
-        $query = "SELECT class, count(class) AS cnt FROM
-                    (SELECT class FROM notifications 
-                    INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name
-                    INNER JOIN rooms ON fume_hoods.room_id = rooms.id
-                    WHERE rooms.building_id = $building_id
-                    GROUP BY fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time)
-                AS n GROUP BY class"; 
+        $query = "SELECT class, count(class) as cnt from 
+                    (SELECT class, fume_hood_name from 
+                        (SELECT class, fume_hood_name, measurement_time FROM notifications 
+                        INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name 
+                        INNER JOIN rooms ON fume_hoods.room_id = rooms.id 
+                        WHERE rooms.building_id = $building_id 
+                        GROUP BY class,type,fume_hood_name 
+                        HAVING max(measurement_time) 
+                        ORDER BY class DESC, measurement_time) 
+                    as a GROUP BY fume_hood_name) 
+                as b GROUP BY class";
 
         foreach (DB::select($query) as $row){
             $ret[$row->class] = $row->cnt;       
