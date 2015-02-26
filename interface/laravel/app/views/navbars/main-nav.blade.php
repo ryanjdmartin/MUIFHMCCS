@@ -10,13 +10,13 @@
             $hood = $object;
             $hood_name = $hood->name;
             $breadcrumbs = "<a id = 'hood' style = 'color:#9d9d9d;' href = '#'>".$hood->name."</a>";
-            $object = Room::findOrFail($hood->name);
+            $object = Room::findOrFail($hood->room_id);
             $slash = "<font color = '#9d9d9d'> / </font>";
           case 'fumehoods':
             $room = $object;
             $room_id = $room->id;
             $breadcrumbs = "<a id = 'hoods_in' style = 'color:#9d9d9d;' href = '#'>".$room->name."</a>".$slash.$breadcrumbs;
-            $object = Building::findOrFail($room->id);
+            $object = Building::findOrFail($room->building_id);
             $slash = "<font color = '#9d9d9d'> / </font>";
           case 'rooms':
             $building = $object;
