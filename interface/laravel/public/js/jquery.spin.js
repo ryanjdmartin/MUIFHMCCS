@@ -73,10 +73,10 @@ $('#el').spin('flower', 'red');
 
   $.fn.spin.presets = {
     tile: {
-          lines: 13,
-          length: 15,
+          lines: 11,
+          length: 10,
           width: 5,
-          radius: 23,
+          radius: 15,
           trail: 60,
           shadow: true,
           hwaccel: true,

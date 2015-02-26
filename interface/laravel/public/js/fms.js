@@ -46,5 +46,19 @@ function loadChart(id, url, callback){
             callback();
         }
     });
-
 }
+
+function streamData(spinner, url, id, last_id){
+  $.get(url+(id == 0 ? '' : '/'+id)+'/'+last_id, '', function(data){
+    if (data.status){
+        $('#'+spinner).before(data.content);
+        $('#tile'+data.id).fadeIn(700);
+        streamData(spinner, url, id, data.id);
+    } else {
+        setTimeout(function(){
+            $('#'+spinner).spin(false).hide();
+        }, 200);
+    }
+  });
+}
+

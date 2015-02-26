@@ -1,37 +1,29 @@
- <div class="main">
-
+<div class="main">
 @include('navbars.main-nav', array('level' => 'rooms', 'object' => $building))
-<?php $building_id = $building->id; ?>
-	<div class="main-view">
-	<h1>Rooms in Building {{$building_id}}</h1>
-
-	<?php
-	foreach($rooms as $room)
-	{
-		$name = $room->name;
-		$id = $room->id;
-		$contact = $room->contact;
-	?>
-
-		<div class="btn-group btn-group-vertical" style="margin-right:10px">
-	        <button class="btn btn-primary btn-lg" type ='button' id = {{"room$id"}} style="width: 200px; height:100px; margin-bottom:0px; border-top-right-radius:6px;"\>
-	        	{{$name}}</button> 
-	        <button class="btn btn-info btn-lg" style="width: 200px;
-	          height:50px; margin-bottom: 20px;border-bottom-left-radius:6px">Alerts</button> 
-	     </div>
-	     	<script type = 'text/javascript'>
-			$(document).ready(function(){
-				$('{{"#room$id"}}').on('click', function(){
-					//alert('We click');
-					//var login_form = $('#login_form').serializeArray();
-					var url = "{{ URL::to('/fumehoods/').'/'.$id }}";
-					//alert(url);
-					$.get(url, '', function(data){
-						$('#mainInfo').html(data);
-					});
-				});
-			});
-		</script>
-	<?php } ?>
+  <div class="main-view">
+    @if(Session::get('isTileView') == 1)
+      <div class="spinner-container" id="spinner" ></div>
+    @else
+        LIST VIEW
+    @endif
+  </div>
 </div>
-</div>
+
+<script type = 'text/javascript'>
+$(document).ready(function(){
+  $("#update_time").text("{{date("Y-m-d H:i:s")}}");
+  setTimeout(function(){
+    var url = "{{ URL::to('/rooms/').'/'.$building->id }}";
+    $.get(url, '', function(data){
+        $('#mainInfo').html(data);
+    });
+  }, 900000);
+
+@if(Session::get('isTileView') == 1)
+  $('#spinner').spin('tile');
+@else
+  $('#spinner').spin('list');
+@endif
+  streamData("spinner", "{{ URL::to('/rooms/stream/') }}", {{$building->id}}, 0);
+});
+</script>
