@@ -46,7 +46,7 @@
 				  });
                 </script>
                 <br>
-                Updated At: {{ max($n->updated_at, $n->measurement_time) }}
+                Updated At: {{ max($n->updated_time, $n->measurement_time) }}
               </td>
             </tr>
           @endforeach

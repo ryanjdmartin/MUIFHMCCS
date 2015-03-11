@@ -70,19 +70,19 @@ class FumeHoodsTableSeeder extends Seeder {
         FumeHood::create(array('name' => '0001',
             'model' => 'Test Model',
             'install_date' => date('Y-m-d'),
-            'maintenence_date' => date('Y-m-d'),
+            'maintenance_date' => date('Y-m-d'),
             'notes' => 'Test Hood 1',
             'room_id' => 1));
         FumeHood::create(array('name' => '0002',
             'model' => 'Test Model',
             'install_date' => date('Y-m-d'),
-            'maintenence_date' => date('Y-m-d'),
+            'maintenance_date' => date('Y-m-d'),
             'notes' => 'Test Hood 2',
             'room_id' => 1));
         FumeHood::create(array('name' => '0003',
             'model' => 'Test Model',
             'install_date' => date('Y-m-d'),
-            'maintenence_date' => date('Y-m-d'),
+            'maintenance_date' => date('Y-m-d'),
             'notes' => 'Test Hood 3',
             'room_id' => 2));
     }

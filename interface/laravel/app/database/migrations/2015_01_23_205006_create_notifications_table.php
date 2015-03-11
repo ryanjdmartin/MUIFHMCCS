@@ -23,8 +23,11 @@ class CreateNotificationsTable extends Migration {
             $table->enum('class', array('alert', 'critical'));
             $table->dateTime('measurement_time');
             $table->string('type', 100);
-            $table->string('status', 10)->default('new');
-            $table->text('note');
+            $table->enum('status', array('new', 'acknowledged', 'resolved'))->default('new');
+            $table->integer('updated_by')->unsigned();
+            $table->foreign('updated_by')    
+                ->references('id')->on('users');
+            $table->dateTime('updated_time');
 			$table->timestamps();
 		});
 	}
