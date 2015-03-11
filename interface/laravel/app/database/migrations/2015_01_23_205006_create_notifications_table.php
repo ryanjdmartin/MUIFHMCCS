@@ -24,7 +24,7 @@ class CreateNotificationsTable extends Migration {
             $table->dateTime('measurement_time');
             $table->string('type', 100);
             $table->enum('status', array('new', 'acknowledged', 'resolved'))->default('new');
-            $table->integer('updated_by')->unsigned();
+            $table->integer('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')    
                 ->references('id')->on('users');
             $table->dateTime('updated_time');
