@@ -23,7 +23,7 @@ class CreateFumehoodsTable extends Migration {
                 ->onUpdate('cascade');
             $table->string('model');
             $table->date('install_date');
-            $table->date('maintenence_date');
+            $table->date('maintenance_date');
 			$table->text('notes');
 			$table->timestamps();
 		});

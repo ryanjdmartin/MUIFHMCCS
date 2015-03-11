@@ -16,7 +16,7 @@
           <table class="table table-bordered table-striped">
             <tr><td><b>Model: </b>{{$hood->model}}</td></tr>
             <tr><td><b>Install Date: </b>{{$hood->install_date}}</td></tr>
-            <tr><td><b>Last Maintenence Date: </b>{{max($hood->maintenence_date, $hood->install_date)}}</td></tr>
+            <tr><td><b>Last Maintenance Date: </b>{{max($hood->maintenance_date, $hood->install_date)}}</td></tr>
             @if ($room->contact)
             <tr><td><b>Room Contact: </b>{{$room->contact}}<br></td></tr>
             @endif
@@ -64,7 +64,7 @@
                     <span class="glyphicon glyphicon-comment"></span>
                   </span>
                   <br>
-                  Updated At: {{ ($n->updated_at > $n->measurement_time ? $n->updated_at : $n->measurement_time) }}
+                  Updated At: {{ max($n->updated_time, $n->measurement_time) }}
                 </td>
               </tr>
             @endforeach
