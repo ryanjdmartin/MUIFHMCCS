@@ -28,7 +28,17 @@
                 <br>
                 <span class="badge">{{ strtoupper($n->status) }}</span>
                 <span class="pull-right">
-                  <span class="glyphicon glyphicon-comment"></span>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        Actions <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu pull-right">
+                        <li><a href="#">Mark as Acknowledged</a></li>
+                        <li><a href="#">Mark as Resolved</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Dismiss</a></li>
+                      </ul>
+                    </div>
                 </span>
                 <br>
                 <? $f = FumeHood::where('name', $n->fume_hood_name)->firstOrFail(); ?>

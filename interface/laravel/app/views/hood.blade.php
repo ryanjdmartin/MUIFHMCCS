@@ -80,7 +80,7 @@
       <td id="velocity" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Recent Velocity Activity</h3>
+          <h3 class="panel-title">Velocity: Last 24 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
             <canvas id="velocity_chart" width="300" height="300"></canvas>
@@ -90,26 +90,28 @@
        </div>
       </td>
 
-      <td id="sash" style="padding-right:15px; vertical-align:top; display:none">
+      <td id="alarm" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Recent Sash Activity</h3>
+          <h3 class="panel-title">Alarm Flag: Last 24 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
-            <canvas id="sash_chart" width="300" height="300"></canvas>
+            <div class='badge center-block' style='margin-top: 5px'>1: Alarm Raised</div>
+            <canvas id="alarm_chart" width="300" height="277"></canvas>
             <button class="btn btn-primary btn-xs" style="margin:10px">View Full Graph</button>
           </div>
         </div>
        </div>
       </td>
 
-      <td id="alarm" style="padding-right:15px; vertical-align:top; display:none">
+      <td id="sash" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Recent Alarm Flag Activity</h3>
+          <h3 class="panel-title">Overnight Sash Activity: Last 10 days</h3>
         </div>
           <div class="panel-fumehood-body">
-            <canvas id="alarm_chart" width="300" height="300"></canvas>
+            <div class='badge center-block' style='margin-top: 5px'>1: Up (Open), 0: Down (Closed)</div>
+            <canvas id="sash_chart" width="300" height="277"></canvas>
             <button class="btn btn-primary btn-xs" style="margin:10px">View Full Graph</button>
           </div>
         </div>
@@ -122,14 +124,13 @@
 
       <script type="text/javascript">
       $(document).ready(function(){
-        //Re-run all this stuff every 15 mins?
         $('#spinner').spin('graph');
-        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/100' }}", function(){
+        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/95' }}", function(){
             $("#velocity").delay(500).fadeIn();
-            loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/100' }}", function(){
-                $("#sash").delay(500).fadeIn();
-                loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/100' }}", function(){
-                    $("#alarm").delay(500).fadeIn();
+            loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/95' }}", function(){
+                $("#alarm").delay(500).fadeIn();
+                loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/10' }}", function(){
+                    $("#sash").delay(500).fadeIn();
                     $('#spinner').spin(false);
                     $('#spinner').hide();
                 });

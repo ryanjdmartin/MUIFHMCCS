@@ -18,7 +18,7 @@ class FumeHoodController extends BaseController {
 
     public function getSashData($hood_id, $limit)
     {
-        return Response::json(Measurement::getSashData($hood_id, $limit));
+        return Response::json(Measurement::getOvernightSashData($hood_id, $limit));
     }
 
     public function getAlarmData($hood_id, $limit)
