@@ -29,7 +29,7 @@ CREATE TABLE `buildings` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (1,'AN Bourns Science Building','ABB','2015-02-24 18:39:01','2015-02-24 18:39:01');
+INSERT INTO `buildings` VALUES (1,'AN Bourns Science Building','ABB','2015-03-11 21:43:50','2015-03-11 21:43:50');
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `fume_hoods` (
   `room_id` int(10) unsigned NOT NULL,
   `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `install_date` date NOT NULL,
-  `maintenence_date` date NOT NULL,
+  `maintenance_date` date NOT NULL,
   `notes` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -93,7 +93,7 @@ CREATE TABLE `fume_hoods` (
   UNIQUE KEY `fume_hoods_name_unique` (`name`),
   KEY `fume_hoods_room_id_foreign` (`room_id`),
   CONSTRAINT `fume_hoods_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `fume_hoods` (
 
 LOCK TABLES `fume_hoods` WRITE;
 /*!40000 ALTER TABLE `fume_hoods` DISABLE KEYS */;
-INSERT INTO `fume_hoods` VALUES (4,'0001',1,'Test Model','2015-02-24','2015-02-24','Test Hood 1','2015-02-24 18:39:01','2015-02-24 18:39:01'),(5,'0002',1,'Test Model','2015-02-24','2015-02-24','Test Hood 2','2015-02-24 18:39:01','2015-02-24 18:39:01'),(6,'0003',2,'Test Model','2015-02-24','2015-02-24','Test Hood 3','2015-02-24 18:39:01','2015-02-24 18:39:01');
+INSERT INTO `fume_hoods` VALUES (1,'0001',1,'Test Model','2015-03-11','2015-03-11','Test Hood 1','2015-03-11 21:43:50','2015-03-11 21:43:50'),(2,'0002',1,'Test Model','2015-03-11','2015-03-11','Test Hood 2','2015-03-11 21:43:50','2015-03-11 21:43:50'),(3,'0003',2,'Test Model','2015-03-11','2015-03-11','Test Hood 3','2015-03-11 21:43:50','2015-03-11 21:43:50');
 /*!40000 ALTER TABLE `fume_hoods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `measurements` (
   PRIMARY KEY (`id`),
   KEY `measurements_fume_hood_name_foreign` (`fume_hood_name`),
   CONSTRAINT `measurements_fume_hood_name_foreign` FOREIGN KEY (`fume_hood_name`) REFERENCES `fume_hoods` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,6 +134,7 @@ CREATE TABLE `measurements` (
 
 LOCK TABLES `measurements` WRITE;
 /*!40000 ALTER TABLE `measurements` DISABLE KEYS */;
+INSERT INTO `measurements` VALUES (1,'0001',0,20.00,'2015-03-11 17:43:50','2015-03-11 21:43:50','2015-03-11 21:43:50',0),(2,'0001',0,21.00,'2015-03-11 22:43:58','2015-03-11 21:43:51','2015-03-11 21:43:51',0),(3,'0001',0,22.00,'2015-03-22 17:43:58','2015-03-11 21:43:53','2015-03-11 21:43:53',0),(4,'0001',1,21.00,'2015-03-22 22:43:58','2015-03-11 21:43:54','2015-03-11 21:43:54',0),(5,'0001',1,21.00,'2015-03-24 17:43:58','2015-03-11 21:43:55','2015-03-11 21:43:55',1),(6,'0001',0,22.00,'2015-03-24 22:43:58','2015-03-11 21:43:56','2015-03-11 21:43:56',0),(7,'0001',0,23.00,'2015-03-26 17:43:58','2015-03-11 21:43:57','2015-03-11 21:43:57',1),(8,'0001',0,22.00,'2015-03-26 22:43:58','2015-03-11 21:43:58','2015-03-11 21:43:58',0),(9,'0001',1,0.00,'2015-03-11 22:43:58','0000-00-00 00:00:00','0000-00-00 00:00:00',0),(10,'0001',0,0.00,'2015-03-26 22:43:58','0000-00-00 00:00:00','0000-00-00 00:00:00',0),(11,'0001',0,0.00,'2015-03-26 22:43:58','0000-00-00 00:00:00','0000-00-00 00:00:00',0),(12,'0001',0,0.00,'2015-03-11 22:43:58','0000-00-00 00:00:00','0000-00-00 00:00:00',0),(13,'0001',1,0.00,'2015-03-11 22:43:58','0000-00-00 00:00:00','0000-00-00 00:00:00',0);
 /*!40000 ALTER TABLE `measurements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,14 +206,17 @@ CREATE TABLE `notifications` (
   `class` enum('alert','critical') COLLATE utf8_unicode_ci NOT NULL,
   `measurement_time` datetime NOT NULL,
   `type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
-  `note` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` enum('new','acknowledged','resolved') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
+  `updated_by` int(10) unsigned DEFAULT NULL,
+  `updated_time` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `notifications_fume_hood_name_foreign` (`fume_hood_name`),
-  CONSTRAINT `notifications_fume_hood_name_foreign` FOREIGN KEY (`fume_hood_name`) REFERENCES `fume_hoods` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `notifications_updated_by_foreign` (`updated_by`),
+  CONSTRAINT `notifications_fume_hood_name_foreign` FOREIGN KEY (`fume_hood_name`) REFERENCES `fume_hoods` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `notifications_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +225,7 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` VALUES (5,'0001','alert','2015-02-24 13:39:01','Velocity Low','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(6,'0001','critical','2015-02-24 13:39:01','Velocity Low','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(7,'0002','alert','2015-02-24 13:39:01','Velocity High','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(8,'0002','alert','2015-02-24 13:39:01','Sash Up Overnight','new','','2015-02-24 18:39:01','2015-02-24 18:39:01'),(9,'0001','alert','2015-02-24 13:39:01','Sash Up Overnight','new','','2015-02-24 18:39:01','2015-02-24 18:39:01');
+INSERT INTO `notifications` VALUES (1,'0001','alert','2015-03-11 17:43:50','Velocity Low','new',NULL,'0000-00-00 00:00:00','2015-03-11 21:43:50','2015-03-11 21:43:50'),(2,'0001','critical','2015-03-11 17:43:50','Velocity Low','new',NULL,'0000-00-00 00:00:00','2015-03-11 21:43:50','2015-03-11 21:43:50'),(3,'0002','alert','2015-03-11 17:43:50','Velocity High','new',NULL,'0000-00-00 00:00:00','2015-03-11 21:43:50','2015-03-11 21:43:50'),(4,'0002','alert','2015-03-11 17:43:50','Sash Up Overnight','new',NULL,'0000-00-00 00:00:00','2015-03-11 21:43:50','2015-03-11 21:43:50'),(5,'0001','alert','2015-03-11 17:43:50','Sash Up Overnight','new',NULL,'0000-00-00 00:00:00','2015-03-11 21:43:50','2015-03-11 21:43:50');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +271,7 @@ CREATE TABLE `rooms` (
   PRIMARY KEY (`id`),
   KEY `rooms_building_id_foreign` (`building_id`),
   CONSTRAINT `rooms_building_id_foreign` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +280,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (1,'101','lab_abb101@mcmaster.ca',1,'2015-02-24 18:39:01','2015-02-24 18:39:01'),(2,'102','ex55555',1,'2015-02-24 18:39:01','2015-02-24 18:39:01');
+INSERT INTO `rooms` VALUES (1,'101','lab_abb101@mcmaster.ca',1,'2015-03-11 21:43:50','2015-03-11 21:43:50'),(2,'102','ex55555',1,'2015-03-11 21:43:50','2015-03-11 21:43:50');
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +302,7 @@ CREATE TABLE `system_settings` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +311,7 @@ CREATE TABLE `system_settings` (
 
 LOCK TABLES `system_settings` WRITE;
 /*!40000 ALTER TABLE `system_settings` DISABLE KEYS */;
-INSERT INTO `system_settings` VALUES (3,110.00,10.00,100.00,20.00,24.00,6.00,'2015-02-24 18:39:00','2015-02-24 18:39:00');
+INSERT INTO `system_settings` VALUES (1,110.00,10.00,100.00,20.00,24.00,6.00,'2015-03-11 21:43:49','2015-03-11 21:43:49');
 /*!40000 ALTER TABLE `system_settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,7 +338,7 @@ CREATE TABLE `user_types` (
 
 LOCK TABLES `user_types` WRITE;
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` VALUES (1,'user','2015-02-24 18:39:01','2015-02-24 18:39:01'),(2,'admin','2015-02-24 18:39:01','2015-02-24 18:39:01');
+INSERT INTO `user_types` VALUES (1,'user','2015-03-11 21:43:50','2015-03-11 21:43:50'),(2,'admin','2015-03-11 21:43:50','2015-03-11 21:43:50');
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +361,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_user_type_id_foreign` (`user_type_id`),
   CONSTRAINT `users_user_type_id_foreign` FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +370,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (3,'administrator@fms.mcmaster.ca','$2y$10$Er4YXsHmI9y7vzpqkwaJFelVVVCOj8rZcsi/5jJfdHNtuhuhB3Ynm',NULL,'2015-02-24 18:39:01','2015-02-24 18:39:01',2);
+INSERT INTO `users` VALUES (1,'administrator@fms.mcmaster.ca','$2y$10$F9rekPyBeFoR2sg3EjE44ucMPAo6iOJhMabwwdyOtZzUxXtrtuy7e',NULL,'2015-03-11 21:43:50','2015-03-11 21:43:50',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -379,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-24 13:41:06
+-- Dump completed on 2015-03-16 21:03:16
