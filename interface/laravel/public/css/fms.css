@@ -74,6 +74,9 @@ body {
 .opt {
     background-color: green !important;
 }
+.blue {
+    background-color: #337ab7 !important;
+}
 /* For just glyphs */
 .text-danger {
     color: red !important;
@@ -115,6 +118,12 @@ body {
 }
 
 .notifications {
+}
+
+.notification-menu {
+}
+.notification-menu>li>a {
+    padding: 0px 10px;
 }
 
 .notifications table {

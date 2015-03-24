@@ -13,8 +13,8 @@ $(document).ready(function() {
       $(this).removeClass('open');
 
     //Enable popovers and tooltips
-    $("[rel='tooltip']").tooltip();
-    $("[rel='popover']").popover({trigger:'hover', html:true});
+    $("[data-toggle='tooltip']").tooltip();
+    $("[data-toggle='popover']").popover({trigger:'hover', html:true});
     });
 
 });

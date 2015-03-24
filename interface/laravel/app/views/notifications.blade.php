@@ -25,22 +25,20 @@
             @endif
                   <b>{{ $n->type }}</b>
                 </span>
+                <button type="button" class="close"><span>&times;</span></button>
                 <br>
-                <span class="badge">{{ strtoupper($n->status) }}</span>
-                <span class="pull-right">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                        Actions <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu pull-right">
-                        <li><a href="#">Mark as Acknowledged</a></li>
-                        <li><a href="#">Mark as Resolved</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Dismiss</a></li>
-                      </ul>
-                    </div>
-                </span>
-                <br>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: bold; font-size; padding: 5px 10px">
+                    Status: {{ ucfirst($n->status) }}
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu notification-menu">
+                    <li><a href="#">Mark as Acknowledged</a></li>
+                    <li><a href="#">Mark as Resolved</a></li>
+                  </ul>
+                </div>
+                </p>
+                <p>
                 <? $f = FumeHood::where('name', $n->fume_hood_name)->firstOrFail(); ?>
                 <a href="#" id="notification_link{{$n->id}}">{{ $f->getBuilding()->abbv }}  
                     {{ $f->getRoom()->name }} Fumehood {{ $n->fume_hood_name }}</a>
@@ -57,6 +55,7 @@
                 </script>
                 <br>
                 Updated At: {{ max($n->updated_time, $n->measurement_time) }}
+                </p>
               </td>
             </tr>
           @endforeach
