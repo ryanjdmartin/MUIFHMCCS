@@ -36,7 +36,7 @@ class Notification extends Eloquent {
     public static function getHoodNotifications($hood_id){
         $hood = FumeHood::find($hood_id);
         $query = "SELECT * FROM notifications 
-                    WHERE fume_hood_name = ".$hood->name."
+                    WHERE fume_hood_name = '".$hood->name."'
                     GROUP BY class, type, fume_hood_name
                     HAVING max(measurement_time)
                     ORDER BY class DESC, measurement_time"; 
@@ -68,7 +68,7 @@ class Notification extends Eloquent {
         $ret = array('alert' => 0, 'critical' => 0);
         $query = "SELECT class, count(class) AS cnt FROM
                     (SELECT class FROM notifications 
-                    WHERE fume_hood_name = ".$hood->name."
+                    WHERE fume_hood_name = '".$hood->name."'
                     GROUP BY class, type, fume_hood_name
                     HAVING max(measurement_time)
                     ORDER BY class DESC, measurement_time)
