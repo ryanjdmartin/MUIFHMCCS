@@ -25,6 +25,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
 
     Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
+    Route::post('/notifications/dismiss', array('as' >= 'notifications.dismiss', 'uses' => 'NotificationsController@dismissNotification'));
 
     Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
     Route::get('/buildings/stream/{last_id}', array('as' >= 'buildings.stream', 'uses' => 'HomeController@streamBuildings'));
