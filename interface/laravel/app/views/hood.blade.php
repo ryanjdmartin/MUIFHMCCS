@@ -40,34 +40,36 @@
       <td style="padding-right:15px; vertical-align:top;">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Current Notifications</h3>
+          <h3 class="panel-title">Notification History</h3>
         </div>
          <div class="panel-fumehood-body">
           <table class="table table-bordered">
-            @foreach ($notifications as $n)
-              @if ($n->class == 'critical')
-              <tr>
-                <td class='alert-danger'>
-                  <span class='text-danger'>
-                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-              @elseif ($n->class == 'alert')
-              <tr>
-                <td class='alert-warning'>
-                  <span class='text-warning'>
-                    <span class="glyphicon glyphicon-info-sign"></span>
-              @endif
-                    <b>{{ $n->type }}</b>
-                  </span>
+          @foreach ($notifications as $n)
+            <tr>
+            @if ($n->class == 'critical')
+              <td class='alert-danger'>
+                <span class='text-danger'>
+                  <span class="glyphicon glyphicon-exclamation-sign"></span>
+            @elseif ($n->class == 'alert')
+              <td class='alert-warning'>
+                <span class='text-warning'>
+                  <span class="glyphicon glyphicon-info-sign"></span>
+            @endif
+                  <b>{{ $n->type }}</b>
+                </span>
+                <br>
+                  <span class='badge blue'>{{ strtoupper($n->status) }}</span>
+                </p>
+                <p>
+                Updated At: {{ max($n->updated_time, $n->measurement_time) }}
+                @if ($n->updated_by)
                   <br>
-                  <span class="badge">{{ strtoupper($n->status) }}</span>
-                  <span class="pull-right">
-                    <span class="glyphicon glyphicon-comment"></span>
-                  </span>
-                  <br>
-                  Updated At: {{ max($n->updated_time, $n->measurement_time) }}
-                </td>
-              </tr>
-            @endforeach
+                  {{ ucfirst($n->status) }} By: {{ User::find($n->updated_by)->email }}
+                @endif
+                </p>
+              </td>
+            </tr>
+          @endforeach
             <tr></tr>
           </table>
          </div>
@@ -107,7 +109,7 @@
       <td id="sash" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Overnight Sash Activity: Last 10 days</h3>
+          <h3 class="panel-title">Overnight Sash Activity: Last Week</h3>
         </div>
           <div class="panel-fumehood-body">
             <div class='badge center-block' style='margin-top: 5px'>1: Up (Open), 0: Down (Closed)</div>
@@ -129,7 +131,7 @@
             $("#velocity").delay(500).fadeIn();
             loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/95' }}", function(){
                 $("#alarm").delay(500).fadeIn();
-                loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/10' }}", function(){
+                loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/7' }}", function(){
                     $("#sash").delay(500).fadeIn();
                     $('#spinner').spin(false);
                     $('#spinner').hide();

@@ -3,11 +3,11 @@
 	        {{$room->getBuilding()->abbv}} {{$room->name}} Fumehood {{$fumehood->name}}
           </button> 
 	      <div class="list-group-item">
-            <? $counts = Notification::countHoodNotifications($fumehood->id); ?>
+            <? $status = Notification::hoodNotificationStatus($fumehood->id); ?>
             Status:
-            @if ($counts['critical'])
+            @if ($status == 'critical')
               <span class="badge danger"><span class="glyphicon glyphicon-exclamation-sign"></span></span>
-            @elseif ($counts['alert'])
+            @elseif ($status == 'alert')
               <span class="badge warning"><span class="glyphicon glyphicon-info-sign"></span></span>
             @else
               <span class="badge opt"><span class="glyphicon glyphicon-ok-circle"></span></span>

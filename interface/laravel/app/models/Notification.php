@@ -10,10 +10,16 @@ class Notification extends Eloquent {
 	protected $table = 'notifications';
 
     public static function getNotifications(){
-        $query = "SELECT * FROM notifications 
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time"; 
+        $query = "SELECT * FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    ORDER BY class DESC, measurement_time DESC"; 
 
         return DB::select($query);
     }
@@ -29,26 +35,29 @@ class Notification extends Eloquent {
      * the same lengthy error).
      */
     public static function getUserNotifications($user_id){
-        $query = "SELECT * FROM 
-                    (SELECT * FROM notifications 
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time) 
-                AS n WHERE n.id NOT IN 
+        $query = "SELECT * FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    WHERE n.id NOT IN 
                     (SELECT notification_id FROM dismissed_notifications
-                    WHERE user_id = $user_id)";
+                      WHERE user_id = $user_id)
+                    ORDER BY class DESC, measurement_time DESC"; 
 
         return DB::select($query);
     }
 
-    /* Gets all notifications for a fumehood, unfiltered by user. */
+    /* Gets all historical notifications for a fumehood, unfiltered by user. */
     public static function getHoodNotifications($hood_id){
         $hood = FumeHood::find($hood_id);
-        $query = "SELECT * FROM notifications 
+        $query = "SELECT * FROM notifications
                     WHERE fume_hood_name = '".$hood->name."'
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time"; 
+                    ORDER BY measurement_time DESC"; 
 
         return DB::select($query);
     }
@@ -56,15 +65,19 @@ class Notification extends Eloquent {
     public static function countUserNotifications($user_id){
         $ret = array('alert' => 0, 'critical' => 0);
           
-        $query = "SELECT class, COUNT(class) AS cnt FROM 
-                    (SELECT * FROM notifications 
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time) 
-                AS n WHERE n.id NOT IN 
+        $query = "SELECT class, COUNT(class) AS cnt FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    WHERE n.id NOT IN 
                     (SELECT notification_id FROM dismissed_notifications
-                    WHERE user_id = $user_id)
-                GROUP BY class";
+                      WHERE user_id = $user_id)
+                    GROUP BY class"; 
 
         foreach (DB::select($query) as $row){
             $ret[$row->class] = $row->cnt;       
@@ -72,40 +85,51 @@ class Notification extends Eloquent {
         return $ret;
     }
 
-    public static function countHoodNotifications($hood_id){
+    public static function hoodNotificationStatus($hood_id){
         $hood = FumeHood::find($hood_id);
-        $ret = array('alert' => 0, 'critical' => 0);
-        $query = "SELECT class, count(class) AS cnt FROM
-                    (SELECT class FROM notifications 
-                    WHERE fume_hood_name = '".$hood->name."'
-                    GROUP BY class, type, fume_hood_name
-                    HAVING max(measurement_time)
-                    ORDER BY class DESC, measurement_time)
-                AS n GROUP BY class"; 
+        $query = "SELECT class, COUNT(class) AS cnt FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
+                        WHERE fume_hood_name = '".$hood->name."'
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    GROUP BY class
+                    ORDER BY class DESC"; 
 
         foreach (DB::select($query) as $row){
-            $ret[$row->class] = $row->cnt;       
+            if ($row->cnt)
+                return $row->class;
         }
-        return $ret;
+        return 'opt';
     }
 
     /* Returns a count of which fumehoods have *any* notifications.
     The highest notification class is returned for each fumehood.*/
     public static function roomNotificationStatus($room_id){
         $ret = array('alert' => 0, 'critical' => 0);
-        $query = "SELECT class, count(class) as cnt from 
-                    (SELECT class, fume_hood_name from 
-                        (SELECT class, fume_hood_name, measurement_time FROM notifications 
+        $query = "SELECT c, COUNT(c) AS cnt FROM
+                    (SELECT max(class) as c, fume_hood_name FROM
+                    (SELECT class, n.fume_hood_name FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
                         INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name 
                         WHERE fume_hoods.room_id = $room_id
-                        GROUP BY class,type,fume_hood_name 
-                        HAVING max(measurement_time) 
-                        ORDER BY class DESC, measurement_time) 
-                    as a GROUP BY fume_hood_name) 
-                as b GROUP BY class";
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    ORDER BY class DESC) as a
+                    GROUP BY fume_hood_name) as b
+                    GROUP BY c"; 
 
         foreach (DB::select($query) as $row){
-            $ret[$row->class] = $row->cnt;       
+            $ret[$row->c] = $row->cnt;       
         }
         return $ret;
     }
@@ -114,20 +138,26 @@ class Notification extends Eloquent {
     The highest notification class is returned for each fumehood.*/
     public static function buildingNotificationStatus($building_id){
         $ret = array('alert' => 0, 'critical' => 0);
-        $query = "SELECT class, count(class) as cnt from 
-                    (SELECT class, fume_hood_name from 
-                        (SELECT class, fume_hood_name, measurement_time FROM notifications 
+        $query = "SELECT c, COUNT(c) AS cnt FROM
+                    (SELECT max(class) as c, fume_hood_name FROM
+                    (SELECT class, n.fume_hood_name FROM notifications n
+                    INNER JOIN 
+                    (SELECT type, fume_hood_name, max(measurement_time) m
+                        FROM notifications
                         INNER JOIN fume_hoods ON fume_hood_name = fume_hoods.name 
                         INNER JOIN rooms ON fume_hoods.room_id = rooms.id 
                         WHERE rooms.building_id = $building_id 
-                        GROUP BY class,type,fume_hood_name 
-                        HAVING max(measurement_time) 
-                        ORDER BY class DESC, measurement_time) 
-                    as a GROUP BY fume_hood_name) 
-                as b GROUP BY class";
+                        GROUP BY type, fume_hood_name)
+                    AS s
+                    ON s.type = n.type
+                        AND s.fume_hood_name = n.fume_hood_name
+                        AND s.m = n.measurement_time
+                    ORDER BY class DESC) as a
+                    GROUP BY fume_hood_name) as b
+                    GROUP BY c"; 
 
         foreach (DB::select($query) as $row){
-            $ret[$row->class] = $row->cnt;       
+            $ret[$row->c] = $row->cnt;       
         }
         return $ret;
     }
