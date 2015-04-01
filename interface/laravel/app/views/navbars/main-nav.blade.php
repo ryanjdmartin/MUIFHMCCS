@@ -29,7 +29,7 @@
         echo $breadcrumbs;
       ?>
    
-  <div class="navbar-right">
+  <div class="navbar-right pull-right">
     <ul class="nav navbar-nav">
       <li>
         <a id ='toggleTileView' href="#">

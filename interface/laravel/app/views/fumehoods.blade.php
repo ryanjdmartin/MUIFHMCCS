@@ -5,25 +5,21 @@
       <div class="spinner-container" id="spinner" ></div>
     @else
       <?php $fumehoods = FumeHood::where('room_id', '=', $room->id)->get();?>
-      <table class = 'table'>
+      <table class = 'table table-bordered table-condensed'>
       <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>room_id</th>
-        <th>model</th>
-        <th>install_date</th>
-        <th>maintenance_date</th>
-        <th>notes</th>
+        <th>Fume Hood</th>   
+        <th>Model</th>
+        <th>Install Date</th>
+        <th>Maintenance Date</th>
+        <th>Notes</th>
       </tr>
       @foreach($fumehoods as $fumehood)
   
         <tr>
-          <td>{{$fumehood->id;}}</td>
           <td><a id = "fumehood{{$fumehood->id}}" href = '#' >{{$fumehood->name;}}</a></td>
-          <td>{{$fumehood->room_id;}}</td>
           <td>{{$fumehood->model;}}</td>
           <td>{{$fumehood->install_date;}}</td>
-          <td>{{$fumehood->maintenence_date;}}</td>
+          <td>{{$fumehood->maintenance_date;}}</td>
           <td>{{$fumehood->notes;}}</td>
         </tr>
         <script type = 'text/javascript'>
