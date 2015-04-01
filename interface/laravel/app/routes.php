@@ -20,6 +20,9 @@ Route::get('/logout', array('as' => 'user.logout', 'uses' => 'UserController@log
 Route::controller('password', 'RemindersController');
 
 Route::get('/monitor', array('as' >= 'monitor', 'uses' => 'HomeController@showMonitor'));
+Route::post('/hood/velocity/{hood_id}/{limit}', array('as' >= 'hood.velocity', 'uses' => 'FumeHoodController@getVelocityData'));
+Route::post('/hood/sash/{hood_id}/{limit}', array('as' >= 'hood.sash', 'uses' => 'FumeHoodController@getSashData'));
+Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' => 'FumeHoodController@getAlarmData'));
 
 //Logged-in routes here
 Route::group(array('before' => 'auth'), function() {
@@ -40,9 +43,6 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/fumehoods/stream/{room_id}/{last_id}', array('as' >= 'fumehoods.stream', 'uses' => 'HomeController@streamFumeHoods'));
 
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
-    Route::post('/hood/velocity/{hood_id}/{limit}', array('as' >= 'hood.velocity', 'uses' => 'FumeHoodController@getVelocityData'));
-    Route::post('/hood/sash/{hood_id}/{limit}', array('as' >= 'hood.sash', 'uses' => 'FumeHoodController@getSashData'));
-    Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' => 'FumeHoodController@getAlarmData'));
     //Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
 
     Route::post('/toggleview/{tf}', array('as' >= 'toggleview', 'uses' => 'HomeController@toggleView'));

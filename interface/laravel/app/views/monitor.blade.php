@@ -80,9 +80,11 @@
                     </p>
                     <p>
                     Updated At: {{ max($n->updated_time, $n->measurement_time) }}
+                    <br>
                     @if ($n->updated_by)
-                      <br>
                       {{ ucfirst($n->status) }} By: {{ User::find($n->updated_by)->email }}
+                    @else
+                      <br>
                     @endif
                     </p>
                   <? $data = Measurement::where('fume_hood_name', $n->fume_hood_name)->orderBy('measurement_time', 'desc')->first(); ?>
