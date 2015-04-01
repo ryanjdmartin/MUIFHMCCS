@@ -28,6 +28,7 @@ class NotificationsController extends BaseController {
         $n = Notification::find($id);
         $n->status = $status;
         $n->updated_by = Auth::User()->id;
+        $n->measurement_time = new DateTime('now');
         $n->save();
 
         Session::flash('msg', 'Notification updated.');

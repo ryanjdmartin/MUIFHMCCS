@@ -39,11 +39,11 @@
                 <br>
                 <div class="btn-group">
                   @if ($n->status == 'resolved')
-                    <button type="button" class="btn btn-primary" style="font-weight: bold; font-size; padding: 2px 10px" disabled>
+                    <button type="button" class="btn btn-primary" style="font-weight: bold; padding: 2px 10px; margin-left:-2px" disabled>
                       Status: {{ ucfirst($n->status) }}
                     </button>
                   @else
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: bold; font-size; padding: 2px 10px">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: bold; padding: 2px 10px; margin-left: -2px">
                       Status: {{ ucfirst($n->status) }}
                       <span class="caret"></span>
                     </button>

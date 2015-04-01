@@ -68,4 +68,19 @@ class HomeController extends BaseController {
         }
         return Response::json($result);
 	}
+
+	public function showMonitor()
+	{
+        $notifications = Notification::getNotifications();
+        $critical = [];
+        $alert = [];
+        foreach ($notifications as $n){
+            if ($n->class == 'critical' && $n->status != 'resolved')
+                $critical[] = $n;
+            else if ($n->class == 'alert' && $n->status != 'resolved')
+                $alert[] = $n;
+        }
+
+	    return View::make('monitor', array('critical' => $critical, 'alert' => $alert));
+	}
 }

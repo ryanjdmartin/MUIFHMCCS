@@ -9,6 +9,15 @@ class Notification extends Eloquent {
 	 */
 	protected $table = 'notifications';
 
+    public static function getNotifications(){
+        $query = "SELECT * FROM notifications 
+                    GROUP BY class, type, fume_hood_name
+                    HAVING max(measurement_time)
+                    ORDER BY class DESC, measurement_time"; 
+
+        return DB::select($query);
+    }
+
     /** 
      * Gets all pertinent notifications, then 
      * filters out by the current user's dismissed list.

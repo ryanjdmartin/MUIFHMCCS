@@ -19,6 +19,8 @@ Route::group(array('before' => 'guest'), function() {
 Route::get('/logout', array('as' => 'user.logout', 'uses' => 'UserController@logout'));
 Route::controller('password', 'RemindersController');
 
+Route::get('/monitor', array('as' >= 'monitor', 'uses' => 'HomeController@showMonitor'));
+
 //Logged-in routes here
 Route::group(array('before' => 'auth'), function() {
     Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
