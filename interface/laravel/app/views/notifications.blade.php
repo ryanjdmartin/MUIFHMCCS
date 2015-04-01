@@ -38,14 +38,22 @@
                 @endif
                 <br>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: bold; font-size; padding: 5px 10px">
-                    Status: {{ ucfirst($n->status) }}
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu notification-menu">
-                    <li><a href="#">Mark as Acknowledged</a></li>
-                    <li><a href="#">Mark as Resolved</a></li>
-                  </ul>
+                  @if ($n->status == 'resolved')
+                    <button type="button" class="btn btn-primary" style="font-weight: bold; font-size; padding: 2px 10px" disabled>
+                      Status: {{ ucfirst($n->status) }}
+                    </button>
+                  @else
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: bold; font-size; padding: 2px 10px">
+                      Status: {{ ucfirst($n->status) }}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu notification-menu">
+                      @if ($n->status == 'new')
+                        <li><a href="#" onClick='ackNotification({{$n->id}})'>Mark as Acknowledged</a></li>
+                      @endif
+                      <li><a href="#" onClick='resNotification({{$n->id}})'>Mark as Resolved</a></li>
+                    </ul>
+                  @endif
                 </div>
                 </p>
                 <p>
@@ -65,6 +73,10 @@
                 </script>
                 <br>
                 Updated At: {{ max($n->updated_time, $n->measurement_time) }}
+                @if ($n->updated_by)
+                  <br>
+                  {{ ucfirst($n->status) }} By: {{ User::find($n->updated_by)->email }}
+                @endif
                 </p>
               </td>
             </tr>
@@ -94,7 +106,7 @@
   </div>
 </div>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="notification-dismiss">
+<div class="modal fade" tabindex="-1" id="notification-dismiss">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -110,6 +122,52 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary" onClick='$("#dismiss-form").submit();'>Dismiss</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ Form::open(array('url' => 'notifications/status', 'id' => 'status-form')) }}
+  <input type='hidden' name='id' id='status-id' value=''>
+  <input type='hidden' name='status' id='status-type' value=''>
+{{ Form::close() }}
+
+<div class="modal fade" tabindex="-1" id="notification-acknowledge">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+        <h4 class="modal-title">Mark Notification as Acknowledged?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Mark this notification status as Acknowledged?</p>
+        <p>New notifications will send emails to users periodically as long as the issue persists. 
+        Marking a notification as Acknowledged will stop it from sending periodic emails.</p>
+        <p>This change will be visible to all users.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onClick='$("#status-form").submit();'>Mark as Acknowledged</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="notification-resolve">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+        <h4 class="modal-title">Mark Notification as Resolved?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Mark this notification status as Resolved?</p>
+        <p>A critical notification marked as resolved can be dismissed by all users. If the issue that originally caused this notification arises again, a New notification will be created by the system.</p>
+        <p>This change will be visible to all users.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onClick='$("#status-form").submit();'>Mark as Resolved</button>
       </div>
     </div>
   </div>
@@ -131,5 +189,15 @@
     function dismissNotification(id){
         $("#dismiss-id").val(id);
         $("#notification-dismiss").modal('show');
+    }
+    function ackNotification(id){
+        $("#status-id").val(id);
+        $("#status-type").val('acknowledged');
+        $("#notification-acknowledge").modal('show');
+    }
+    function resNotification(id){
+        $("#status-id").val(id);
+        $("#status-type").val('resolved');
+        $("#notification-resolve").modal('show');
     }
   </script>  	
