@@ -82,6 +82,17 @@ $('#el').spin('flower', 'red');
           hwaccel: true,
           position: 'relative'
     },
+    list: {
+          lines: 11,
+          length: 10,
+          width: 5,
+          radius: 5,
+          trail: 60,
+          shadow: true,
+          hwaccel: true,
+          position: 'relative'
+
+    },
     graph: {
           lines: 13,
           length: 20,

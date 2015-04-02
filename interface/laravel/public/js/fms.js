@@ -50,13 +50,22 @@ function loadChart(id, url, callback){
 
 function streamData(spinner, url, id, last_id){
   $.get(url+(id == 0 ? '' : '/'+id)+'/'+last_id, '', function(data){
+
     if (data.status){
-        $('#'+spinner).before(data.content);
-        $('#tile'+data.id).fadeIn(700);
+        if(data.isTileView){
+          $('#'+spinner).before(data.content);
+          $('#tile'+data.id).fadeIn(700);
+        }
+        else{
+          $('#insert' + last_id).html(data.content);
+          $('<tr id = "insert' + data.id + '"> </tr>').insertAfter('#insert' + last_id);
+          $('#list'+data.id).fadeIn(700);
+        }
         streamData(spinner, url, id, data.id);
     } else {
         setTimeout(function(){
             $('#'+spinner).spin(false).hide();
+            //$('#insert').hide();
         }, 200);
     }
   });
