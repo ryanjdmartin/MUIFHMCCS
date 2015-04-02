@@ -65,7 +65,7 @@ function streamData(spinner, url, id, last_id){
     } else {
         setTimeout(function(){
             $('#'+spinner).spin(false).hide();
-            //$('#insert').hide();
+            $('#insert').hide();
         }, 200);
     }
   });

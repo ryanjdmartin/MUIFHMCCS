@@ -4,36 +4,16 @@
     @if(Session::get('isTileView') == 1)
       <div class="spinner-container" id="spinner" ></div>
     @else
-      <?php $fumehoods = FumeHood::where('room_id', '=', $room->id)->get();?>
       <table class = 'table table-bordered table-condensed'>
-      <tr>
-        <th>Fume Hood</th>   
-        <th>Model</th>
-        <th>Install Date</th>
-        <th>Maintenance Date</th>
-        <th>Notes</th>
-      </tr>
-      @foreach($fumehoods as $fumehood)
-  
         <tr>
-          <td><a id = "fumehood{{$fumehood->id}}" href = '#' >{{$fumehood->name;}}</a></td>
-          <td>{{$fumehood->model;}}</td>
-          <td>{{$fumehood->install_date;}}</td>
-          <td>{{$fumehood->maintenance_date;}}</td>
-          <td>{{$fumehood->notes;}}</td>
+          <th>Fume Hood</th>   
+          <th>Status</th>
+          <th>Current Velocity</th>
+          <th>Notes</th>
         </tr>
-        <script type = 'text/javascript'>
-        $(document).ready(function(){
-          $('{{"#fumehood".$fumehood->id}}').on('click', function(){
-            var url = "{{ URL::to('/hood/').'/'.$fumehood->id}}";
-            $.get(url, '', function(data){
-              $('#mainInfo').html(data);
-            });
-          });
-        });
-        </script>
-      @endforeach
-    </table>
+        <tr id = 'insert0'> </tr>
+        <tr id = 'insert' style='border-style:hidden'><td colspan=7 style='border-style:hidden'><div id="spinner" style='height:20px'></div></td></tr>
+      </table>
     @endif
   </div>
 </div>

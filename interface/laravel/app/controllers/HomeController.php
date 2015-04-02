@@ -38,11 +38,10 @@ class HomeController extends BaseController {
 	        ->where('fume_hoods.id', '>', $last_id)->first();
 	        if($fumehood){
 	        	$notifications = Notification::countHoodNotifications($fumehood->id);
-	        	//$data['velocity'] = 22;
-	        	//$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
+	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
 	        	$result['status'] = 1;
 				$result['content'] = View::make('parts.building-list-item', 
-										array('fumehood' => $fumehood, 'notifications' => $notifications))->render();
+										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
 				$result['id'] = $fumehood->id;
 	        }
 
@@ -69,6 +68,24 @@ class HomeController extends BaseController {
 			    $result['content'] = View::make('parts.room-tile', array('building' => $building, 'room' => $room))->render();
 	            $result['id'] = $room->id;
 	        }
+		}
+		else{
+			$result = array('status' => 0, 'content' => '', 'id' => 0, 'isTileView' => 0 );
+	        $fumehood = DB::table('fume_hoods')            
+	        ->leftJoin('rooms', 'rooms.id', '=', 'fume_hoods.room_id')
+	        ->select('fume_hoods.id', 'fume_hoods.name', 'fume_hoods.room_id', 'rooms.name as room_name',
+	            'fume_hoods.model', 'fume_hoods.install_date', 
+	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
+	        ->where('fume_hoods.id', '>', $last_id)->first();
+	        if($fumehood){
+	        	$notifications = Notification::countHoodNotifications($fumehood->id);
+	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
+	        	$result['status'] = 1;
+				$result['content'] = View::make('parts.room-list-item', 
+										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
+				$result['id'] = $fumehood->id;
+	        }
+
 		}
 
         return Response::json($result);
@@ -97,6 +114,24 @@ class HomeController extends BaseController {
 	            $result['id'] = $fumehood->id;
 	        }
     	}
+    	else{
+			$result = array('status' => 0, 'content' => '', 'id' => 0, 'isTileView' => 0 );
+	        $fumehood = DB::table('fume_hoods')            
+	        ->select('fume_hoods.id', 'fume_hoods.name', 'fume_hoods.room_id',
+	            'fume_hoods.model', 'fume_hoods.install_date', 
+	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
+	        ->where('fume_hoods.id', '>', $last_id)->first();
+	        if($fumehood){
+	        	$notifications = Notification::countHoodNotifications($fumehood->id);
+	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
+	        	$result['status'] = 1;
+				$result['content'] = View::make('parts.fumehood-list-item', 
+										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
+				$result['id'] = $fumehood->id;
+	        }
+
+		}
+
         return Response::json($result);
 	}
 }
