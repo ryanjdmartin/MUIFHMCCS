@@ -37,11 +37,11 @@ class HomeController extends BaseController {
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
 	        ->where('fume_hoods.id', '>', $last_id)->first();
 	        if($fumehood){
-	        	$notifications = Notification::countHoodNotifications($fumehood->id);
+	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
 	        	$result['status'] = 1;
 				$result['content'] = View::make('parts.building-list-item', 
-										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
+										array('fumehood' => $fumehood, 'status' => $status, 'data' => $data))->render();
 				$result['id'] = $fumehood->id;
 	        }
 
@@ -78,11 +78,11 @@ class HomeController extends BaseController {
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
 	        ->where('fume_hoods.id', '>', $last_id)->first();
 	        if($fumehood){
-	        	$notifications = Notification::countHoodNotifications($fumehood->id);
+	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
 	        	$result['status'] = 1;
 				$result['content'] = View::make('parts.room-list-item', 
-										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
+										array('fumehood' => $fumehood, 'status' => $status, 'data' => $data))->render();
 				$result['id'] = $fumehood->id;
 	        }
 
@@ -122,11 +122,11 @@ class HomeController extends BaseController {
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
 	        ->where('fume_hoods.id', '>', $last_id)->first();
 	        if($fumehood){
-	        	$notifications = Notification::countHoodNotifications($fumehood->id);
+	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
 	        	$result['status'] = 1;
 				$result['content'] = View::make('parts.fumehood-list-item', 
-										array('fumehood' => $fumehood, 'notifications' => $notifications, 'data' => $data))->render();
+										array('fumehood' => $fumehood, 'status' => $status, 'data' => $data))->render();
 				$result['id'] = $fumehood->id;
 	        }
 
