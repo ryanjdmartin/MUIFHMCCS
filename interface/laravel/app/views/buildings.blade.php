@@ -22,14 +22,6 @@
 
 <script type = 'text/javascript'>
 $(document).ready(function(){
-  $("#update_time").text("{{date("Y-m-d H:i:s")}}");
-  setTimeout(function(){
-    var url = "{{ URL::to('/buildings') }}";
-    $.get(url, '', function(data){
-        $('#mainInfo').html(data);
-    });
-  }, 900000);
-
 @if(Session::get('isTileView') == 1)
   $('#spinner').spin('tile');
 @else
