@@ -83,9 +83,9 @@ $('#el').spin('flower', 'red');
           position: 'relative'
     },
     list: {
-          lines: 11,
-          length: 10,
-          width: 5,
+          lines: 9,
+          length: 5,
+          width: 2,
           radius: 5,
           trail: 60,
           shadow: true,
