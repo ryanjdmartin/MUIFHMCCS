@@ -35,7 +35,7 @@ class HomeController extends BaseController {
 	        	'buildings.id as building_id', 'buildings.abbv as building_name',
 	            'fume_hoods.model', 'fume_hoods.install_date', 
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
-	        ->where('fume_hoods.id', '>', $last_id)->first();
+	        ->where('fume_hoods.id', '>', $last_id)->take(1)->first();
 	        if($fumehood){
 	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
@@ -76,7 +76,7 @@ class HomeController extends BaseController {
 	        ->select('fume_hoods.id', 'fume_hoods.name', 'fume_hoods.room_id', 'rooms.name as room_name',
 	            'fume_hoods.model', 'fume_hoods.install_date', 
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
-	        ->where('fume_hoods.id', '>', $last_id)->first();
+	        ->where('fume_hoods.id', '>', $last_id)->where('rooms.building_id', $building_id)->take(1)->first();
 	        if($fumehood){
 	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
@@ -120,7 +120,7 @@ class HomeController extends BaseController {
 	        ->select('fume_hoods.id', 'fume_hoods.name', 'fume_hoods.room_id',
 	            'fume_hoods.model', 'fume_hoods.install_date', 
 	            'fume_hoods.maintenance_date', 'fume_hoods.notes' )
-	        ->where('fume_hoods.id', '>', $last_id)->first();
+	        ->where('fume_hoods.id', '>', $last_id)->where('fume_hoods.room_id', $room_id)->take(1)->first();
 	        if($fumehood){
 	        	$status = Notification::hoodNotificationStatus($fumehood->id);
 	        	$data = Measurement::where('fume_hood_name', $fumehood->name)->orderBy('measurement_time', 'desc')->first();
