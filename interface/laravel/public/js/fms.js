@@ -67,7 +67,7 @@ function doStreamData(spinner, url, id, last_id, timestamp){
   }
 
   $.get(url+(id == 0 ? '' : '/'+id)+'/'+last_id, '', function(data){
-    if (data.status){
+    if (timestamp == gTimestamp && data.status){
         if(data.isTileView){
           $('#'+spinner).before(data.content);
           $('#tile'+data.id).fadeIn(700);
