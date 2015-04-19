@@ -4,7 +4,7 @@
     @if(Session::get('isTileView') == 1)
       <div class="spinner-container" id="spinner" ></div>
     @else
-    	<table class = 'table table-bordered table-condensed'>
+    	<table class = 'table table-bordered table-condensed table-striped table-hover'>
 			<tr>
 			 	<th>Building</th>
 		    <th>Room</th>
@@ -12,9 +12,8 @@
         <th>Status</th>
         <th>Current Velocity</th>
         <th>Notes</th>
-		 	</tr>
-		 	<tr id = 'insert0'> </tr>
-		 	<tr id = 'insert' style='border-style:hidden'><td colspan=7 style='border-style:hidden'><div id="spinner" style='height:20px'></div></td></tr>
+        </tr>
+        <tr id = 'insert' style='border-style:hidden'><td colspan=6 style='border-style:hidden'><div id="spinner" style='height:20px'></div></td></tr>
 	 	</table>
     @endif
   </div>
@@ -27,6 +26,6 @@ $(document).ready(function(){
 @else
   $('#spinner').spin('list');
 @endif
-  streamData("spinner", "{{ URL::to('/buildings/stream/') }}", 0, 0);
+  streamData("spinner", "{{ URL::to('/buildings/stream/') }}", 0);
 });
 </script>

@@ -48,26 +48,37 @@ function loadChart(id, url, callback){
     });
 }
 
-function streamData(spinner, url, id, last_id){
-  $.get(url+(id == 0 ? '' : '/'+id)+'/'+last_id, '', function(data){
+//Global check for stream. Set globally every time this function is called
+var gTimestamp = $.now();
 
+//Public function
+function streamData(spinner, url, id){
+    gTimestamp = $.now();
+    doStreamData(spinner, url, id, 0, gTimestamp);
+}
+
+//Private recursive function
+function doStreamData(spinner, url, id, last_id, timestamp){
+  if (timestamp != gTimestamp){
+    $('#'+spinner).spin(false).hide();
+    $('#insert').hide();
+    return;
+  }
+
+  $.get(url+(id == 0 ? '' : '/'+id)+'/'+last_id, '', function(data){
     if (data.status){
         if(data.isTileView){
           $('#'+spinner).before(data.content);
           $('#tile'+data.id).fadeIn(700);
         }
         else{
-          $('#insert' + last_id).html(data.content);
-          $('<tr id = "insert' + data.id + '"> </tr>').insertAfter('#insert' + last_id);
+          $('#insert').before(data.content);
           $('#list'+data.id).fadeIn(700);
         }
-        streamData(spinner, url, id, data.id);
+        doStreamData(spinner, url, id, data.id, timestamp);
     } else {
-        setTimeout(function(){
-            $('#'+spinner).spin(false).hide();
-            $('#insert').hide();
-        }, 200);
+        $('#'+spinner).spin(false).hide();
+        $('#insert').hide();
     }
   });
 }
-

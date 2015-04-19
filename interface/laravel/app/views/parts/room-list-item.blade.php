@@ -1,4 +1,5 @@
-	<td><a id = "room{{$fumehood->room_id}}" href = '#'>{{$fumehood->room_name;}}</a></td>
+  <tr style='display:none' id='list{{$fumehood->id}}'>
+	<td><a id = "list{{$fumehood->id}}-room{{$fumehood->room_id}}" href = '#'>{{$fumehood->room_name;}}</a></td>
 	<td><a id = "fumehood{{$fumehood->id}}" href = '#' >{{$fumehood->name;}}</a></td>
 	<td>
             @if ($status == 'critical')
@@ -16,18 +17,19 @@
 		@endif
 	</td>
 	<td>{{$fumehood->notes;}}</td>
+  </tr>
 <script type = 'text/javascript'>
 $(document).ready(function(){			
-	$('{{"#room".$fumehood->room_id}}').on('click', function(){
+	$('#list{{$fumehood->id."-room".$fumehood->room_id}}').on('click', function(){
         var url = "{{ URL::to('/fumehoods/').'/'.$fumehood->room_id}}";
         $.get(url, '', function(data){
           $('#mainInfo').html(data);
         });
       });
-	$('{{"#fumehood".$fumehood->id}}').on('click', function(){
+	$('#{{"fumehood".$fumehood->id}}').on('click', function(){
 		var url = "{{ URL::to('/hood/').'/'.$fumehood->id}}";
 		$.get(url, '', function(data){
-			$('#mainInfo').html(data);
+		  $('#mainInfo').html(data);
 		});
 	});
 });
