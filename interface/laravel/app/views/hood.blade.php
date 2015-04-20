@@ -82,11 +82,11 @@
       <td id="velocity" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Velocity: Last 24 Hours</h3>
+          <h3 class="panel-title">Velocity: Last 8 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
             <canvas id="velocity_chart" width="300" height="300"></canvas>
-            <button class="btn btn-primary btn-xs" style="margin:10px">View Full Graph</button>
+            <button class="btn btn-primary btn-xs" style="margin:10px" onClick='fullGraph("velocity")'>View Full Graph</button>
           </div>
         </div>
        </div>
@@ -95,12 +95,12 @@
       <td id="alarm" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Alarm Flag: Last 24 Hours</h3>
+          <h3 class="panel-title">Alarm Flag: Last 8 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
             <div class='badge center-block' style='margin-top: 5px'>1: Alarm Raised</div>
             <canvas id="alarm_chart" width="300" height="277"></canvas>
-            <button class="btn btn-primary btn-xs" style="margin:10px">View Full Graph</button>
+            <button class="btn btn-primary btn-xs" style="margin:10px" onClick='fullGraph("alarm")'>View Full Graph</button>
           </div>
         </div>
        </div>
@@ -114,7 +114,7 @@
           <div class="panel-fumehood-body">
             <div class='badge center-block' style='margin-top: 5px'>1: Up (Open), 0: Down (Closed)</div>
             <canvas id="sash_chart" width="300" height="277"></canvas>
-            <button class="btn btn-primary btn-xs" style="margin:10px">View Full Graph</button>
+            <button class="btn btn-primary btn-xs" style="margin:10px" onClick='fullGraph("sash")'>View Full Graph</button>
           </div>
         </div>
        </div>
@@ -127,20 +127,65 @@
       <script type="text/javascript">
       $(document).ready(function(){
         $('#spinner').spin('graph');
-        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/95' }}", function(){
-            $("#velocity").delay(500).fadeIn();
-            loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/95' }}", function(){
-                $("#alarm").delay(500).fadeIn();
-                loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/7' }}", function(){
-                    $("#sash").delay(500).fadeIn();
+        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/32' }}", function(len){
+            if (len){
+                $("#velocity").delay(500).fadeIn();
+            }
+            loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/32' }}", function(len){
+                if (len){
+                    $("#alarm").delay(500).fadeIn();
+                }
+                loadChart("sash_chart", "{{ URL::to('/hood/sash').'/'.$hood->id.'/7' }}", function(len){
+                    if (len){
+                        $("#sash").delay(500).fadeIn();
+                    }
                     $('#spinner').spin(false);
                     $('#spinner').hide();
                 });
             });
         });
       });
+
+      function fullGraph(type){
+        if (type == 'sash')
+            $('#graph-title').text('Overnight Sash Activity');
+        else if (type == 'velocity')
+            $('#graph-title').text('Velocity Data');
+        else if (type == 'alarm')
+            $('#graph-title').text('Alarm State Data');
+
+        $('#graph-modal').modal('show');  
+        $('#full-spinner').show();
+        $('#full-spinner').spin('graph');
+        loadChart("full_chart", "{{ URL::to('/hood')}}/"+type+"/{{$hood->id.'/0' }}", function(len){
+            setTimeout(function(){
+                if (len){
+                    $("#full_chart_div").fadeIn();
+                }
+                $('#full-spinner').spin(false);
+                $('#full-spinner').hide();
+            }, 500);
+        }, true);
+      }
       </script>
       @endif
       </tr></table>
 	</div>
+</div>
+
+<div class="modal fade" id='graph-modal' tabindex="-1">
+  <div class="modal-dialog modal-lg" style='width: 90%'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">{{$hood->getBuilding()->abbv}} {{$room->name}} Fumehood {{$hood->name}}: <span id='graph-title'></span></h4> 
+      </div>
+      <div class="modal-body">
+        <div id="full-spinner" style='width: 100%; height: 500px;'></div>
+        <div style='width: 100%; overflow-x: auto; display: none' id='full_chart_div'>
+          <canvas id="full_chart" width="100" height="500"></canvas>
+        <div>
+      </div>
+    </div>
+  </div>
 </div>

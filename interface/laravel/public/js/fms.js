@@ -20,7 +20,7 @@ $(document).ready(function() {
 });
 
 //Loads and builds a chart.js line graph in the given canvas id
-function loadChart(id, url, callback){
+function loadChart(id, url, callback, size){
     $.post(url, '', function(ret){
         var ctx = $("#"+id).get(0).getContext("2d");
         var data = { labels: [], 
@@ -35,15 +35,27 @@ function loadChart(id, url, callback){
                     data: []
                 }]};
 
+        var c = 0;
         for (t in ret){
-            data.labels.push(t);
+            if (size || c % 4 == 0)
+                data.labels.push(t);
+            else
+                data.labels.push("");
             data.datasets[0].data.push(ret[t]);
+            c++;
         }
 
-        new Chart(ctx).Line(data);
+        if (size){
+            ctx.canvas.width = data.labels.length*25;
+            new Chart(ctx).Line(data, {pointHitDetectionRadius: 5,
+                    tooltipTemplate: "<%= value %> at <%= label %>"});
+        }else{
+            new Chart(ctx).Line(data, {showTooltips: false, pointDot: false,
+                    tooltipTemplate: "<%= value %> at <%= label %>"});
+        }
 
         if (callback){
-            callback();
+            callback(data.labels.length);
         }
     });
 }
