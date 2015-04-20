@@ -17,9 +17,6 @@
             <tr><td><b>Model: </b>{{$hood->model}}</td></tr>
             <tr><td><b>Install Date: </b>{{$hood->install_date}}</td></tr>
             <tr><td><b>Last Maintenance Date: </b>{{max($hood->maintenance_date, $hood->install_date)}}</td></tr>
-            @if ($room->contact)
-            <tr><td><b>Room Contact: </b>{{$room->contact}}<br></td></tr>
-            @endif
             @if ($hood->notes)
             <tr><td><b>Notes: </b>{{$hood->notes}}<br></td></tr>
             @endif

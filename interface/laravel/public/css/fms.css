@@ -335,3 +335,16 @@ body {
   padding-top: 2px;
   padding-right: 5px;
 }
+
+.manager-table tbody {
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
+}
+.manager-table thead, .manager-table tbody, .manager-table tr, .manager-table td, .manager-table th {
+  display: block;
+}
+.manager-table tbody td, .manager-table thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}

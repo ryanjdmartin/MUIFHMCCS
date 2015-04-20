@@ -56,4 +56,76 @@ class FumeHoodController extends BaseController {
                
         return Response::download($fname, $name, $headers);
     }
+
+    public function showHoodManager(){
+        $buildings = Building::all();
+        $bld_sel = [];
+        foreach ($buildings as $b){
+            $bld_sel[$b->id] = $b->name.' ('.$b->abbv.')';
+        }
+        $rooms = Room::all();
+        return View::make('admin.hoods', array('buildings' => $buildings, 'rooms' => $rooms, 'bld_sel' => $bld_sel));
+    }
+
+    public function addBuilding(){
+    }
+
+    public function updateBuilding(){
+    }
+    
+    public function removeBuilding($id){
+    }
+
+    public function addRoom(){
+    }
+
+    public function removeRoom($id){
+    }
+
+    public function uploadAddRooms(){
+        return Response::json(array('success' => 1));
+    }
+
+    public function uploadAddHoods(){
+        return Response::json(array('success' => 1));
+    }
+
+    public function uploadUpdateHoods(){
+        return Response::json(array('success' => 1));
+    }
+
+    public function uploadRemoveHoods(){
+        return Response::json(array('success' => 1));
+    }
+
+    public function downloadHoods(){
+        $hood = FumeHood::findOrFail($hood_id);
+        $name = $hood->getBuilding()->abbv."_".$hood->getRoom()->name."_fumehood_".$hood->name."_data.csv";
+
+        $data = Measurement::where('fume_hood_name', $hood->name)->orderBy('measurement_time')->get();
+
+        $csv = ['measurement_time,velocity,alarm,sash_up'];
+
+        foreach ($data as $row){
+            $csv[] = $row['measurement_time'].','
+                        .$row['velocity'].','
+                        .$row['alarm'].','
+                        .$row['sash_up'];
+        }
+
+        $fname = storage_path().'/'.time().$name;
+        file_put_contents($fname, implode("\n", $csv));
+        
+        App::finish(function($request, $response) use ($fname)
+        {
+            unlink($fname);
+        });
+
+        $headers = array(
+              'Content-Type: text/csv',
+        );
+               
+        return Response::download($fname, $name, $headers);
+
+    }
 }

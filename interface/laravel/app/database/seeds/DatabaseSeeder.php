@@ -61,11 +61,9 @@ class FumeHoodsTableSeeder extends Seeder {
             'abbv' => 'ABB'));
         Room::create(array('id' => 1,
             'name' => '101',
-            'contact' => 'lab_abb101@mcmaster.ca',
             'building_id' => 1));
         Room::create(array('id' => 2,
             'name' => '102',
-            'contact' => 'ex55555',
             'building_id' => 1));
         FumeHood::create(array('name' => '0001',
             'model' => 'Test Model',

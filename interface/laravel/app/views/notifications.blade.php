@@ -89,7 +89,7 @@
     </div>
   </div>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="notification-dismiss-no">
+<div class="modal fade" tabindex="-1" id="notification-dismiss-no">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
