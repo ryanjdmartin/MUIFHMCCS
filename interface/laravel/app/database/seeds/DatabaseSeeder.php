@@ -41,8 +41,8 @@ class UserTableSeeder extends Seeder {
         UserType::create(array('id' => 1, 'name' => 'user'));
         UserType::create(array('id' => 2, 'name' => 'admin'));
 
-        User::create(array('email' => 'administrator@fms.mcmaster.ca', 
-            'password' => Hash::make('admin'), 
+        User::create(array('email' => 'cr_fhalm@mcmaster.ca', 
+            'password' => Hash::make('u*87bJ3v9#'), 
             'user_type_id' => 2));
     }
 
