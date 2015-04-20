@@ -43,7 +43,6 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/fumehoods/stream/{room_id}/{last_id}', array('as' >= 'fumehoods.stream', 'uses' => 'HomeController@streamFumeHoods'));
 
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
-    //Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
 
     Route::post('/toggleview/{tf}', array('as' >= 'toggleview', 'uses' => 'HomeController@toggleView'));
 });
@@ -54,4 +53,5 @@ Route::group(array('before' => 'admin'), function(){
     Route::post('/users/add', array('as' => 'users.add', 'uses' => 'UserController@addUser'));
     Route::post('/users/edit', array('as' => 'users.edit', 'uses' => 'UserController@editUser'));
     Route::post('/users/delete', array('as' => 'users.delete', 'uses' => 'UserController@deleteUser'));
+    Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
 });

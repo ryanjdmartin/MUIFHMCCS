@@ -28,7 +28,9 @@
             <tr><td><b>Current Velocity: </b>{{$data->velocity}} m/s</td></tr>
             <tr><td><b>Current Sash State: </b>{{$data->sash_up ? 'Up (Open)' : 'Down (Closed)'}}</td></tr>
             <tr><td><b>Current Alarm State: </b>{{$data->alarm ? 'True' : 'False'}}</td></tr>
-            <tr><td><button class="btn btn-primary btn-xs">Download Fumehood Data as CSV</button></td></tr>
+              @if (Auth::user()->isAdmin())
+              <tr><td><a class="btn btn-primary btn-xs" href='{{ URL::to("/hood/download/".$hood->id) }}'>Download Fumehood Data as CSV</a></td></tr>
+              @endif
             @endif
             <tr></tr>
           </table>

@@ -25,4 +25,35 @@ class FumeHoodController extends BaseController {
     {
         return Response::json(Measurement::getAlarmData($hood_id, $limit));
     }
+
+    public function downloadData($hood_id)
+    {
+        $hood = FumeHood::findOrFail($hood_id);
+        $name = $hood->getBuilding()->abbv."_".$hood->getRoom()->name."_fumehood_".$hood->name."_data.csv";
+
+        $data = Measurement::where('fume_hood_name', $hood->name)->orderBy('measurement_time')->get();
+
+        $csv = ['measurement_time,velocity,alarm,sash_up'];
+
+        foreach ($data as $row){
+            $csv[] = $row['measurement_time'].','
+                        .$row['velocity'].','
+                        .$row['alarm'].','
+                        .$row['sash_up'];
+        }
+
+        $fname = storage_path().'/'.time().$name;
+        file_put_contents($fname, implode("\n", $csv));
+        
+        App::finish(function($request, $response) use ($fname)
+        {
+            unlink($fname);
+        });
+
+        $headers = array(
+              'Content-Type: text/csv',
+        );
+               
+        return Response::download($fname, $name, $headers);
+    }
 }
