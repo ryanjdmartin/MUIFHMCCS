@@ -109,7 +109,7 @@ class FumeHoodController extends BaseController {
 
         foreach ($data as $row){
             $csv[] = $row['name'].','
-                        .$row->getRoom()->name().','
+                        .$row->getRoom()->name.','
                         .$row['model'].','
                         .$row['install_date'].','
                         .$row['maintenance_date'].','
