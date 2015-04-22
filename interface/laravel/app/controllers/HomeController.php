@@ -149,4 +149,10 @@ class HomeController extends BaseController {
 
 	    return View::make('monitor', array('critical' => $critical, 'alert' => $alert));
 	}
+
+	public function setToMobile()
+	{
+		Session::put('isTileView', false);
+		return "";
+	}
 }

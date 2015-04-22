@@ -45,6 +45,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
 
     Route::post('/toggleview/{tf}', array('as' >= 'toggleview', 'uses' => 'HomeController@toggleView'));
+    Route::post('/setToMobile', array('as' >= 'setToMobile', 'uses' => 'HomeController@setToMobile'));
 });
 
 //Admin-only routes here
