@@ -10,7 +10,7 @@
 	  <script type="text/javascript">
 	    $(document).ready(function(){
 	    	if(isMobile()){
-	    		load("{{URL::to('/setToMobile')}}");
+	    		$('#mainInfo').load("{{URL::to('/setToMobile')}}");
 
 	    	}
 			alert(isMobile());
