@@ -5,10 +5,12 @@ class SettingsController extends BaseController {
 	public function showSettings()
 	{
         $user_types = array();
+		$setting_values = array();
 		
 		$count = 0;
-        foreach (head(SystemSettings::all())[0] as $key => $value){
+        foreach (SystemSettings::getSettings() as $key => $value){
 			$user_types[$count] = $key;
+			$setting_values[$count] = $value;
 			$count++;
         }
 
