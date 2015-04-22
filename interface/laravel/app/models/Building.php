@@ -21,6 +21,8 @@ class Building extends Eloquent {
         $res = array();
     
         foreach ($this->getRooms() as $room){
+        var_dump($room->getFumeHoods());
+        return;
             array_merge($res, $room->getFumeHoods());
         }
         return $res;

@@ -54,4 +54,20 @@ Route::group(array('before' => 'admin'), function(){
     Route::post('/users/add', array('as' => 'users.add', 'uses' => 'UserController@addUser'));
     Route::post('/users/edit', array('as' => 'users.edit', 'uses' => 'UserController@editUser'));
     Route::post('/users/delete', array('as' => 'users.delete', 'uses' => 'UserController@deleteUser'));
+    Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
+
+    Route::post('/admin/buildings/add', array('as' => 'admin.buildings.add', 'uses' => 'FumeHoodController@addBuilding'));
+    Route::post('/admin/buildings/update', array('as' => 'admin.buildings.update', 'uses' => 'FumeHoodController@updateBuilding'));
+    Route::get('/admin/buildings/remove/{id}', array('as' => 'admin.buildings.remove', 'uses' => 'FumeHoodController@removeBuilding'));
+
+    Route::post('/admin/rooms/add', array('as' => 'admin.rooms.add', 'uses' => 'FumeHoodController@addRoom'));
+    Route::get('/admin/rooms/remove/{id}', array('as' => 'admin.rooms.remove', 'uses' => 'FumeHoodController@removeRoom'));
+
+    Route::get('/admin/hoods', array('as' => 'admin.hoods', 'uses' => 'FumeHoodController@showHoodManager'));
+    Route::post('/admin/upload', array('as' => 'admin.upload', 'uses' => 'FumeHoodController@uploadHoods'));
+    Route::post('/admin/upload/rooms', array('as' => 'admin.upload.rooms', 'uses' => 'FumeHoodController@uploadAddRooms'));
+    Route::post('/admin/upload/add', array('as' => 'admin.upload.add', 'uses' => 'FumeHoodController@uploadAddHoods'));
+    Route::post('/admin/upload/update', array('as' => 'admin.upload.update', 'uses' => 'FumeHoodController@uploadUpdateHoods'));
+    Route::post('/admin/upload/remove', array('as' => 'admin.upload.remove', 'uses' => 'FumeHoodController@uploadRemoveHoods'));
+    Route::post('/admin/download', array('as' => 'admin.download', 'uses' => 'FumeHoodController@downloadHoods'));
 });
