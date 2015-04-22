@@ -229,14 +229,6 @@
         </div>        
       </div>
       <div class='col-md-6'>
-<<<<<<< HEAD
-        <div class='panel panel-default' style='text-align: center'>
-          <div class='panel-heading'>
-            <h4 class='panel-title'>Download Fumehoods</h4>
-          </div>
-          <div class='panel-body'>
-            <a class='btn btn-primary' href='{{route("admin.download")}}'>Download Fumehood CSV</a>
-=======
         <div class='panel panel-default'>
           <div class='panel-heading' style='text-align:center'>
             <h4 class='panel-title'>Download Fumehoods</h4>
@@ -255,7 +247,6 @@
               </div>
             </div>
             {{Form::close()}}
->>>>>>> ryan
           </div>        
         </div>        
       </div>
