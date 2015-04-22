@@ -68,5 +68,5 @@ Route::group(array('before' => 'admin'), function(){
     Route::post('/admin/upload/add', array('as' => 'admin.upload.add', 'uses' => 'FumeHoodController@uploadAddHoods'));
     Route::post('/admin/upload/update', array('as' => 'admin.upload.update', 'uses' => 'FumeHoodController@uploadUpdateHoods'));
     Route::post('/admin/upload/remove', array('as' => 'admin.upload.remove', 'uses' => 'FumeHoodController@uploadRemoveHoods'));
-    Route::get('/admin/download', array('as' => 'admin.download', 'uses' => 'FumeHoodController@downloadHoods'));
+    Route::post('/admin/download', array('as' => 'admin.download', 'uses' => 'FumeHoodController@downloadHoods'));
 });

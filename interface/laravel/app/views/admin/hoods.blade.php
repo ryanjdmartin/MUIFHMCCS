@@ -206,10 +206,10 @@
           <div class='panel-heading'>
             <h4 class='panel-title'>Upload Fumehoods</h4>
           </div>
-          <div class='panel-body' style='padding:0px; padding-bottom: 15px'>
-            {{Form::open(array('url' => 'admin/upload', 'id' => 'form-horizontal'))}}
+          <div class='panel-body'>
+            {{Form::open(array('url' => 'admin/upload', 'class' => 'form-horizontal'))}}
             <div class="form-group">
-              <label class='col-sm-3'>Select CSV File: </label>
+              <label class='col-sm-3 control-label'>Select CSV File: </label>
               <div class="col-sm-6">
               <div class="input-group">
                 <span class="input-group-btn">
@@ -229,12 +229,33 @@
         </div>        
       </div>
       <div class='col-md-6'>
+<<<<<<< HEAD
         <div class='panel panel-default' style='text-align: center'>
           <div class='panel-heading'>
             <h4 class='panel-title'>Download Fumehoods</h4>
           </div>
           <div class='panel-body'>
             <a class='btn btn-primary' href='{{route("admin.download")}}'>Download Fumehood CSV</a>
+=======
+        <div class='panel panel-default'>
+          <div class='panel-heading' style='text-align:center'>
+            <h4 class='panel-title'>Download Fumehoods</h4>
+          </div>
+          <div class='panel-body'>
+            {{Form::open(array('url' => 'admin/download', 'class' => 'form-horizontal'))}}
+            <div class='form-group'>
+              <label class="col-sm-3 control-label">Select Building:</label>
+              <div class="col-sm-9">      
+                  {{Form::select('building_id', $bld_sel, '', array('class' => 'form-control'))}}
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class="col-sm-offset-3 col-sm-9">      
+                <button type='submit' class='btn btn-primary' href='{{route("admin.download")}}'>Download Fumehood CSV</button>
+              </div>
+            </div>
+            {{Form::close()}}
+>>>>>>> ryan
           </div>        
         </div>        
       </div>

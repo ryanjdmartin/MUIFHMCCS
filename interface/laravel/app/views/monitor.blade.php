@@ -90,7 +90,7 @@
                   <? $data = Measurement::where('fume_hood_name', $n->fume_hood_name)->orderBy('measurement_time', 'desc')->first(); ?>
 
                   @if ($data)
-                    <p>Velocity: Last 24 Hours
+                    <p>Airflow: Last 24 Hours
                       <div id="spinner-{{$n->id}}" style='height: 200px'>
                         <canvas id="graph-{{$n->id}}" width="575" height="200"></canvas>
                       </div>

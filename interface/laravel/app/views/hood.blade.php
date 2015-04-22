@@ -22,7 +22,7 @@
             @endif
 
             @if ($data)
-            <tr><td><b>Current Velocity: </b>{{$data->velocity}} m/s</td></tr>
+            <tr><td><b>Current Airflow: </b>{{$data->velocity}} cft/m</td></tr>
             <tr><td><b>Current Sash State: </b>{{$data->sash_up ? 'Up (Open)' : 'Down (Closed)'}}</td></tr>
             <tr><td><b>Current Alarm State: </b>{{$data->alarm ? 'True' : 'False'}}</td></tr>
               @if (Auth::user()->isAdmin())
@@ -81,7 +81,7 @@
       <td id="velocity" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Velocity: Last 8 Hours</h3>
+          <h3 class="panel-title">Airflow: Last 24 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
             <canvas id="velocity_chart" width="300" height="300"></canvas>

@@ -99,18 +99,21 @@ class FumeHoodController extends BaseController {
     }
 
     public function downloadHoods(){
-        $hood = FumeHood::findOrFail($hood_id);
-        $name = $hood->getBuilding()->abbv."_".$hood->getRoom()->name."_fumehood_".$hood->name."_data.csv";
+        $id = Input::get('building_id');
+        $bldg = Building::findOrFail($id);
 
-        $data = Measurement::where('fume_hood_name', $hood->name)->orderBy('measurement_time')->get();
+        $name = $bldg->abbv."_fumehoods_".date("y-m-d_H-i-s").".csv";
+        $data = $bldg->getFumeHoods();
 
-        $csv = ['measurement_time,velocity,alarm,sash_up'];
+        $csv = ['name,room_name,model,install_date,maintenance_date,notes'];
 
         foreach ($data as $row){
-            $csv[] = $row['measurement_time'].','
-                        .$row['velocity'].','
-                        .$row['alarm'].','
-                        .$row['sash_up'];
+            $csv[] = $row['name'].','
+                        .$row->getRoom()->name().','
+                        .$row['model'].','
+                        .$row['install_date'].','
+                        .$row['maintenance_date'].','
+                        .$row['notes'];
         }
 
         $fname = storage_path().'/'.time().$name;
