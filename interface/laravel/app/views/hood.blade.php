@@ -149,7 +149,7 @@
         if (type == 'sash')
             $('#graph-title').text('Overnight Sash Activity');
         else if (type == 'velocity')
-            $('#graph-title').text('Velocity Data');
+            $('#graph-title').text('Airflow Data (cft/min)');
         else if (type == 'alarm')
             $('#graph-title').text('Alarm State Data');
 
