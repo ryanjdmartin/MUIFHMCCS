@@ -153,6 +153,6 @@ class HomeController extends BaseController {
 	public function setToMobile()
 	{
 		Session::put('isTileView', false);
-		return "";
+		return showBuildings();
 	}
 }
