@@ -10,7 +10,7 @@
             @endif
 	</td>
 	<td>@if ($data) 
-			{{$data->velocity}} m/s
+			{{$data->velocity}} cft/min
 		@else
 			N/A
 		@endif

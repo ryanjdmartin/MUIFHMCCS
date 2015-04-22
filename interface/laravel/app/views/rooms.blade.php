@@ -9,7 +9,7 @@
           <th>Room</th>
           <th>Fume Hood</th>   
           <th>Status</th>
-          <th>Current Velocity</th>
+          <th>Current Airflow</th>
           <th>Notes</th>
         </tr>
         <tr id = 'insert' style='border-style:hidden'><td colspan=5 style='border-style:hidden'><div id="spinner" style='height:20px'></div></td></tr>

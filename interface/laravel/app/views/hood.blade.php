@@ -22,7 +22,7 @@
             @endif
 
             @if ($data)
-            <tr><td><b>Current Airflow: </b>{{$data->velocity}} cft/m</td></tr>
+            <tr><td><b>Current Airflow: </b>{{$data->velocity}} cft/min</td></tr>
             <tr><td><b>Current Sash State: </b>{{$data->sash_up ? 'Up (Open)' : 'Down (Closed)'}}</td></tr>
             <tr><td><b>Current Alarm State: </b>{{$data->alarm ? 'True' : 'False'}}</td></tr>
               @if (Auth::user()->isAdmin())
