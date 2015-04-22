@@ -9,12 +9,13 @@
 
 	  <script type="text/javascript">
 	    $(document).ready(function(){
+	    	alert(isMobile());
 	    	if(isMobile()){
 	    		$('#mainInfo').load("{{URL::to('/setToMobile')}}");
 		      $('#notifications').load("{{ URL::to('/notifications') }}");	
 	    	}
 	    	else{
-				alert(isMobile());
+				
 		      $('#mainInfo').load("{{ URL::to('/buildings') }}");
 		      $('#notifications').load("{{ URL::to('/notifications') }}");	
 	    	}
