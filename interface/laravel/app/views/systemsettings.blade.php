@@ -11,21 +11,19 @@
 	    <div class='col-md-8' id='system_settings-list'>
 	      <table class='table table-bordered table-striped table-hover'>
 		<thead>
-		 <tr>
-		  <th>Critical Max Velocity</th>
-		  <th>Critical Min Velocity</th>
-		  <th>Alert Max Velocity</th>
-		  <th>Actions</th>
-		 </tr>
+		<tr>
+			<th>Setting</th>
+			<th>Value</th>
+			<th>Actions</th>
+		</tr>
 		</thead>
 		<tbody>
-        @foreach ($system_settings as $settings_row)
+        @foreach ($settings_list as $setting)
 		  <tr>
-			<td>{{ $settings_row->critical_max_velocity }}</td>
-			<td>{{ $settings_row->critical_min_velocity }}</td>
-			<td>{{ $user_types[2] }}</td>
+			<td>{{ $setting["name"] }}</td>
+			<td>{{ $system_settings->$setting["db_ident"]." ".$setting["units"] }}</td>
 		    <td><div class='btn-group btn-group-xs'>
-			    <button class='btn btn-primary' onClick='openEdit(this,{{ $settings_row->id }});'>Edit</button>
+			    <button class='btn btn-primary' onClick='openEdit(this,{{ $setting["db_ident"] }});'>Edit</button>
 			  </div>
 		   </td>
 		 </tr>
@@ -98,7 +96,7 @@ function openEdit(btn, id){
 		<input class='form-control' name='email' id='edit_email' type='email'>
 	      </div>
 	      <div class='form-group'>
-             {{ Form::select('system_settings_type', $user_types, '', array('class' => 'form-control', 'id' => 'edit_system_settings_type')) }}
+           {{ Form::select('system_settings_type', $settings_list, '', array('class' => 'form-control', 'id' => 'edit_system_settings_type')) }}
 		  </div>
         {{ Form::close() }}
           </div>

@@ -4,17 +4,36 @@ class SettingsController extends BaseController {
 
 	public function showSettings()
 	{
-        $user_types = array();
-		$setting_values = array();
-		
-		$count = 0;
-        foreach (SystemSettings::getSettings() as $key => $value){
-			$user_types[$count] = $key;
-			$setting_values[$count] = $value;
-			$count++;
-        }
 
-		return View::make('systemsettings', array('system_settings' => SystemSettings::all(), 'user_types' => $user_types));
+		$settings_list = array( 
+			array( "db_ident" => "critical_max_velocity", 
+				  "name" => "Critical Max Velocity",
+				  "units" => "ft3/min" 
+				),
+			array( "db_ident" => "critical_min_velocity", 
+				  "name" => "Critical Min Velocity",
+				  "units" => "ft3/min" 
+				),
+			array( "db_ident" => "alert_max_velocity", 
+				  "name" => "Alert Max Velocity",
+				  "units" => "ft3/min" 
+				),
+			array( "db_ident" => "alert_min_velocity", 
+				  "name" => "Alert Min Velocity",
+				  "units" => "ft3/min" 
+				),
+			array( "db_ident" => "critical_resend_hours", 
+				  "name" => "Critical Resend Frequency",
+				  "units" => "hours" 
+				),
+			array( "db_ident" => "alert_resend_hours", 
+				  "name" => "Alert Resend Frequency",
+				  "units" => "hours" 
+				)
+		);
+		
+
+		return View::make('systemsettings', array('system_settings' => SystemSettings::getSettings(), 'settings_list' => $settings_list));
 	}
 
 	public function editSettings()
