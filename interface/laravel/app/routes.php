@@ -54,4 +54,8 @@ Route::group(array('before' => 'admin'), function(){
     Route::post('/users/edit', array('as' => 'users.edit', 'uses' => 'UserController@editUser'));
     Route::post('/users/delete', array('as' => 'users.delete', 'uses' => 'UserController@deleteUser'));
     Route::get('/hood/download/{hood_id}', array('as' >= 'hood.download', 'uses' => 'FumeHoodController@downloadData'));
+	
+	Route::get('/systemsettings', array('as' => 'systemsettings.view', 'uses' => 'SettingsController@showSettings'));
+	Route::post('/systemsettings/edit', array('as' => 'systemsettings.edit', 'uses' => 'SettingsController@editSettings'));
+
 });

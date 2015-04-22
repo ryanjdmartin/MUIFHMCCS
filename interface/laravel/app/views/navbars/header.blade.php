@@ -17,7 +17,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="{{ route('users.view') }}">Manage Users</a></li>
-              <li><a href="#">System Settings</a></li>
+              <li><a href="{{ route('systemsettings.view') }}">System Settings</a></li>
             </ul>
           </li>
           @endif
