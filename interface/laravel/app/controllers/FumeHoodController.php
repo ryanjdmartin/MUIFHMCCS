@@ -67,6 +67,31 @@ class FumeHoodController extends BaseController {
         return View::make('admin.hoods', array('buildings' => $buildings, 'rooms' => $rooms, 'bld_sel' => $bld_sel));
     }
 
+    public function showUpload(){
+        $buildings = Building::all();
+        foreach ($buildings as $b){
+            $bld_sel[$b->id] = $b->name.' ('.$b->abbv.')';
+        }
+        return View::make('admin.csv', array('bld_sel' => $bld_sel));
+    }
+
+    public function streamAllFumeHoods(){
+        $result = array('status' => 0, 'data' => '');
+        
+        $q = DB::table('fume_hoods')
+                ->leftJoin('rooms', 'fume_hoods.room_id', '=', 'rooms.id')
+                ->leftJoin('buildings', 'rooms.building_id', '=', 'buildings.id')
+                ->orderBy('buildings.name')
+                ->orderBy('rooms.name')
+                ->orderBy('fumehoods.name')->get();
+
+        foreach ($q as $f){
+
+        } 
+
+        return Response::json($result);
+    }
+
     public function addBuilding(){
         $name = Input::get('name');
         $abbv = Input::get('abbv');
@@ -189,8 +214,6 @@ class FumeHoodController extends BaseController {
         $maintenance_id = array_search('maintenance_date', $headers);
         $notes_id = array_search('notes', $headers);
 
-        $names = [];
-
         foreach (array_slice($fh, 1) as $line){
             $line = explode(',',$line);
 
@@ -203,10 +226,8 @@ class FumeHoodController extends BaseController {
                         'room_id' => 0);
             if ($room_id !== false)
                 $f['room'] = trim($line[$room_id]);
-            if ($name_id !== false){
+            if ($name_id !== false)
                 $f['name'] = trim($line[$name_id]);
-                $names[] = $f['name'];
-            }
             if ($model_id !== false)
                 $f['model'] = trim($line[$model_id]);
             if ($install_id !== false)
@@ -221,6 +242,10 @@ class FumeHoodController extends BaseController {
                 $add[] = $f;
                 continue;
             }
+
+            $r = Room::where('name', $f['room'])->first();   
+            if ($r)
+                $f['room_id'] = $r->id;
 
             if ($db->name != $f['name']){
                 $update[] = $f;
@@ -243,25 +268,9 @@ class FumeHoodController extends BaseController {
                 continue;
             }
             
-            $r = Room::where('name', $f['room'])->first();   
-            if ($r)
-                $f['room_id'] = $r->id;
-
         }
                    
-        $dbnames = FumeHood::lists('name');
-        
-        $delete = [];
-        foreach (array_diff($dbnames, $names) as $n){
-            $f = FumeHood::where('name', $n)->first();
-            if ($f->getBuilding()->id == $bldg->id){
-                $delete[] = array('room' => $f->getRoom()->name, 
-                    'name' => $f->name,
-                    'id' => $f->id);
-            }
-        }
-         
-        return View::make('admin.upload', array('add' => $add, 'update' => $update, 'delete' => $delete, 'building' => $bldg));
+        return View::make('admin.upload', array('add' => $add, 'update' => $update, 'building' => $bldg));
     }
 
     public function uploadAddHoods(){

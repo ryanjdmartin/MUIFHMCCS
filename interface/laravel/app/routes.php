@@ -42,6 +42,8 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/fumehoods/{room_id}', array('as' >= 'fumehoods', 'uses' => 'HomeController@showFumeHoods'));
     Route::get('/fumehoods/stream/{room_id}/{last_id}', array('as' >= 'fumehoods.stream', 'uses' => 'HomeController@streamFumeHoods'));
 
+    Route::get('/fumehoods/streamall', array('as' >= 'fumehoods.streamall', 'uses' => 'FumeHoodController@streamAllFumeHoods'));
+
     Route::get('/hood/{hood_id}', array('as' >= 'hood', 'uses' => 'FumeHoodController@showHood'));
 
     Route::post('/toggleview/{tf}', array('as' >= 'toggleview', 'uses' => 'HomeController@toggleView'));
@@ -63,6 +65,7 @@ Route::group(array('before' => 'admin'), function(){
     Route::get('/admin/rooms/remove/{id}', array('as' => 'admin.rooms.remove', 'uses' => 'FumeHoodController@removeRoom'));
 
     Route::get('/admin/hoods', array('as' => 'admin.hoods', 'uses' => 'FumeHoodController@showHoodManager'));
+    Route::get('/admin/csv', array('as' => 'admin.csv', 'uses' => 'FumeHoodController@showUpload'));
     Route::post('/admin/upload', array('as' => 'admin.upload', 'uses' => 'FumeHoodController@uploadHoods'));
     Route::post('/admin/upload/add', array('as' => 'admin.upload.add', 'uses' => 'FumeHoodController@uploadAddHoods'));
     Route::post('/admin/upload/update', array('as' => 'admin.upload.update', 'uses' => 'FumeHoodController@uploadUpdateHoods'));
