@@ -28,7 +28,7 @@
         }
         echo $breadcrumbs;
       ?>
-   
+  
   <div class="navbar-right pull-right">
     <ul class="nav navbar-nav">
       <li>
@@ -43,6 +43,17 @@
       </li>
     </ul>
   </div>
+
+  <script>
+    $(document).ready(function(){
+        if(isMobile()){
+            var toggle = document.getElementById('toggleTileView');
+            toggle.style.display = 'none';
+            var toggle = document.getElementById('toggleListView');
+            toggle.style.display = 'none';
+        }
+      });
+  </script>
   <?php
     //Get current url for the view toggles
     $currentURL = "";

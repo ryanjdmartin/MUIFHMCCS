@@ -72,6 +72,7 @@ function streamData(spinner, url, id){
 //Private recursive function
 function doStreamData(spinner, url, id, last_id, timestamp){
   console.log(timestamp + ' -> ' + gTimestamp);
+  console.log(url);
   if (timestamp != gTimestamp){
     $('#'+spinner).spin(false).hide();
     $('#insert').hide();

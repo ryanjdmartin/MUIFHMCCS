@@ -16,7 +16,6 @@ class HomeController extends BaseController {
 
 	public function streamBuildings($last_id)
 	{
-        
 		if(Session::get('isTileView')){
 			$result = array('status' => 0, 'content' => '', 'id' => 0, 'isTileView' => 1);
 	        $building = Building::where('id', '>', $last_id)->take(1)->get()->first();
@@ -150,9 +149,4 @@ class HomeController extends BaseController {
 	    return View::make('monitor', array('critical' => $critical, 'alert' => $alert));
 	}
 
-	public function setToMobile()
-	{
-		Session::put('isTileView', false);
-		return View::make('buildings');
-	}
 }
