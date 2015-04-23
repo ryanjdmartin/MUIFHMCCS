@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{ asset("favicon.ico") }}">
 
-    <title>MUIFHMCCS</title>
+    <title>MacFMS</title>
 
     <!-- Bootstrap core CSS -->
     {{ HTML::style("css/bootstrap.min.css"); }}

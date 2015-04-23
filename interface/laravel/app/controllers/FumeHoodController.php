@@ -68,22 +68,200 @@ class FumeHoodController extends BaseController {
     }
 
     public function addBuilding(){
+        $name = Input::get('name');
+        $abbv = Input::get('abbv');
+        Session::flash('mode', 'building');
+        
+        if (!$name){
+            Session::flash('msg', 'ERROR: Building name must not be blank.');
+            Session::flash('err', 'add');
+            Session::flash('el', 'name');
+            return Redirect::route('admin.hoods')->withInput();
+        }
+        if (!$abbv){
+            Session::flash('msg', 'ERROR: Abbreviation must not be blank.');
+            Session::flash('err', 'add');
+            Session::flash('el', 'abbv');
+            return Redirect::route('admin.hoods')->withInput();
+        }
+
+        $bldg = new Building;
+        $bldg->name = $name;
+        $bldg->abbv = $abbv;
+        $bldg->save();
+
+        Session::flash('msg', "Building added.");
+        return Redirect::route('admin.hoods');
     }
 
     public function updateBuilding(){
+        $name = Input::get('name');
+        $abbv = Input::get('abbv');
+        $id = Input::get('id');
+        Session::flash('mode', 'building');
+        
+        if (!$name){
+            Session::flash('msg', 'ERROR: Building name must not be blank.');
+            Session::flash('err', 'edit');
+            Session::flash('el', 'name');
+            return Redirect::route('admin.hoods')->withInput();
+        }
+        if (!$abbv){
+            Session::flash('msg', 'ERROR: Abbreviation must not be blank.');
+            Session::flash('err', 'edit');
+            Session::flash('el', 'abbv');
+            return Redirect::route('admin.hoods')->withInput();
+        }
+
+        $bldg = Building::find($id);
+        $bldg->name = $name;
+        $bldg->abbv = $abbv;
+        $bldg->save();
+
+        Session::flash('msg', "Building ".$abbv." updated.");
+        return Redirect::route('admin.hoods');
     }
     
     public function removeBuilding($id){
+        $bldg = Building::find($id);
+        $abbv = $bldg->abbv;
+        $bldg->delete();
+
+        Session::flash('msg', "Building ".$abbv." deleted.");
+        return Redirect::route('admin.hoods');
     }
 
     public function addRoom(){
+        $name = Input::get('name');
+        $building_id = Input::get('building_id');
+        Session::flash('mode', 'room');
+        
+        if (!$name){
+            Session::flash('msg', 'ERROR: Room name must not be blank.');
+            Session::flash('err', 'add');
+            Session::flash('el', 'name');
+            return Redirect::route('admin.hoods')->withInput();
+        }
+
+        $room = new Room;
+        $room->name = $name;
+        $room->building_id = $building_id;
+        $room->save();
+
+        Session::flash('msg', "Room added.");
+        return Redirect::route('admin.hoods');
     }
 
     public function removeRoom($id){
+        $room = Room::find($id);
+        $name = $room->getBuilding()->name." ".$room->name;
+        $room->delete();
+
+        Session::flash('msg', "Room ".$name." deleted.");
+        return Redirect::route('admin.hoods');
     }
 
-    public function uploadAddRooms(){
-        return Response::json(array('success' => 1));
+    public function uploadHoods(){
+        $csv = Input::file('csv');
+        $bldg_id = Input::get('building_id');
+        $bldg = Building::find($bldg_id);
+        
+        if (!$csv->isValid()){
+            Session::flash('msg', "File upload failed.");
+            return Redirect::route('admin.hoods');
+        }
+            
+        $fh = file($csv->getRealPath(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        unlink($csv->getRealPath());
+
+        $add = [];
+        $update = [];
+
+        $headers = explode(',', $fh[0]);
+        for ($i = 0; $i < count($headers); $i++){
+            $headers[$i] = trim($headers[$i]);
+        }
+
+        $room_id = array_search('room', $headers);
+        $name_id = array_search('name', $headers);
+        $model_id = array_search('model', $headers);
+        $install_id = array_search('install_date', $headers);
+        $maintenance_id = array_search('maintenance_date', $headers);
+        $notes_id = array_search('notes', $headers);
+
+        $names = [];
+
+        foreach (array_slice($fh, 1) as $line){
+            $line = explode(',',$line);
+
+            $f = array('room' => '', 
+                        'name' => '', 
+                        'model' => '', 
+                        'install_date' => '',
+                        'maintenance_date' => '',
+                        'notes' => '',
+                        'room_id' => 0);
+            if ($room_id !== false)
+                $f['room'] = trim($line[$room_id]);
+            if ($name_id !== false){
+                $f['name'] = trim($line[$name_id]);
+                $names[] = $f['name'];
+            }
+            if ($model_id !== false)
+                $f['model'] = trim($line[$model_id]);
+            if ($install_id !== false)
+                $f['install_date'] = trim($line[$install_id]);
+            if ($maintenance_id !== false)
+                $f['maintenance_date'] = trim($line[$maintenance_id]);
+            if ($notes_id !== false)
+                $f['notes'] = trim($line[$notes_id]);
+            
+            $db = FumeHood::where('name', $f['name'])->first();
+            if (!$db){
+                $add[] = $f;
+                continue;
+            }
+
+            if ($db->name != $f['name']){
+                $update[] = $f;
+                continue;
+            }
+            if ($db->model != $f['model']){
+                $update[] = $f;
+                continue;
+            }
+            if ($db->install_date != $f['install_date']){
+                $update[] = $f;
+                continue;
+            }
+            if ($db->maintenance_date != $f['maintenance_date']){
+                $update[] = $f;
+                continue;
+            }
+            if ($db->notes != $f['notes']){
+                $update[] = $f;
+                continue;
+            }
+            
+            $r = Room::where('name', $f['room'])->first();   
+            if ($r)
+                $f['room_id'] = $r->id;
+
+        }
+                   
+        $dbnames = FumeHood::lists('name');
+        
+        $delete = [];
+        foreach (array_diff($dbnames, $names) as $n){
+            $f = FumeHood::where('name', $n)->first();
+            if ($f->getBuilding()->id == $bldg->id){
+                $delete[] = array('room' => $f->getRoom()->name, 
+                    'name' => $f->name,
+                    'id' => $f->id);
+            }
+        }
+         
+        return View::make('admin.upload', array('add' => $add, 'update' => $update, 'delete' => $delete, 'building' => $bldg));
     }
 
     public function uploadAddHoods(){
@@ -94,7 +272,7 @@ class FumeHoodController extends BaseController {
         return Response::json(array('success' => 1));
     }
 
-    public function uploadRemoveHoods(){
+    public function uploadRemoveHood($id){
         return Response::json(array('success' => 1));
     }
 
@@ -105,11 +283,12 @@ class FumeHoodController extends BaseController {
         $name = $bldg->abbv."_fumehoods_".date("y-m-d_H-i-s").".csv";
         $data = $bldg->getFumeHoods();
 
-        $csv = ['name,room_name,model,install_date,maintenance_date,notes'];
+        $csv = ['building,room,name,model,install_date,maintenance_date,notes'];
 
         foreach ($data as $row){
-            $csv[] = $row['name'].','
+            $csv[] = $row->getBuilding()->abbv.','
                         .$row->getRoom()->name.','
+                        .$row['name'].','
                         .$row['model'].','
                         .$row['install_date'].','
                         .$row['maintenance_date'].','
