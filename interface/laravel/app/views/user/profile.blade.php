@@ -15,7 +15,10 @@
 		<tr>
 			<th>Current Email: </th>
 			<th>{{ Auth::user()->email }} <div class='btn-group btn-group-xs'>
-			    <button class='btn btn-primary' onClick='openEdit(this,{{ Auth::user()->id }});'>Edit</button></div> </th>
+			    <button class='btn btn-primary' onClick='updateEmail({{ Auth::user()->id }});'>Edit</button></div> </th>
+		</tr>
+		<tr>
+			<th><button class='btn btn-primary' onClick='updatePassword({{ Auth::user()->id }});'>Update Password</button></div> </th>
 		</tr>
 		</thead>
 		<tbody>
@@ -30,40 +33,40 @@
 
 <script type='text/javascript'>
 
-function openEdit(btn, id){
+function updateEmail(id){
 	var email = '{{ Auth::user()->email }}';
-	$('#edit_id').val(id);
+	$('#email_id').val(id);
 	$('#edit_email').val(email);
 
-	$('#edit-modal').modal('show')
+	$('#email-modal').modal('show')
+}
+
+function updatePassword(id){
+	$('#password_id').val(id);
+
+	$('#password-modal').modal('show')
 }
 
 @if (Session::has('err'))
   $(document).ready(function(){
-  @if (Session::get('err') == 'add')
-    open = !open;
-    $('#user-list').css({'width': '65%'});
-    $('#add-user').show();
-    $('#toggle-add-user').css({'width': $('#add-user').width()});
-    $('#chev').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');;
-    
-    $('#email').val('{{ Session::get('email') }}');
-    $('#email').parent('div').addClass('has-error');
-	$('#user_type').val({{ Session::get('user_type') }});
-  @else
-    $('#edit-modal').modal('show');
+  @if (Session::get('err') == 'password')
+    $('#password-modal').modal('show');
+  @elseif (Session::get('err') == 'email')
+    $('#email-modal').modal('show');
 
     $('#edit_id').val('{{ Session::get('id') }}');
     $('#edit_email').val('{{ Session::get('email') }}');
     $('#email').parent('div').addClass('has-error');
-	$('#edit_user_type').val({{ Session::get('user_type') }});
+   @else
+	//Do nothing.
+
   @endif
   });
 @endif
 
 </script>
 
-    <div class="modal fade" id='edit-modal'>
+    <div class="modal fade" id='email-modal'>
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -71,8 +74,8 @@ function openEdit(btn, id){
 	    <h4 class="modal-title">Update Email Address: <span id='edit_user_name'></span></h4>
           </div>
 	  <div class="modal-body">
-		{{ Form::open(array('url' => route('user.email'), 'id' => 'edit-form')) }}
-	      <input type='hidden' name='id' id='edit_id' value=''>
+		{{ Form::open(array('url' => route('user.email'), 'id' => 'email-form')) }}
+	      <input type='hidden' name='id' id='email_id' value=''>
 	      <div class='form-group'>
 		<label for='edit_email'>Email:</label>
 		<input class='form-control' name='email' id='edit_email' type='email'>
@@ -85,7 +88,40 @@ function openEdit(btn, id){
           </div>
 	  <div class="modal-footer">
 	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    <button type="button" class="btn btn-primary" onClick='$("#edit-form").submit();'>Submit</button>
+	    <button type="button" class="btn btn-primary" onClick='$("#email-form").submit();'>Submit</button>
+	  </div>
+        </div>
+      </div>
+    </div>
+	
+	
+    <div class="modal fade" id='password-modal'>
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h4 class="modal-title">Update Password: <span id='edit_password'></span></h4>
+          </div>
+	  <div class="modal-body">
+		{{ Form::open(array('url' => route('user.password'), 'id' => 'edit-password')) }}
+	      <input type='hidden' name='id' id='password_id' value=''>
+	      <div class='form-group'>
+			<label for='new_password'>New Password:</label>
+			<input class='form-control' name='new_password' id='new_password' type='password'>
+	      </div>
+		  <div class='form-group'>
+			<label for='new_password_confirm'>Confirm New Password:</label>
+			<input class='form-control' name='new_password_confirm' id='new_password_confirm' type='password'>
+	      </div>
+	      <div class='form-group'>
+			<label for='old_password_confirm'>Current Password:</label>
+			<input class='form-control' name='old_password_confirm' id='old_password_confirm' type='password'>
+	      </div>
+        {{ Form::close() }}
+          </div>
+	  <div class="modal-footer">
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    <button type="button" class="btn btn-primary" onClick='$("#edit-password").submit();'>Submit</button>
 	  </div>
         </div>
       </div>

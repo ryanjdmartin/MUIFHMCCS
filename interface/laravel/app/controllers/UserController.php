@@ -100,19 +100,18 @@ class UserController extends BaseController {
         $id = Input::get('id');
         $email = Input::get('email');
         $current_password = Input::get('password');
-        Session::flash('id', $id);
         Session::flash('email', $email);
         
         if (!$email){
             Session::flash('msg', 'Enter a valid email address.');
-            Session::flash('err', 'edit');
+            Session::flash('err', 'email');
             return Redirect::route('user.profile');
         }
 
         $user = User::find($id);
         if ($email != $user->email && User::where('email', $email)->count()){
             Session::flash('msg', 'Email in use. Enter another email.');
-            Session::flash('err', 'edit');
+            Session::flash('err', 'email');
             return Redirect::route('user.profile');
         }
 
@@ -124,13 +123,50 @@ class UserController extends BaseController {
 		}
 		else {
 			Session::flash('msg', 'Incorrect password.');
-			Session::flash('err', 'wrongpass');
+			Session::flash('err', 'email');
 			return Redirect::route('user.profile');		
 		}
 
 	}
 	
-	
+	public function updatePassword()
+    {
+        $id = Input::get('id');
+        $new_password = Input::get('new_password');
+		$new_password_confirm = Input::get('new_password_confirm');
+        $current_password = Input::get('old_password_confirm');
+		
+        if (!$new_password and !$new_password_confirm){
+            Session::flash('msg', 'Empty password is not acceptable.');
+            Session::flash('err', 'password');
+            return Redirect::route('user.profile');
+        }
+		elseif (!$current_password) {
+			Session::flash('msg', 'Empty current password.');
+			Session::flash('err', 'password');
+			return Redirect::route('user.profile');
+		}
+		
+		if ($new_password != $new_password_confirm) {
+			Session::flash('msg', 'New password does not match confirm password.');
+			Session::flash('err', 'password');
+			return Redirect::route('user.profile');
+		}
+
+		$user = User::find($id);
+		if (Auth::attempt(array('email' => $user->email, 'password' => $current_password))) {
+			$user->password = Hash::make($new_password);
+			$user->save();
+			Session::flash('msg', 'Password updated successfully.');
+			return Redirect::route('user.profile');
+		}
+		else {
+			Session::flash('msg', 'Incorrect current password.');
+			Session::flash('err', 'password');
+			return Redirect::route('user.profile');		
+		}
+
+	}	
 	
 
 	public function showLogin()

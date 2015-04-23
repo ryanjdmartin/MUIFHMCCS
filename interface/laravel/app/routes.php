@@ -28,7 +28,8 @@ Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' 
 Route::group(array('before' => 'auth'), function() {
     Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
-	Route::post('/users/update', array('as' => 'user.email', 'uses' => 'UserController@updateEmail'));
+	Route::post('/profile/updateemail', array('as' => 'user.email', 'uses' => 'UserController@updateEmail'));
+	Route::post('/profile/updatepassword', array('as' => 'user.password', 'uses' => 'UserController@updatePassword'));
 
     Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
     Route::post('/notifications/dismiss', array('as' >= 'notifications.dismiss', 'uses' => 'NotificationsController@dismissNotification'));
