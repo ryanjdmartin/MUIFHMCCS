@@ -93,6 +93,45 @@ class UserController extends BaseController {
         Session::flash('msg', "User $email deleted.");
         return Redirect::route('users.view');
 	}
+	
+	
+	public function updateEmail()
+    {
+        $id = Input::get('id');
+        $email = Input::get('email');
+        $current_password = Input::get('password');
+        Session::flash('id', $id);
+        Session::flash('email', $email);
+        
+        if (!$email){
+            Session::flash('msg', 'Enter a valid email address.');
+            Session::flash('err', 'edit');
+            return Redirect::route('user.profile');
+        }
+
+        $user = User::find($id);
+        if ($email != $user->email && User::where('email', $email)->count()){
+            Session::flash('msg', 'Email in use. Enter another email.');
+            Session::flash('err', 'edit');
+            return Redirect::route('user.profile');
+        }
+
+		if (Auth::attempt(array('email' => $user->email, 'password' => $current_password))) {
+			$user->email = $email;
+			$user->save();
+			Session::flash('msg', "Email updated to $email.");
+			return Redirect::route('user.profile');
+		}
+		else {
+			Session::flash('msg', 'Incorrect password.');
+			Session::flash('err', 'wrongpass');
+			return Redirect::route('user.profile');		
+		}
+
+	}
+	
+	
+	
 
 	public function showLogin()
 	{

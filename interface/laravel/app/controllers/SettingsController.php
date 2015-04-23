@@ -57,12 +57,11 @@ class SettingsController extends BaseController {
 			}
 			else {
 				Session::flash($inputlabel, $inputval);
-				$updated->$inputlabel = $inputval;
 			}
 		}
 		
-		$updated->save();
-
+		SystemSettings::saveSettings($input);
+		
         Session::flash('msg', "Values updated.");
         return Redirect::route('systemsettings.view');
 	}
