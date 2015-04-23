@@ -8,13 +8,14 @@
     <h1 class="page-header">Manage System Settings</h1>
 
 	 <div class="row">
-	    <div class='col-md-8' id='system_settings-list'>
+	    <div class='col-md-8' id='system-settings-list'>
 	      <table class='table table-bordered table-striped table-hover'>
 		<thead>
+		{{ Form::open(array('url' => route('systemsettings.edit'), 'id' => 'edit-form')) }}
 		<tr>
 			<th>Setting</th>
 			<th>Value</th>
-			<th>Actions</th>
+			<th>New Values <div class='pull-right'>{{ Form::submit('Update') }}</div></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -22,12 +23,10 @@
 		  <tr>
 			<td>{{ $setting["name"] }}</td>
 			<td>{{ $system_settings->$setting["db_ident"]." ".$setting["units"] }}</td>
-		    <td><div class='btn-group btn-group-xs'>
-			    <button class='btn btn-primary' onClick='openEdit(this,{{ $setting["db_ident"] }});'>Edit</button>
-			  </div>
-		   </td>
+		    <td>{{ Form::text($setting["db_ident"], $system_settings->$setting["db_ident"]) }}</td>
 		 </tr>
         @endforeach
+		{{ Form::close() }}
 		</tbody>
 	  </table>
 	</div>
@@ -37,67 +36,21 @@
 </div>
 </div>
 
-<script type='text/javascript'>
-
-
-function openEdit(btn, id){
-	var row = $(btn).parents('tr');
-	var email = row.children('td:nth-child(1)').html();
-	var system_settings_type = row.children('td:nth-child(2)').text();
-	$('#edit_id').val(id);
-	$('#edit_email').val(email);
-
-	$('#edit_system_settings_type:selected').removeAttr('selected');
-	$('#edit_system_settings_type option').filter(function(){
-        return ($(this).text() == system_settings_type);
-    }).prop('selected', true);
-
-	$('#edit-modal').modal('show')
-}
-
-
-@if (Session::has('err'))
-  $(document).ready(function(){
-  @if (Session::get('err') == 'add')
-    open = !open;
-    $('#system_settings-list').css({'width': '65%'});
-    $('#add-system_settings').show();
-    $('#toggle-add-system_settings').css({'width': $('#add-system_settings').width()});
-    $('#chev').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');;
-    
-    $('#email').val('{{ Session::get('email') }}');
-    $('#email').parent('div').addClass('has-error');
-	$('#system_settings_type').val({{ Session::get('system_settings_type') }});
-  @else
-    $('#edit-modal').modal('show');
-
-    $('#edit_id').val('{{ Session::get('id') }}');
-    $('#edit_email').val('{{ Session::get('email') }}');
-    $('#email').parent('div').addClass('has-error');
-	$('#edit_system_settings_type').val({{ Session::get('system_settings_type') }});
-  @endif
-  });
-@endif
-
-</script>
 
     <div class="modal fade" id='edit-modal'>
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h4 class="modal-title">Editing System Setting: <span id='edit_system_settings_name'></span></h4>
+	    <h4 class="modal-title">Editing Setting: <span id='edit_user_name'></span></h4>
           </div>
 	  <div class="modal-body">
-		{{ Form::open(array('url' => route('users.edit'), 'id' => 'edit-form')) }}
+		{{ Form::open(array('url' => route('systemsettings.edit'), 'id' => 'edit-form')) }}
 	      <input type='hidden' name='id' id='edit_id' value=''>
 	      <div class='form-group'>
 		<label for='edit_email'>Email:</label>
 		<input class='form-control' name='email' id='edit_email' type='email'>
 	      </div>
-	      <div class='form-group'>
-           {{ Form::select('system_settings_type', $settings_list, '', array('class' => 'form-control', 'id' => 'edit_system_settings_type')) }}
-		  </div>
         {{ Form::close() }}
           </div>
 	  <div class="modal-footer">
@@ -107,5 +60,6 @@ function openEdit(btn, id){
         </div>
       </div>
     </div>
-
+	
+	
 @endsection

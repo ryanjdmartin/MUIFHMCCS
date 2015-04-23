@@ -36,34 +36,35 @@ class SettingsController extends BaseController {
 		return View::make('systemsettings', array('system_settings' => SystemSettings::getSettings(), 'settings_list' => $settings_list));
 	}
 
-	public function editSettings()
+	
+	
+	public function editSetting()
     {
-        $id = Input::get('id');
-        $email = Input::get('email');
-        $user_type = Input::get('user_type');
-        Session::flash('id', $id);
-        Session::flash('email', $email);
-        Session::flash('user_type', $user_type);
-        
-        if (!$email){
-            Session::flash('msg', 'Enter a valid email address.');
-            Session::flash('err', 'edit');
-            return Redirect::route('users.view');
-        }
+        $input = Input::except('_token');
+		$critical_min_velocity;
+		$alert_max_velocity;
+		$alert_min_velocity;
+		$critical_resend_hours;
+		$alert_resend_hours;
+		
+		$updated = SystemSettings::getSettings();
+		
+		foreach ($input as $inputlabel => $inputval) {
+			if (!is_numeric($inputval)){
+				Session::flash('msg', 'Non-numeric input for '.$inputlabel);
+				Session::flash('err', 'non_numeric');
+				return Redirect::route('systemsettings.view');
+			}
+			else {
+				Session::flash($inputlabel, $inputval);
+				$updated->$inputlabel = $inputval;
+			}
+		}
+		
+		$updated->save();
 
-        $user = User::find($id);
-        if ($email != $user->email && User::where('email', $email)->count()){
-            Session::flash('msg', 'Email in use. Enter another email.');
-            Session::flash('err', 'edit');
-            return Redirect::route('users.view');
-        }
-
-        $user->email = $email;
-        $user->user_type_id = $user_type;
-        $user->save();
-
-        Session::flash('msg', "User $email updated.");
-        return Redirect::route('users.view');
+        Session::flash('msg', "Values updated.");
+        return Redirect::route('systemsettings.view');
 	}
 	
 }
