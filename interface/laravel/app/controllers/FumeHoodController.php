@@ -76,19 +76,34 @@ class FumeHoodController extends BaseController {
     }
 
     public function streamAllFumeHoods(){
-        $result = array('status' => 0, 'data' => '');
+        $result = array('status' => 0, 'data' => []);
         
         $q = DB::table('fume_hoods')
                 ->leftJoin('rooms', 'fume_hoods.room_id', '=', 'rooms.id')
                 ->leftJoin('buildings', 'rooms.building_id', '=', 'buildings.id')
-                ->orderBy('buildings.name')
+                ->orderBy('buildings.abbv')
                 ->orderBy('rooms.name')
-                ->orderBy('fumehoods.name')->get();
+                ->orderBy('fume_hoods.name')
+                ->select('buildings.abbv as building', 'rooms.name as room',
+                        'fume_hoods.name as name', 'fume_hoods.model as model',
+                        'fume_hoods.install_date as install_date',
+                        'fume_hoods.maintenance_date as maintenance_date',
+                        'fume_hoods.notes as notes', 'fume_hoods.id as id')
+                ->get();
 
         foreach ($q as $f){
-
+            $result['data'][] = array(
+                'building' => $f->building,
+                'room' => $f->room,
+                'name' => $f->name,
+                'model' => $f->model,
+                'install_date' => $f->install_date,
+                'maintenance_date' => $f->maintenance_date,
+                'notes' => $f->notes,
+                'id' => $f->id);
         } 
 
+        $result['status'] = 1;
         return Response::json($result);
     }
 
@@ -281,8 +296,13 @@ class FumeHoodController extends BaseController {
         return Response::json(array('success' => 1));
     }
 
-    public function uploadRemoveHood($id){
-        return Response::json(array('success' => 1));
+    public function removeHood($id){
+        $f = FumeHood::find($id);
+        $name = $f->name;
+        $f->delete();
+
+        Session::flash('msg', "Fumehood ".$name." deleted.");
+        return Redirect::route('admin.hoods');
     }
 
     public function downloadHoods(){

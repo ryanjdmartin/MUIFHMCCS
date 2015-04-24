@@ -131,7 +131,8 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style='max-height: 400px' >
+              <tr id = 'insert' style='border-style:hidden'><td colspan=8 style='border-style:hidden; width: 100%'><div id="spinner" style='height:20px'></div></td></tr>
             </tbody>
         </table>
       </div>
@@ -140,11 +141,43 @@
 
 
 <script type='text/javascript'>
+$(document).ready(function(){
+  $('#spinner').spin('list');
+
+  $.get("{{ URL::to('/buildings/streamall') }}", '', function(data){
+    if (data.status){
+        for (var f of data.data){
+            var content = "<tr>\
+<td class='col-xs-1'>"+f.building+"</td>\
+<td class='col-xs-1'>"+f.room+"</td>\
+<td class='col-xs-2'>"+f.name+"</td>\
+<td class='col-xs-2'>"+f.model+"</td>\
+<td class='col-xs-1'>"+f.install_date+"</td>\
+<td class='col-xs-2'>"+f.maintenance_date+"</td>\
+<td class='col-xs-2'>"+f.notes+"</td>\
+<td class='col-xs-1'><button type='button' class='btn btn-xs btn-danger' \
+onClick='fconf(\"Delete Fumehood\", \""+f.name+"\", \"{{URL::to("admin/fumehoods/remove/")}}/"+f.id+"\")'>Delete</button></td>\
+</tr>";
+            $('#insert').before(content);
+        }
+    }
+
+    $('#spinner').spin(false).hide();
+    $('#insert').hide();
+  });
+});
+
     function conf(title, name, url){
         $('#confirm-title').text(title);       
         $('#confirm-name').text(name);       
         $('#confirm-btn').attr('href', url);       
         $('#confirm-modal').modal('show');       
+    }
+
+    function fconf(title, name, url){
+        $('#fumehood-name').text(name);       
+        $('#fumehood-btn').attr('href', url);       
+        $('#fumehood-modal').modal('show');       
     }
 
 @if (Session::has('err'))
@@ -175,6 +208,24 @@
       </div>
       <div class="modal-footer">
         <a class="btn btn-primary" href="#" id="confirm-btn">Delete</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="fumehood-modal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+        <h4 class="modal-title">Really Delete Fumehood?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <span id='fumehood-name'></span>? All associated data will also be deleted. This action is irreversible.</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" href="#" id="fumehood-btn">Delete</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
