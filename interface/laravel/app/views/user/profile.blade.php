@@ -15,35 +15,40 @@
 		<tr>
 			<th>Current Email: </th>
 			<th>{{ Auth::user()->email }} <div class='btn-group btn-group-xs'>
-			    <button class='btn btn-primary' onClick='updateEmail({{ Auth::user()->id }});'>Edit</button></div> </th>
-		</tr>
-		<tr>
-			<th><button class='btn btn-primary' onClick='updatePassword({{ Auth::user()->id }});'>Update Password</button></div> </th>
+			    <button class='btn btn-primary' onClick='updateEmail({{ Auth::user()->id }});'>Edit</button> <button class='btn btn-primary' onClick='updatePassword({{ Auth::user()->id }});'>Update Password</button></div> </th>
 		</tr>
 		</thead>
 		<tbody>
 		</tbody>
 	  </table>
 	</div>
-
   </div>
-{{ Form::open(array('url' => route('user.notificationsettings'), 'id' => 'notification-form')) }}
+  
+  
+  <div class="container">
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#settings">Edit Notification Settings</button>
+  <div id="settings" class="collapse">
+	{{ Form::open(array('url' => route('user.notificationsettings'), 'id' => 'notification-form')) }}
 
-	{{ Form::hidden('notification_id', Auth::user()->id ) }}
-	
-	@foreach (Building::all() as $building)
-		<div><strong>{{ $building->name }}</strong></div>
-		@foreach($building->getRooms() as $room)
-			<div>{{ $building->abbv.' '.$room->name }} Critical: {{ Form::checkbox($room->id.'_critical', $room->id.'_critical', array_get($notification_settings, $room->id.'.critical', '0')) }} Alert: {{ Form::checkbox($room->id.'_alert', $room->id.'_alert', array_get($notification_settings, $room->id.'.alert', '0')) }}</div>
+		{{ Form::hidden('notification_id', Auth::user()->id ) }}
+		
+		@foreach (Building::all() as $building)
+			<div><strong>{{ $building->name }}</strong></div>
+			@foreach($building->getRooms() as $room)
+				<div>{{ $building->abbv.' '.$room->name }} Critical: {{ Form::checkbox($room->id.'_critical', $room->id.'_critical', array_get($notification_settings, $room->id.'.critical', '0')) }} Alert: {{ Form::checkbox($room->id.'_alert', $room->id.'_alert', array_get($notification_settings, $room->id.'.alert', '0')) }}</div>
+			@endforeach
 		@endforeach
-	@endforeach
-<!-- {{ Form::checkbox('box_input', 'box_name') }} -->
+	<!-- {{ Form::checkbox('box_input', 'box_name') }} -->
 
-{{ Form::submit('Update Notification Settings') }}
-{{ Form::close() }}
+	{{ Form::submit('Update Notification Settings') }}
+	{{ Form::close() }}
+  </div>
+</div>
+
 </div>
 </div>
-</div>
+
+
 
 <script type='text/javascript'>
 
