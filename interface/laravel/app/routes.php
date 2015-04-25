@@ -35,6 +35,7 @@ Route::group(array('before' => 'auth'), function() {
 
     Route::get('/buildings', array('as' >= 'buildings', 'uses' => 'HomeController@showBuildings'));
     Route::get('/buildings/stream/{last_id}', array('as' >= 'buildings.stream', 'uses' => 'HomeController@streamBuildings'));
+    Route::get('/buildings/streamall', array('as' >= 'buildings.streamall', 'uses' => 'FumeHoodController@streamAllFumeHoods'));
 
     Route::get('/rooms/{building_id}', array('as' >= 'rooms', 'uses' => 'HomeController@showRooms'));
     Route::get('/rooms/stream/{building_id}/{last_id}', array('as' >= 'rooms.stream', 'uses' => 'HomeController@streamRooms'));
@@ -63,9 +64,10 @@ Route::group(array('before' => 'admin'), function(){
     Route::get('/admin/rooms/remove/{id}', array('as' => 'admin.rooms.remove', 'uses' => 'FumeHoodController@removeRoom'));
 
     Route::get('/admin/hoods', array('as' => 'admin.hoods', 'uses' => 'FumeHoodController@showHoodManager'));
+    Route::get('/admin/csv', array('as' => 'admin.csv', 'uses' => 'FumeHoodController@showUpload'));
     Route::post('/admin/upload', array('as' => 'admin.upload', 'uses' => 'FumeHoodController@uploadHoods'));
     Route::post('/admin/upload/add', array('as' => 'admin.upload.add', 'uses' => 'FumeHoodController@uploadAddHoods'));
     Route::post('/admin/upload/update', array('as' => 'admin.upload.update', 'uses' => 'FumeHoodController@uploadUpdateHoods'));
-    Route::get('/admin/upload/remove/{id}', array('as' => 'admin.upload.remove', 'uses' => 'FumeHoodController@uploadRemoveHood'));
+    Route::get('/admin/fumehoods/remove/{id}', array('as' => 'admin.remove', 'uses' => 'FumeHoodController@removeHood'));
     Route::post('/admin/download', array('as' => 'admin.download', 'uses' => 'FumeHoodController@downloadHoods'));
 });

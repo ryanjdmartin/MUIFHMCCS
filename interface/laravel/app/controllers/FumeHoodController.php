@@ -63,8 +63,48 @@ class FumeHoodController extends BaseController {
         foreach ($buildings as $b){
             $bld_sel[$b->id] = $b->name.' ('.$b->abbv.')';
         }
-        $rooms = Room::all();
+        $rooms = Room::orderBy('building_id')->orderBy('name')->get();
         return View::make('admin.hoods', array('buildings' => $buildings, 'rooms' => $rooms, 'bld_sel' => $bld_sel));
+    }
+
+    public function showUpload(){
+        $buildings = Building::all();
+        foreach ($buildings as $b){
+            $bld_sel[$b->id] = $b->name.' ('.$b->abbv.')';
+        }
+        return View::make('admin.csv', array('bld_sel' => $bld_sel));
+    }
+
+    public function streamAllFumeHoods(){
+        $result = array('status' => 0, 'data' => []);
+        
+        $q = DB::table('fume_hoods')
+                ->leftJoin('rooms', 'fume_hoods.room_id', '=', 'rooms.id')
+                ->leftJoin('buildings', 'rooms.building_id', '=', 'buildings.id')
+                ->orderBy('buildings.abbv')
+                ->orderBy('rooms.name')
+                ->orderBy('fume_hoods.name')
+                ->select('buildings.abbv as building', 'rooms.name as room',
+                        'fume_hoods.name as name', 'fume_hoods.model as model',
+                        'fume_hoods.install_date as install_date',
+                        'fume_hoods.maintenance_date as maintenance_date',
+                        'fume_hoods.notes as notes', 'fume_hoods.id as id')
+                ->get();
+
+        foreach ($q as $f){
+            $result['data'][] = array(
+                'building' => $f->building,
+                'room' => $f->room,
+                'name' => $f->name,
+                'model' => $f->model,
+                'install_date' => $f->install_date,
+                'maintenance_date' => $f->maintenance_date,
+                'notes' => $f->notes,
+                'id' => $f->id);
+        } 
+
+        $result['status'] = 1;
+        return Response::json($result);
     }
 
     public function addBuilding(){
@@ -189,8 +229,6 @@ class FumeHoodController extends BaseController {
         $maintenance_id = array_search('maintenance_date', $headers);
         $notes_id = array_search('notes', $headers);
 
-        $names = [];
-
         foreach (array_slice($fh, 1) as $line){
             $line = explode(',',$line);
 
@@ -203,10 +241,8 @@ class FumeHoodController extends BaseController {
                         'room_id' => 0);
             if ($room_id !== false)
                 $f['room'] = trim($line[$room_id]);
-            if ($name_id !== false){
+            if ($name_id !== false)
                 $f['name'] = trim($line[$name_id]);
-                $names[] = $f['name'];
-            }
             if ($model_id !== false)
                 $f['model'] = trim($line[$model_id]);
             if ($install_id !== false)
@@ -216,13 +252,17 @@ class FumeHoodController extends BaseController {
             if ($notes_id !== false)
                 $f['notes'] = trim($line[$notes_id]);
             
+            $r = Room::where('name', $f['room'])->first();   
+            if ($r)
+                $f['room_id'] = $r->id;
+
             $db = FumeHood::where('name', $f['name'])->first();
             if (!$db){
                 $add[] = $f;
                 continue;
             }
 
-            if ($db->name != $f['name']){
+            if (!$r || $db->room_id != $f['room_id']){
                 $update[] = $f;
                 continue;
             }
@@ -243,37 +283,73 @@ class FumeHoodController extends BaseController {
                 continue;
             }
             
-            $r = Room::where('name', $f['room'])->first();   
-            if ($r)
-                $f['room_id'] = $r->id;
-
         }
                    
-        $dbnames = FumeHood::lists('name');
-        
-        $delete = [];
-        foreach (array_diff($dbnames, $names) as $n){
-            $f = FumeHood::where('name', $n)->first();
-            if ($f->getBuilding()->id == $bldg->id){
-                $delete[] = array('room' => $f->getRoom()->name, 
-                    'name' => $f->name,
-                    'id' => $f->id);
-            }
-        }
-         
-        return View::make('admin.upload', array('add' => $add, 'update' => $update, 'delete' => $delete, 'building' => $bldg));
+        return View::make('admin.upload', array('add' => $add, 'update' => $update, 'building' => $bldg));
     }
 
     public function uploadAddHoods(){
-        return Response::json(array('success' => 1));
+        $result = array('status' => 0, 'room' => '', 'room_id' => 0);
+        
+        $room_id = Input::get('room_id');
+        if (!$room_id){
+            
+            $r = new Room;
+            $r->name = Input::get('room');
+            $r->building_id = Input::get('building_id');
+            $r->save();
+            $room_id = $r->id;
+            $result['room'] = $r->name;
+            $result['room_id'] = $room_id;
+        }
+
+        $f = new FumeHood;
+        $f->name = Input::get('name');
+        $f->room_id = $room_id;
+        $f->model = Input::get('model');
+        $f->install_date = Input::get('install_date');
+        $f->maintenance_date = Input::get('maintenance_date');
+        $f->notes = Input::get('notes');
+        $f->save();
+
+        $result['status'] = 1;
+        return Response::json($result);
     }
 
     public function uploadUpdateHoods(){
-        return Response::json(array('success' => 1));
+        $result = array('status' => 0, 'room' => '', 'room_id' => 0);
+        
+        $room_id = Input::get('room_id');
+        if (!$room_id){
+            
+            $r = new Room;
+            $r->name = Input::get('room');
+            $r->building_id = Input::get('building_id');
+            $r->save();
+            $room_id = $r->id;
+            $result['room'] = $r->name;
+            $result['room_id'] = $room_id;
+        }
+
+        $f = FumeHood::where('name', Input::get('name'))->first();
+        $f->room_id = $room_id;
+        $f->model = Input::get('model');
+        $f->install_date = Input::get('install_date');
+        $f->maintenance_date = Input::get('maintenance_date');
+        $f->notes = Input::get('notes');
+        $f->save();
+
+        $result['status'] = 1;
+        return Response::json($result);
     }
 
-    public function uploadRemoveHood($id){
-        return Response::json(array('success' => 1));
+    public function removeHood($id){
+        $f = FumeHood::find($id);
+        $name = $f->name;
+        $f->delete();
+
+        Session::flash('msg', "Fumehood ".$name." deleted.");
+        return Redirect::route('admin.hoods');
     }
 
     public function downloadHoods(){

@@ -19,6 +19,7 @@
               <li><a href="{{ route('users.view') }}">Manage Users</a></li>
               <li><a href="#">System Settings</a></li>
               <li><a href="{{route('admin.hoods')}}">Manage Fumehoods</a></li>
+              <li><a href="{{route('admin.csv')}}">Upload/Download Fumehoods</a></li>
             </ul>
           </li>
           @endif
