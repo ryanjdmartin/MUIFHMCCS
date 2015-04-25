@@ -103,7 +103,7 @@ class UserController extends BaseController {
 	
 	public function updateEmail()
     {
-        $id = Input::get('email_id');
+        $id = Input::get('id');
         $email = Input::get('email');
         $current_password = Input::get('password');
         Session::flash('email', $email);
@@ -138,7 +138,7 @@ class UserController extends BaseController {
 	
 		public function updatePassword()
     {
-        $id = Input::get('password_id');
+        $id = Input::get('id');
         $new_password = Input::get('new_password');
 		$new_password_confirm = Input::get('new_password_confirm');
         $current_password = Input::get('old_password_confirm');
@@ -179,7 +179,7 @@ class UserController extends BaseController {
 		public function updateNotificationSettings()
     {
 		
-		$id = Input::get('notification_id');
+		$id = Input::get('id');
 		$input = Input::except('_token', 'id');
 		
 		$current_settings = array();

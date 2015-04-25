@@ -28,7 +28,7 @@
 		  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#settings">Edit Notification Settings</button>
 		  <div id="settings" class="collapse">
 			{{ Form::open(array('url' => route('user.notificationsettings'), 'id' => 'notification-form')) }}
-				{{ Form::hidden('notification_id', Auth::user()->id ) }}
+				{{ Form::hidden('id', Auth::user()->id ) }}
 				
 				@foreach (Building::all() as $building)
 					<div><strong>{{ $building->name }}</strong></div>
