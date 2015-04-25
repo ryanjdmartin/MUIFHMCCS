@@ -81,11 +81,11 @@ function doStreamData(spinner, url, id, last_id, timestamp){
     if (timestamp == gTimestamp && data.status){
         if(data.isTileView){
           $('#'+spinner).before(data.content);
-          $('#tile'+data.id).fadeIn(700);
+          $('#tile'+last_id).fadeIn(700);
         }
         else{
           $('#insert').before(data.content);
-          $('#list'+data.id).fadeIn(700);
+          $('#list'+last_id).fadeIn(700);
         }
         doStreamData(spinner, url, id, data.id, timestamp);
     } else {
