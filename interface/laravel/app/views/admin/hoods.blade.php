@@ -13,7 +13,7 @@
     <div class="col-md-7">
         <div class='panel panel-primary'>
           <div class='panel-heading'>
-            <h4 class='panel-title'>Manage Buildings <button class='pull-right btn btn-success btn-xs' data-toggle='modal' data-target='#building-modal'>Add New Building</button></h4>
+            <h4 class='panel-title'>Manage Buildings <button class='pull-right btn btn-success btn-sm' data-toggle='modal' data-target='#building-modal' style='margin-top: -6px' >Add New Building</button></h4>
           </div>
         <table class='table table-condensed table-striped table-hover manager-table' id='building-table'>
             <thead>
@@ -59,7 +59,7 @@
     <div class="col-md-5">
         <div class='panel panel-primary'>
           <div class='panel-heading'>
-            <h4 class='panel-title'>Manage Rooms <button class='pull-right btn btn-success btn-xs' data-toggle='modal' data-target='#room-modal'>Add New Room</button></h4>
+            <h4 class='panel-title'>Manage Rooms <button class='pull-right btn btn-success btn-sm' data-toggle='modal' data-target='#room-modal' style='margin-top: -6px' >Add New Room</button></h4>
           </div>
         <table class='table table-condensed table-striped table-hover manager-table' id='room-table'>
             <thead>
