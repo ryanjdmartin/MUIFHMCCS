@@ -1,4 +1,4 @@
-  <tr style='display:none' id='list{{$fumehood->id}}'>
+  <tr style='display:none' id='list{{$last_id}}'>
 	<td><a id = "fumehood{{$fumehood->id}}" href = '#' >{{$fumehood->name;}}</a></td>
   <?php 
       if ($status == 'critical')

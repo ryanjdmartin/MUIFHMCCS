@@ -14,7 +14,7 @@ class Building extends Eloquent {
     }
 
     function getNextRoom($last_id){
-        return Room::where('building_id', $this->id)->where('id', '>', $last_id)->take(1)->get()->first();
+        return Room::where('building_id', $this->id)->orderBy('name')->skip($last_id)->first();
     }
 
     function getFumeHoods(){

@@ -1,4 +1,4 @@
-		<div class="tile list-group" style='display:none' id='tile{{$room->id}}'>
+		<div class="tile list-group" style='display:none' id='tile{{$last_id}}'>
 	      <button class="list-group-item btn btn-primary" href='#' id="{{"room".$room->id}}">
 	        {{$building->abbv}} Room {{$room->name}}
           </button> 

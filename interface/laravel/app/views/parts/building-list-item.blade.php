@@ -1,4 +1,4 @@
-  <tr style='display:none' id='list{{$fumehood->id}}'>
+  <tr style='display:none' id='list{{$last_id}}'>
     <td><a id = "list{{$fumehood->id}}-building{{$fumehood->building_id}}" href = '#' >{{$fumehood->building_name}}</a></td>
 	<td><a id = "list{{$fumehood->id}}-room{{$fumehood->room_id}}" href = '#'>{{$fumehood->room_name;}}</a></td>
 	<td><a id = "fumehood{{$fumehood->id}}" href = '#' >{{$fumehood->name;}}</a></td>
