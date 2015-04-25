@@ -4,7 +4,13 @@ class UserController extends BaseController {
 
 	public function showProfile()
 	{
-		return View::make('user.profile');
+		$user_notifications = array();
+		
+		foreach(NotificationSetting::where('user_id', Auth::user()->id)->get() as $setting) {
+			$user_notifications[$setting->room_id] = array('critical' => $setting->critical, 'alert' => $setting->alert);	
+		}
+		
+		return View::make('user.profile', array('notification_settings' => $user_notifications));
 	}
 
 	public function showUsers()
@@ -97,7 +103,7 @@ class UserController extends BaseController {
 	
 	public function updateEmail()
     {
-        $id = Input::get('id');
+        $id = Input::get('email_id');
         $email = Input::get('email');
         $current_password = Input::get('password');
         Session::flash('email', $email);
@@ -129,9 +135,10 @@ class UserController extends BaseController {
 
 	}
 	
-	public function updatePassword()
+	
+		public function updatePassword()
     {
-        $id = Input::get('id');
+        $id = Input::get('password_id');
         $new_password = Input::get('new_password');
 		$new_password_confirm = Input::get('new_password_confirm');
         $current_password = Input::get('old_password_confirm');
@@ -167,6 +174,94 @@ class UserController extends BaseController {
 		}
 
 	}	
+	
+	
+		public function updateNotificationSettings()
+    {
+		
+		$id = Input::get('notification_id');
+		$input = Input::except('_token', 'id');
+		
+		$current_settings = array();
+		$new_rows = array();
+		$update_rows = array();
+		$delete_rows = array();
+		
+		//Generates a shorthand array of existing settings.
+		foreach (NotificationSetting::where('user_id', $id)->get() as $setting) {
+			$current_settings[$setting->room_id] = array('critical' => $setting->critical, 'alert' => $setting->alert, 'id' => $setting->id);
+		}
+
+		//Very long logic to generate new/update/delete arrays.
+		foreach (Room::all() as $room) {
+			//Room setting if there's a current setting, else 0.
+			$room_setting = array_get($current_settings, $room->id, 0);
+			$critical = array_get($input, $room->id.'_critical', 0);
+			$alert = array_get($input, $room->id.'_alert', 0);
+			
+
+			if ($room_setting) {
+				//If there's already a setting for this user/room in the database....
+				
+				if ($critical or $alert) {
+					//And at least one of the flags (alert/critical) is set...
+					
+					if ($critical == $current_settings[$room->id]['critical'] and $critical == $current_settings[$room->id]['alert']) {
+						//If they're the same, do nothing.
+					}
+					else {
+						//Update the existing database setting.
+						$update_rows[$room->id] = array('critical' => (boolean)$critical, 'alert' => (boolean)$alert);
+					}
+				}
+				else {
+					//If neither flag is set AND there's something in the DB, delete the offending row.
+					$delete_rows[] = $room->id;
+				}
+			}
+			else {
+				//If no setting in the database already....
+				if ($critical or $alert) {
+					//If one of the flags is set, create a setting in the db.
+					$new_rows[$room->id] = array('critical' => (boolean)$critical, 'alert' => (boolean)$alert);
+				}
+			}
+		}
+		
+		
+		//Perform the updates based on the new/update/delete arrays.
+		foreach ($new_rows as $room => $new_row) {
+		
+			$setting = new NotificationSetting;
+			$setting->critical = $new_row['critical'];
+			$setting->alert = $new_row['alert'];
+			$setting->room_id = $room;
+			$setting->user_id = $id;
+			$setting->save();
+		}
+		
+		foreach ($update_rows as $room => $update_row) {
+			
+			$setting = NotificationSetting::find($current_settings[$room]['id']);
+			$setting->critical = $update_row['critical'];
+			$setting->alert = $update_row['alert'];
+			$setting->save();		
+		}
+		
+		foreach ($delete_rows as $delete_row) {
+		
+			$setting = NotificationSetting::find($current_settings[$delete_row]['id']);
+			$setting->delete();	
+		}
+		
+		
+		
+		
+		Session::flash('msg', 'Notification settings updated.');
+		return Redirect::route('user.profile');
+	
+	}	
+	
 	
 
 	public function showLogin()

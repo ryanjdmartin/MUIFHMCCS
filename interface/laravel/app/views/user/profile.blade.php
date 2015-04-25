@@ -27,6 +27,20 @@
 	</div>
 
   </div>
+{{ Form::open(array('url' => route('user.notificationsettings'), 'id' => 'notification-form')) }}
+
+	{{ Form::hidden('notification_id', Auth::user()->id ) }}
+	
+	@foreach (Building::all() as $building)
+		<div><strong>{{ $building->name }}</strong></div>
+		@foreach($building->getRooms() as $room)
+			<div>{{ $building->abbv.' '.$room->name }} Critical: {{ Form::checkbox($room->id.'_critical', $room->id.'_critical', array_get($notification_settings, $room->id.'.critical', '0')) }} Alert: {{ Form::checkbox($room->id.'_alert', $room->id.'_alert', array_get($notification_settings, $room->id.'.alert', '0')) }}</div>
+		@endforeach
+	@endforeach
+<!-- {{ Form::checkbox('box_input', 'box_name') }} -->
+
+{{ Form::submit('Update Notification Settings') }}
+{{ Form::close() }}
 </div>
 </div>
 </div>

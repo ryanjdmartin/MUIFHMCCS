@@ -30,6 +30,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
 	Route::post('/profile/updateemail', array('as' => 'user.email', 'uses' => 'UserController@updateEmail'));
 	Route::post('/profile/updatepassword', array('as' => 'user.password', 'uses' => 'UserController@updatePassword'));
+	Route::post('/profile/updatenotifications', array('as' => 'user.notificationsettings', 'uses' => 'UserController@updateNotificationSettings'));
 
     Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
     Route::post('/notifications/dismiss', array('as' >= 'notifications.dismiss', 'uses' => 'NotificationsController@dismissNotification'));
