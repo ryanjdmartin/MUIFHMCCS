@@ -14,7 +14,7 @@ class AddAlarmColumn extends Migration {
 	{
         Schema::table('measurements', function($table)
         {
-            $table->boolean('alarm');
+            $table->integer('alarm');
         });
 	}
 
