@@ -18,20 +18,15 @@
         <table class='table table-condensed table-striped table-hover manager-table' id='building-table'>
             <thead>
                 <tr>
-                    <th class='col-xs-7 filterable'>
+                    <th class='col-xs-7'>
                         Full Name
                     </th>
-                    <th class='col-xs-2 filterable'>
+                    <th class='col-xs-2'>
                         Abbreviation
                     </th>
                     <th class='col-xs-3'>
                         Actions
                     </th>
-                </tr>
-                <tr>
-                    <th class='col-xs-7'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
-                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
-                    <th class='col-xs-3'></th>
                 </tr>
             </thead>
             <tbody>
@@ -89,12 +84,8 @@
             @foreach ($rooms as $r)
                 <? $b = $r->getBuilding()->abbv ?>
                 <tr>
-                    <td class='col-xs-3'>
-                        {{$b}}
-                    </td>
-                    <td class='col-xs-6'>
-                        {{$r->name}}
-                    </td>
+                    <td class='col-xs-3'>{{$b}}</td>
+                    <td class='col-xs-6'>{{$r->name}}</td>
                     <td class='col-xs-3'>
                         <button type='button' class='btn btn-xs btn-danger' onClick='conf("Delete Room", "{{$b}} {{$r->name}}", "{{URL::to("admin/rooms/remove/".$r->id)}}")'>Delete</button>
                     </td>
