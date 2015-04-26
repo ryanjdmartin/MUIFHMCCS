@@ -110,8 +110,7 @@
           <h3 class="panel-title">Overnight Sash Activity: Last Week</h3>
         </div>
           <div class="panel-fumehood-body">
-            <div class='badge center-block' style='margin-top: 5px'>1: Up (Open), 0: Down (Closed)</div>
-            <canvas id="sash_chart" width="300" height="277"></canvas>
+            <canvas id="sash_chart" width="300" height="300"></canvas>
             <button class="btn btn-primary btn-xs" style="margin:10px" onClick='fullGraph("sash")'>View Full Graph</button>
           </div>
         </div>
