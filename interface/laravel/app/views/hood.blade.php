@@ -81,7 +81,7 @@
       <td id="velocity" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Airflow: Last 24 Hours</h3>
+          <h3 class="panel-title">Airflow: Last 12 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
             <canvas id="velocity_chart" width="300" height="300"></canvas>
@@ -94,11 +94,10 @@
       <td id="alarm" style="padding-right:15px; vertical-align:top; display:none">
        <div class="panel panel-default panel-fumehood">
         <div class="panel-heading">  
-          <h3 class="panel-title">Alarm Flag: Last 8 Hours</h3>
+          <h3 class="panel-title">Alarm Flag: Last 12 Hours</h3>
         </div>
           <div class="panel-fumehood-body">
-            <div class='badge center-block' style='margin-top: 5px'>1: Alarm Raised</div>
-            <canvas id="alarm_chart" width="300" height="277"></canvas>
+            <canvas id="alarm_chart" width="300" height="300"></canvas>
             <button class="btn btn-primary btn-xs" style="margin:10px" onClick='fullGraph("alarm")'>View Full Graph</button>
           </div>
         </div>
@@ -126,11 +125,11 @@
       <script type="text/javascript">
       $(document).ready(function(){
         $('#spinner').spin('graph');
-        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/32' }}", function(len){
+        loadChart("velocity_chart", "{{ URL::to('/hood/velocity').'/'.$hood->id.'/48' }}", function(len){
             if (len){
                 $("#velocity").delay(500).fadeIn();
             }
-            loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/32' }}", function(len){
+            loadChart("alarm_chart", "{{ URL::to('/hood/alarm').'/'.$hood->id.'/48' }}", function(len){
                 if (len){
                     $("#alarm").delay(500).fadeIn();
                 }
