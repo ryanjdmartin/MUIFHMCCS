@@ -28,6 +28,9 @@ Route::post('/hood/alarm/{hood_id}/{limit}', array('as' >= 'hood.alarm', 'uses' 
 Route::group(array('before' => 'auth'), function() {
     Route::get('/', array('as' => 'home', 'uses' => 'HomeController@showHome'));
     Route::get('/profile', array('as' => 'user.profile', 'uses' => 'UserController@showProfile'));
+	Route::post('/profile/updateemail', array('as' => 'user.email', 'uses' => 'UserController@updateEmail'));
+	Route::post('/profile/updatepassword', array('as' => 'user.password', 'uses' => 'UserController@updatePassword'));
+	Route::post('/profile/updatenotifications', array('as' => 'user.notificationsettings', 'uses' => 'UserController@updateNotificationSettings'));
 
     Route::get('/notifications', array('as' >= 'notifications', 'uses' => 'NotificationsController@showNotifications'));
     Route::post('/notifications/dismiss', array('as' >= 'notifications.dismiss', 'uses' => 'NotificationsController@dismissNotification'));
@@ -70,4 +73,9 @@ Route::group(array('before' => 'admin'), function(){
     Route::post('/admin/upload/update', array('as' => 'admin.upload.update', 'uses' => 'FumeHoodController@uploadUpdateHoods'));
     Route::get('/admin/fumehoods/remove/{id}', array('as' => 'admin.remove', 'uses' => 'FumeHoodController@removeHood'));
     Route::post('/admin/download', array('as' => 'admin.download', 'uses' => 'FumeHoodController@downloadHoods'));
+	
+	Route::get('/systemsettings', array('as' => 'systemsettings.view', 'uses' => 'SettingsController@showSettings'));
+	Route::post('/systemsettings/edit', array('as' => 'systemsettings.edit', 'uses' => 'SettingsController@editSetting'));
+
+>>>>>>> edwardtest
 });
