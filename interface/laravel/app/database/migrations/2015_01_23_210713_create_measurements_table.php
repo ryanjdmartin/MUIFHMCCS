@@ -20,7 +20,7 @@ class CreateMeasurementsTable extends Migration {
                 ->references('name')->on('fume_hoods')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->boolean('sash_up');
+            $table->float('sash_up');
             $table->float('velocity');
             $table->dateTime('measurement_time');
 			$table->timestamps();
