@@ -338,8 +338,12 @@ body {
 
 .manager-table tbody {
   max-height: 200px;
-  overflow-y: auto;
+  overflow-y: scroll;
   width: 100%;
+}
+
+.manager-table thead tr {
+  width: calc(100% - 15px);
 }
 .manager-table thead, .manager-table tbody, .manager-table tr, .manager-table td, .manager-table th {
   display: block;

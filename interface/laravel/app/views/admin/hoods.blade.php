@@ -105,30 +105,40 @@
         <table class='table table-condensed table-striped table-hover manager-table' id='fumehoods-table'>
             <thead>
                 <tr>
-                    <th class='col-xs-1'>
+                    <th class='col-xs-1 filterable'>
                         Building
                     </th>
-                    <th class='col-xs-1'>
+                    <th class='col-xs-1 filterable'>
                         Room
                     </th>
-                    <th class='col-xs-2'>
+                    <th class='col-xs-2 filterable'>
                         Name
                     </th>
-                    <th class='col-xs-2'>
+                    <th class='col-xs-2 filterable'>
                         Model
                     </th>
-                    <th class='col-xs-1'>
+                    <th class='col-xs-1 filterable'>
                         Install Date
                     </th>
-                    <th class='col-xs-2'>
+                    <th class='col-xs-2 filterable'>
                         Maintenance Date
                     </th>
-                    <th class='col-xs-2'>
+                    <th class='col-xs-2 filterable'>
                         Notes
                     </th>
                     <th class='col-xs-1'>
                         Actions
                     </th>
+                </tr>
+                <tr>
+                    <th class='col-xs-1'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-1'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-1'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-1'></th>
                 </tr>
             </thead>
             <tbody style='max-height: 400px' >

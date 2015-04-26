@@ -30,6 +30,7 @@
 
     <!-- Custom JS -->
     {{ HTML::script("js/fms.js"); }}
+    {{ HTML::script("js/filter.js"); }}
   </head>
 
   <body>
