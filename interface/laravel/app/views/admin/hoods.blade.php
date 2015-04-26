@@ -18,15 +18,20 @@
         <table class='table table-condensed table-striped table-hover manager-table' id='building-table'>
             <thead>
                 <tr>
-                    <th class='col-xs-7'>
+                    <th class='col-xs-7 filterable'>
                         Full Name
                     </th>
-                    <th class='col-xs-2'>
+                    <th class='col-xs-2 filterable'>
                         Abbreviation
                     </th>
                     <th class='col-xs-3'>
                         Actions
                     </th>
+                </tr>
+                <tr>
+                    <th class='col-xs-7'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-2'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-3'></th>
                 </tr>
             </thead>
             <tbody>
@@ -64,15 +69,20 @@
         <table class='table table-condensed table-striped table-hover manager-table' id='room-table'>
             <thead>
                 <tr>
-                    <th class='col-xs-3'>
+                    <th class='col-xs-3 filterable'>
                         Building
                     </th>
-                    <th class='col-xs-6'>
+                    <th class='col-xs-6 filterable'>
                         Room Name
                     </th>
                     <th class='col-xs-3'>
                         Actions
                     </th>
+                </tr>
+                <tr>
+                    <th class='col-xs-3'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-6'><input name="filter" size="8" onkeyup="Table.filter(this,this)" placeholder="Filter"></th>
+                    <th class='col-xs-3'></th>
                 </tr>
             </thead>
             <tbody>
