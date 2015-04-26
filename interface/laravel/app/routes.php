@@ -77,5 +77,4 @@ Route::group(array('before' => 'admin'), function(){
 	Route::get('/systemsettings', array('as' => 'systemsettings.view', 'uses' => 'SettingsController@showSettings'));
 	Route::post('/systemsettings/edit', array('as' => 'systemsettings.edit', 'uses' => 'SettingsController@editSetting'));
 
->>>>>>> edwardtest
 });
